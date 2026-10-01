@@ -1,269 +1,277 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Команда резюме</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Talent Board - профили кандидатов для вашей команды">
+    <title>Talent Board — Профили кандидатов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="frontend" data-color-mode="light">
     <div class="page-shell">
-      <header class="topbar">
-        <div class="brand-block">
-          <span class="brand-mark">CV</span>
-          <div>
-            <p class="eyebrow">Команда</p>
-            <h1>Резюме участников</h1>
-          </div>
-        </div>
-      </header>
-
-      <main class="resume-app">
-        <nav class="main-tabs" aria-label="Основные вкладки">
-          <button class="main-tab active" type="button" data-main="participants">Участники</button>
-          <button class="main-tab" type="button" data-main="task3">3-тапсырма</button>
-          <button class="main-tab" type="button" data-main="task4">4-тапсырма</button>
-        </nav>
-
-        <section class="main-panel active" id="participants" aria-label="Резюме участников">
-          <nav class="tabs" aria-label="Резюме участников">
-            <button class="tab active" type="button" data-tab="zakariya">Закария</button>
-            <button class="tab" type="button" data-tab="arsen">Арсен</button>
-            <button class="tab" type="button" data-tab="danial">Даниал</button>
-            <button class="tab" type="button" data-tab="aset">Асет</button>
-          </nav>
-
-          <section class="tab-panel active" id="zakariya" aria-label="Резюме Закарии">
-            <div class="profile-header">
-              <div class="avatar avatar-pink">З</div>
-              <div>
-                <p class="role">Frontend Developer</p>
-                <h2>Закария Акылбек</h2>
-              </div>
-            </div>
-
-            <div class="info-grid">
-              <article class="card">
-                <h3>О себе</h3>
-                <p>Активно развиваюсь в веб-разработке, люблю создавать удобные интерфейсы и работать над современными решениями для пользователей.</p>
-              </article>
-              <article class="card">
-                <h3>Опыт</h3>
-                <p>Работаю с HTML, CSS, JavaScript, изучаю современные инструменты разработки и практикую создание адаптивных интерфейсов.</p>
-              </article>
-            </div>
-
-            <div class="details-grid">
-              <article class="card">
-                <h3>Навыки</h3>
-                <ul>
-                  <li>HTML / CSS / JavaScript</li>
-                  <li>Адаптивный дизайн</li>
-                  <li>Работа с Git</li>
-                  <li>Основы UI/UX</li>
-                </ul>
-              </article>
-              <article class="card">
-                <h3>Контакты</h3>
-                <ul>
-                  <li>Email: zakariya@email.com</li>
-                  <li>Telegram: @zakariya_dev</li>
-                  <li>GitHub: github.com/zakariya</li>
-                </ul>
-              </article>
-            </div>
-          </section>
-
-          <section class="tab-panel" id="arsen" aria-label="Резюме Арсена">
-            <div class="profile-header">
-              <div class="avatar avatar-blue">А</div>
-              <div>
-                <p class="role">Mobile Developer</p>
-                <h2>Джумагельдин Арсен</h2>
-              </div>
-            </div>
-
-            <div class="info-grid">
-              <article class="card">
-                <h3>О себе</h3>
-                <p>Занимаюсь разработкой мобильных приложений и интерфейсов, заинтересован в понятной логике работы продукта и качественном пользовательском опыте.</p>
-              </article>
-              <article class="card">
-                <h3>Опыт</h3>
-                <p>Постоянно совершенствую навыки в программировании, работаю над проектами, где важно сочетание эффективности, стабильности и удобства.</p>
-              </article>
-            </div>
-
-            <div class="details-grid">
-              <article class="card">
-                <h3>Навыки</h3>
-                <ul>
-                  <li>JavaScript / TypeScript</li>
-                  <li>React / Native</li>
-                  <li>UI-компоненты</li>
-                  <li>Работа над API</li>
-                </ul>
-              </article>
-              <article class="card">
-                <h3>Контакты</h3>
-                <ul>
-                  <li>Email: arsen@email.com</li>
-                  <li>Telegram: @arsen_dev</li>
-                  <li>GitHub: github.com/arsen</li>
-                </ul>
-              </article>
-            </div>
-          </section>
-
-          <section class="tab-panel" id="danial" aria-label="Резюме Даниала">
-            <div class="profile-header">
-              <div class="avatar avatar-orange">Д</div>
-              <div>
-                <p class="role">QA Engineer</p>
-                <h2>Даниал</h2>
-              </div>
-            </div>
-
-            <div class="info-grid">
-              <article class="card">
-                <h3>О себе</h3>
-                <p>Специализируюсь на проверке качества цифровых продуктов и обеспечении стабильной работы интерфейсов и функциональности.</p>
-              </article>
-              <article class="card">
-                <h3>Опыт</h3>
-                <p>Работаю с тестированием сценариев, анализом ошибок и поиском причин несоответствий до релиза продукта.</p>
-              </article>
-            </div>
-
-            <div class="details-grid">
-              <article class="card">
-                <h3>Навыки</h3>
-                <ul>
-                  <li>Тест-кейсы</li>
-                  <li>Bug tracking</li>
-                  <li>Проверка UX</li>
-                  <li>QA процессов</li>
-                </ul>
-              </article>
-              <article class="card">
-                <h3>Контакты</h3>
-                <ul>
-                  <li>Email: danial@email.com</li>
-                  <li>Telegram: @danial_qa</li>
-                  <li>GitHub: github.com/danial</li>
-                </ul>
-              </article>
-            </div>
-          </section>
-
-          <section class="tab-panel" id="aset" aria-label="Резюме Асета">
-            <div class="profile-header">
-              <div class="avatar avatar-purple">Ж</div>
-              <div>
-                <p class="role">Designer</p>
-                <h2>Жубанов Асет</h2>
-              </div>
-            </div>
-
-            <div class="info-grid">
-              <article class="card">
-                <h3>О себе</h3>
-                <p>Создаю визуально привлекательные и функциональные интерфейсы, уделяя внимание удобству и сильному визуальному стилю продукта.</p>
-              </article>
-              <article class="card">
-                <h3>Опыт</h3>
-                <p>Понимаю ценность эстетики и практичности в дизайне, работаю над проектами, где важно соединить бизнес-цели и пользовательский комфорт.</p>
-              </article>
-            </div>
-
-            <div class="details-grid">
-              <article class="card">
-                <h3>Навыки</h3>
-                <ul>
-                  <li>Figma</li>
-                  <li>UI/UX Design</li>
-                  <li>Branding</li>
-                  <li>Wireframing</li>
-                </ul>
-              </article>
-              <article class="card">
-                <h3>Контакты</h3>
-                <ul>
-                  <li>Email: aset@email.com</li>
-                  <li>Telegram: @aset_design</li>
-                  <li>Behance: behance.net/aset</li>
-                </ul>
-              </article>
-            </div>
-          </section>
-        </section>
-
-        <section class="main-panel" id="task3" aria-label="3-тапсырма">
-          <div class="task-header">
-            <h2>3-тапсырма</h2>
-            <p>Кестені пайдаланушы енгізетін жолдар мен бағандар бойынша құрыңыз, ұяшықтарға түс беріп, бір түсті ұяшықтар санын есептеңіз.</p>
-          </div>
-
-          <div class="task-controls">
-            <label>
-              Жолдар
-              <input id="rowsInput" type="number" min="1" max="12" value="4" />
-            </label>
-            <label>
-              Бағандар
-              <input id="colsInput" type="number" min="1" max="12" value="5" />
-            </label>
-            <button id="buildTableBtn" type="button">Кестені құру</button>
-          </div>
-
-          <div class="palette-panel">
-            <h3>Палитра</h3>
-            <div id="colorPalette" class="color-palette" aria-label="Палитра цветов"></div>
-          </div>
-
-          <div class="task3-wrapper">
-            <div id="tableWrapper" class="table-wrapper"></div>
-            <div class="count-box">
-              <span>Таңдалған түстегі ұяшықтар саны:</span>
-              <strong id="countOutput">0</strong>
-              <div class="usage-list-wrap">
-                <h4>Использованные цвета</h4>
-                <ul id="colorUsageList" class="color-usage-list"></ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="main-panel" id="task4" aria-label="4-тапсырма">
-          <div class="task-header">
-            <h2>4-тапсырма</h2>
-            <p>Қараңғы және ашық тақырып арасында ауысуға арналған қосқыш.</p>
-          </div>
-
-          <div class="theme-row">
-            <span>Dark theme</span>
-            <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">
-              <span class="toggle-thumb"></span>
+        <header class="workspace-header">
+            <button id="themeToggle" class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Қараңғы тақырып">
+                <span>Қараңғы тақырып</span>
+                <span class="switch-track" aria-hidden="true"><span></span></span>
             </button>
-          </div>
+            <div class="brand-block">
+                <span class="brand-mark">TB</span>
+                <span>
+                    <span class="brand-label">Talent Board</span>
+                    <strong>Кандидаты и задания</strong>
+                </span>
+            </div>
+            <span class="section-count">4 резюме · 4 задания</span>
+        </header>
 
-          <div class="theme-demo">
-            <div class="demo-card">
-              <h3>Панель</h3>
-              <p>Бұл блок қараңғы тақырыпта өзгереді. Түс режимін ауыстырып қосқыштың көмегімен өзгерте аласыз.</p>
+        <main class="resume-panel">
+            <nav class="tabs" role="tablist" aria-label="Кандидаты и задания">
+                <button id="tab-zakariya" class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="zakariya" data-target="zakariya">Закария</button>
+                <button id="tab-arsen" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="arsen" data-target="arsen" tabindex="-1">Арсен</button>
+                <button id="tab-danial" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="danial" data-target="danial" tabindex="-1">Даниал</button>
+                <button id="tab-aset" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="aset" data-target="aset" tabindex="-1">Асет</button>
+                <button id="tab-task-1" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-1" data-target="task-1" tabindex="-1">Задание 1</button>
+                <button id="tab-task-2" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-2" data-target="task-2" tabindex="-1">Задание 2</button>
+                <button id="tab-task-3" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-3" data-target="task-3" tabindex="-1">Задание 3</button>
+                <button id="tab-task-4" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-4" data-target="task-4" tabindex="-1">Задание 4</button>
+            </nav>
+
+            <header class="profile-header">
+                <div class="profile-meta">
+                    <p class="eyebrow">Профиль кандидата</p>
+                    <h1 id="profileName">Закария Акылбек</h1>
+                    <p class="profession" id="profileRole">Frontend Developer</p>
+                </div>
+                <div class="profile-status"><span></span>Открыт к предложениям</div>
+            </header>
+
+            <div class="tab-panels">
+                <section id="zakariya" class="tab-panel active" role="tabpanel" aria-labelledby="tab-zakariya" tabindex="0" data-name="Закария Акылбек" data-role="Frontend Developer" data-theme="frontend">
+                    <div class="content-grid">
+                        <div class="about-card">
+                            <p class="section-kicker">О кандидате</p>
+                            <h2>Создаёт понятные и быстрые веб-интерфейсы.</h2>
+                            <p>Frontend-разработчик с вниманием к деталям, адаптивности и качественному пользовательскому опыту.</p>
+                            <ul class="info-list">
+                                <li><span>Город</span><strong>Алматы</strong></li>
+                                <li><span>Опыт</span><strong>1 год</strong></li>
+                                <li><span>Специализация</span><strong>React / UI / UX</strong></li>
+                            </ul>
+                        </div>
+                        <div class="stats-box">
+                            <div class="stat-item"><span class="stat-number">8+</span><span class="stat-label">проектов</span></div>
+                            <div class="stat-item"><span class="stat-number">95%</span><span class="stat-label">довольных клиентов</span></div>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Опыт работы</p>
+                        <div class="timeline-item">
+                            <span class="date">2025 — настоящее время</span>
+                            <h3>Frontend Developer</h3>
+                            <p>Разрабатывает адаптивные интерфейсы, улучшает UX и участвует в запуске веб-продуктов.</p>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Навыки</p>
+                        <div class="tags"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>React</span><span>TypeScript</span><span>Figma</span><span>Tailwind</span><span>UI/UX</span></div>
+                    </div>
+                </section>
+
+                <section id="arsen" class="tab-panel" role="tabpanel" aria-labelledby="tab-arsen" tabindex="0" hidden data-name="Джумагельдин Арсен" data-role="Mobile Developer" data-theme="backend">
+                    <div class="content-grid">
+                        <div class="about-card">
+                            <p class="section-kicker">О кандидате</p>
+                            <h2>Создаёт удобные и стабильные мобильные интерфейсы.</h2>
+                            <p>Mobile-разработчик, который любит продуманную логику, скорость продукта и понятный UX.</p>
+                            <ul class="info-list">
+                                <li><span>Город</span><strong>Астана</strong></li>
+                                <li><span>Опыт</span><strong>1 год</strong></li>
+                                <li><span>Специализация</span><strong>React Native / UI</strong></li>
+                            </ul>
+                        </div>
+                        <div class="stats-box">
+                            <div class="stat-item"><span class="stat-number">12</span><span class="stat-label">приложений</span></div>
+                            <div class="stat-item"><span class="stat-number">99,9%</span><span class="stat-label">стабильность</span></div>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Опыт работы</p>
+                        <div class="timeline-item">
+                            <span class="date">2025 — настоящее время</span>
+                            <h3>Mobile Developer</h3>
+                            <p>Разрабатывает мобильные интерфейсы, работает с API и поддерживает качество пользовательского опыта.</p>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Навыки</p>
+                        <div class="tags"><span>JavaScript</span><span>TypeScript</span><span>React Native</span><span>UI/UX</span><span>API</span><span>Git</span><span>Firebase</span><span>Mobile</span></div>
+                    </div>
+                </section>
+
+                <section id="danial" class="tab-panel" role="tabpanel" aria-labelledby="tab-danial" tabindex="0" hidden data-name="Ержан Даниал" data-role="QA Engineer" data-theme="devops">
+                    <div class="content-grid">
+                        <div class="about-card">
+                            <p class="section-kicker">О кандидате</p>
+                            <h2>Следит за качеством и стабильностью цифровых продуктов.</h2>
+                            <p>QA Engineer, который проверяет пользовательские сценарии, помогает находить ошибки до релиза и повышать доверие к продукту.</p>
+                            <ul class="info-list">
+                                <li><span>Город</span><strong>Шымкент</strong></li>
+                                <li><span>Опыт</span><strong>1 год</strong></li>
+                                <li><span>Специализация</span><strong>Testing / QA</strong></li>
+                            </ul>
+                        </div>
+                        <div class="stats-box">
+                            <div class="stat-item"><span class="stat-number">40%</span><span class="stat-label">быстрее проверки</span></div>
+                            <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">мониторинг</span></div>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Опыт работы</p>
+                        <div class="timeline-item">
+                            <span class="date">2025 — настоящее время</span>
+                            <h3>QA Engineer</h3>
+                            <p>Проводит тестирование сценариев, анализирует дефекты и помогает улучшать стабильность интерфейсов.</p>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Навыки</p>
+                        <div class="tags"><span>Test Cases</span><span>Bug Report</span><span>UI/UX QA</span><span>Regression</span><span>Git</span><span>Jira</span><span>Manual Testing</span><span>Reporting</span></div>
+                    </div>
+                </section>
+
+                <section id="aset" class="tab-panel" role="tabpanel" aria-labelledby="tab-aset" tabindex="0" hidden data-name="Жубанов Асет" data-role="Designer" data-theme="frontend">
+                    <div class="content-grid">
+                        <div class="about-card">
+                            <p class="section-kicker">О кандидате</p>
+                            <h2>Создаёт визуально сильные и понятные интерфейсы.</h2>
+                            <p>Designer с фокусом на эстетике, продуктовой логике и удобстве взаимодействия с интерфейсом.</p>
+                            <ul class="info-list">
+                                <li><span>Город</span><strong>Алматы</strong></li>
+                                <li><span>Опыт</span><strong>1 год</strong></li>
+                                <li><span>Специализация</span><strong>UI / UX / Figma</strong></li>
+                            </ul>
+                        </div>
+                        <div class="stats-box">
+                            <div class="stat-item"><span class="stat-number">8+</span><span class="stat-label">дизайн-проектов</span></div>
+                            <div class="stat-item"><span class="stat-number">95%</span><span class="stat-label">удобство UX</span></div>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Опыт работы</p>
+                        <div class="timeline-item">
+                            <span class="date">2025 — настоящее время</span>
+                            <h3>Designer</h3>
+                            <p>Работает над визуальным стилем продукта, создает интерфейсные решения и улучшает пользовательский опыт.</p>
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p class="section-kicker">Навыки</p>
+                        <div class="tags"><span>Figma</span><span>UI/UX</span><span>Branding</span><span>Wireframing</span><span>Design Systems</span><span>Prototype</span><span>UX Audit</span><span>Illustration</span></div>
+                    </div>
+                </section>
+
+                <section id="task-1" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-1" tabindex="0" hidden>
+                    <div class="task-card">
+                        <p class="section-kicker">DOM · объединённые задачи</p>
+                        <h2>Задание 1: текст + новый элемент</h2>
+
+                        <div class="task-stack">
+                            <div class="mini-card">
+                                <p>Батырманы басқанда элементтің мәтіні өзгереді. Қайта басқанда бастапқы мәтін оралады.</p>
+                                <div id="task-element" class="task-example" aria-live="polite">Бастапқы мәтін</div>
+                                <button id="greetingButton" class="task-action" type="button">Мәтінді өзгерту</button>
+                            </div>
+
+                            <div class="mini-card">
+                                <p>JavaScript арқылы yeni элементті body теге қосады немесе алып тастайды.</p>
+                                <button id="newElementButton" class="task-action" type="button">Элементті қосу</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="task-2" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-2" tabindex="0" hidden>
+                    <div class="task-card">
+                        <p class="section-kicker">DOM · объединённые задачи</p>
+                        <h2>Задание 2: стиль + active класс</h2>
+
+                        <div class="task-stack">
+                            <div class="mini-card">
+                                <p>Абзацты басқанда түсі мен өлшемі өзгеріп, қайта басқанда бастапқы қалпына келеді.</p>
+                                <p id="toggleParagraph" class="toggle-paragraph" role="button" tabindex="0" aria-pressed="false">Бұл ауыспалы абзац</p>
+                            </div>
+
+                            <div class="mini-card">
+                                <p>Button.active класын қосады немесе жояды.</p>
+                                <div id="classTarget" class="task-example demo-element">Класс басқарылатын элемент</div>
+                                <button id="classToggleButton" class="task-action" type="button">active класын қосу</button>
+                                <p id="classListOutput" class="class-list-output" aria-live="polite"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="task-3" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-3" tabindex="0" hidden>
+                    <div class="task-card">
+                        <p class="section-kicker">DOM · таблица</p>
+                        <h2>Задание 3: кесте және таңдалған түстер</h2>
+
+                        <div class="task-stack">
+                            <div class="mini-card">
+                                <p>Кестені жолдар мен бағандар санын пайдаланып шығарасыз. Ұяшықты басқанда фондық түсі өзгереді.</p>
+                                <div class="field-row">
+                                    <label>
+                                        Жолдар
+                                        <input id="rowsInput" type="number" min="1" max="12" value="3">
+                                    </label>
+                                    <label>
+                                        Бағандар
+                                        <input id="colsInput" type="number" min="1" max="12" value="4">
+                                    </label>
+                                </div>
+                                <button id="createTableBtn" class="task-action" type="button">Кестені құру</button>
+                                <div class="table-wrapper">
+                                    <table id="dynamicTable" class="dynamic-table" aria-live="polite"></table>
+                                </div>
+                                <p id="selectedCellsInfo" class="class-list-output" aria-live="polite">Таңдалған ұяшықтар: 0</p>
+                            </div>
+
+                            <div class="mini-card">
+                                <p>Түс таңдаңыз, содан кейін ұяшықтарға қолдануға болады. Барлық таңдалған түстер көрсетіледі.</p>
+                                <div class="field-row single-field">
+                                    <label>
+                                        Түс
+                                        <input id="colorInput" type="color" value="#2563eb">
+                                    </label>
+                                </div>
+                                <button id="addColorBtn" class="task-action" type="button">Түсті қосу</button>
+                                <div id="selectedPalette" class="color-palette" aria-live="polite"></div>
+                                <p id="selectedColorsInfo" class="class-list-output" aria-live="polite">Таңдалған түстер: жоқ</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="task-4" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-4" tabindex="0" hidden>
+                    <div class="task-card">
+                        <p class="section-kicker">Theme · dark mode</p>
+                        <h2>Задание 4: қараңғы тақырып</h2>
+
+                        <div class="task-stack">
+                            <div class="mini-card">
+                                <p>Қараңғы тақырыпты қосыңыз. Түсі ауыстырып-қосқыш элементін басқан кезде режим өзгереді.</p>
+                                <p class="class-list-output" aria-live="polite">Ағымдағы режим: <span id="themeStateText">light</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div class="demo-card">
-              <h3>Ақпарат</h3>
-              <p>Түстер, фоны, мәтін түсі және карточкалар автоматты түрде жаңартылады.</p>
-            </div>
-          </div>
-        </section>
-      </main>
+        </main>
     </div>
 
     <script src="script.js"></script>
-  </body>
+</body>
 </html>

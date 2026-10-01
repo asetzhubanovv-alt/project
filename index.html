@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Talent Board — профили кандидатов для вашей команды" />
+  <title>Talent Board — Профили кандидатов</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="frontend" data-color-mode="light">
+  <div class="page-shell">
+    <header class="workspace-header">
+      <button id="themeToggle" class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Переключить тему">
+        <span>Темная тема</span>
+        <span class="switch-track" aria-hidden="true"><span></span></span>
+      </button>
+
+      <div class="brand-block">
+        <span class="brand-mark">TB</span>
+        <span>
+          <span class="brand-label">Talent Board</span>
+          <strong>Кандидаты и задания</strong>
+        </span>
+      </div>
+
+      <span class="section-count">4 резюме · 4 задания</span>
+    </header>
+
+    <main class="resume-panel">
+      <nav class="tabs" role="tablist" aria-label="Кандидаты и задания">
+        <button id="tab-frontend" class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="frontend" data-target="frontend">Жубанов Асет</button>
+        <button id="tab-backend" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="backend" data-target="backend" tabindex="-1">Ержан Даниал</button>
+        <button id="tab-devops" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="devops" data-target="devops" tabindex="-1">Джумагельдин Арсен</button>
+        <button id="tab-qa" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="qa" data-target="qa" tabindex="-1">Закария Акылбек</button>
+        <button id="tab-task-1" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-1" data-target="task-1" tabindex="-1">Задание 1</button>
+        <button id="tab-task-2" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-2" data-target="task-2" tabindex="-1">Задание 2</button>
+        <button id="tab-task-3" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-3" data-target="task-3" tabindex="-1">Задание 3</button>
+        <button id="tab-task-4" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="task-4" data-target="task-4" tabindex="-1">Задание 4</button>
+      </nav>
+
+      <header class="profile-header">
+        <div id="profilePhoto" class="avatar-wrap" aria-label="Фото кандидата">A</div>
+        <div class="profile-meta">
+          <p class="eyebrow">Профиль кандидата</p>
+          <h1 id="profileName">Жубанов Асет</h1>
+          <p class="profession" id="profileRole">Frontend-разработчик</p>
+        </div>
+        <div class="profile-status"><span></span>Открыт к предложениям</div>
+      </header>
+
+      <div class="tab-panels">
+        <section id="frontend" class="tab-panel active" role="tabpanel" aria-labelledby="tab-frontend" tabindex="0" data-name="Жубанов Асет" data-role="Frontend-разработчик" data-theme="frontend">
+          <div class="content-grid">
+            <div class="about-card">
+              <p class="section-kicker">О кандидате</p>
+              <h2>Создаёт удобные и быстрые интерфейсы для пользователей.</h2>
+              <p>Frontend-разработчик с вниманием к UX, деталям и качеству взаимодействия.</p>
+              <ul class="info-list">
+                <li><span>Город</span><strong>Алматы</strong></li>
+                <li><span>Опыт</span><strong>1 год</strong></li>
+                <li><span>Специализация</span><strong>React / UI / UX</strong></li>
+              </ul>
+            </div>
+            <div class="stats-box">
+              <div class="stat-item"><span class="stat-number">8+</span><span class="stat-label">проектов</span></div>
+              <div class="stat-item"><span class="stat-number">95%</span><span class="stat-label">довольных клиентов</span></div>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Опыт работы</p>
+            <div class="timeline-item">
+              <span class="date">2025 — настоящее время</span>
+              <h3>Frontend-разработчик</h3>
+              <p>Работаю над адаптивными интерфейсами, редизайнами и запуском веб-продуктов.</p>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Навыки</p>
+            <div class="tags">
+              <span>HTML5</span>
+              <span>CSS3</span>
+              <span>JavaScript</span>
+              <span>React</span>
+              <span>TypeScript</span>
+              <span>Figma</span>
+              <span>Tailwind</span>
+              <span>UI/UX</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="backend" class="tab-panel" role="tabpanel" aria-labelledby="tab-backend" tabindex="0" hidden data-name="Ержан Даниал" data-role="Backend-разработчик" data-theme="backend">
+          <div class="content-grid">
+            <div class="about-card">
+              <p class="section-kicker">О кандидате</p>
+              <h2>Строит стабильную серверную часть цифровых сервисов.</h2>
+              <p>Backend-разработчик, который заботится о надёжности API, данных и бизнес-логике.</p>
+              <ul class="info-list">
+                <li><span>Город</span><strong>Астана</strong></li>
+                <li><span>Опыт</span><strong>1 год</strong></li>
+                <li><span>Специализация</span><strong>Node.js / API</strong></li>
+              </ul>
+            </div>
+            <div class="stats-box">
+              <div class="stat-item"><span class="stat-number">12</span><span class="stat-label">сервисов</span></div>
+              <div class="stat-item"><span class="stat-number">99.9%</span><span class="stat-label">доступность</span></div>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Опыт работы</p>
+            <div class="timeline-item">
+              <span class="date">2025 — настоящее время</span>
+              <h3>Backend-разработчик</h3>
+              <p>Проектирую API, интеграции и базы данных для высоконагружённых сервисов.</p>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Навыки</p>
+            <div class="tags">
+              <span>Node.js</span>
+              <span>Express</span>
+              <span>PostgreSQL</span>
+              <span>MongoDB</span>
+              <span>REST API</span>
+              <span>Redis</span>
+              <span>Docker</span>
+              <span>Микросервисы</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="devops" class="tab-panel" role="tabpanel" aria-labelledby="tab-devops" tabindex="0" hidden data-name="Джумагельдин Арсен" data-role="DevOps-инженер" data-theme="devops">
+          <div class="content-grid">
+            <div class="about-card">
+              <p class="section-kicker">О кандидате</p>
+              <h2>Автоматизирует развёртывание и поддерживает стабильность инфраструктуры.</h2>
+              <p>DevOps-инженер с акцентом на CI/CD, мониторинг, безопасность и масштабируемость.</p>
+              <ul class="info-list">
+                <li><span>Город</span><strong>Шымкент</strong></li>
+                <li><span>Опыт</span><strong>1 год</strong></li>
+                <li><span>Специализация</span><strong>Облако / CI/CD</strong></li>
+              </ul>
+            </div>
+            <div class="stats-box">
+              <div class="stat-item"><span class="stat-number">40%</span><span class="stat-label">быстрее релизы</span></div>
+              <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">мониторинг</span></div>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Опыт работы</p>
+            <div class="timeline-item">
+              <span class="date">2025 — настоящее время</span>
+              <h3>DevOps-инженер</h3>
+              <p>Настраиваю процессы деплоя, инфраструктуру и наблюдаемость систем.</p>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Навыки</p>
+            <div class="tags">
+              <span>Docker</span>
+              <span>Kubernetes</span>
+              <span>Linux</span>
+              <span>CI/CD</span>
+              <span>AWS</span>
+              <span>Terraform</span>
+              <span>GitHub Actions</span>
+              <span>Мониторинг</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="qa" class="tab-panel" role="tabpanel" aria-labelledby="tab-qa" tabindex="0" hidden data-name="Закария Акылбек" data-role="QA / Automation Engineer" data-theme="qa">
+          <div class="content-grid">
+            <div class="about-card">
+              <p class="section-kicker">О кандидате</p>
+              <h2>Проверяет качество продукта и помогает стабильно выпускать без ошибок.</h2>
+              <p>QA-инженер, который строит надёжные сценарии тестирования и автоматизирует проверки.</p>
+              <ul class="info-list">
+                <li><span>Город</span><strong>Кызылорда</strong></li>
+                <li><span>Опыт</span><strong>1 год</strong></li>
+                <li><span>Специализация</span><strong>QA / Auto Test</strong></li>
+              </ul>
+            </div>
+            <div class="stats-box">
+              <div class="stat-item"><span class="stat-number">300+</span><span class="stat-label">тестов</span></div>
+              <div class="stat-item"><span class="stat-number">99%</span><span class="stat-label">качество релизов</span></div>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Опыт работы</p>
+            <div class="timeline-item">
+              <span class="date">2025 — настоящее время</span>
+              <h3>QA / Automation Engineer</h3>
+              <p>Тестирую продукт, выявляю риски и автоматизирую проверки для ускорения релизов.</p>
+            </div>
+          </div>
+
+          <div class="content-block">
+            <p class="section-kicker">Навыки</p>
+            <div class="tags">
+              <span>QA</span>
+              <span>Bug Report</span>
+              <span>Automation</span>
+              <span>Selenium</span>
+              <span>Jira</span>
+              <span>Postman</span>
+              <span>Testing</span>
+              <span>CI/CD</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="task-1" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-1" tabindex="0" hidden>
+          <div class="task-card">
+            <h2>Задание 1</h2>
+
+            <div class="task-merge-group">
+              <div class="mini-task">
+                <p class="section-kicker">DOM · изменение текста</p>
+                <h3>Задание 1: «Привет, мир!»</h3>
+                <p>При нажатии текст элемента меняется. При повторном нажатии возвращается исходный.</p>
+                <div id="task-element" class="task-example" aria-live="polite">Исходный текст</div>
+                <button id="greetingButton" class="task-action" type="button">Изменить текст</button>
+              </div>
+
+              <div class="mini-task">
+                <p class="section-kicker">DOM · создание элемента</p>
+                <h3>Задание 2: новый элемент</h3>
+                <p>Кнопка добавляет новый элемент в конец body или удаляет его.</p>
+                <button id="newElementButton" class="task-action" type="button">Добавить элемент</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="task-2" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-2" tabindex="0" hidden>
+          <div class="task-card">
+            <h2>Задание 2</h2>
+
+            <div class="task-merge-group">
+              <div class="mini-task">
+                <p class="section-kicker">DOM · изменение стиля</p>
+                <h3>Задание 3: переключаемый абзац</h3>
+                <p>Нажмите на абзац — цвет и размер изменятся. Нажмите ещё раз — вернётся исходное состояние.</p>
+                <p id="toggleParagraph" class="toggle-paragraph" role="button" tabindex="0" aria-pressed="false">Это переключаемый абзац</p>
+              </div>
+
+              <div class="mini-task">
+                <p class="section-kicker">DOM · управление классами</p>
+                <h3>Задание 4: active-класс</h3>
+                <p>Кнопка добавляет или убирает класс <code>active</code> у элемента. Список классов отображается ниже и в консоли.</p>
+                <div id="classTarget" class="task-example demo-element">Элемент с управляемым классом</div>
+                <button id="classToggleButton" class="task-action" type="button">Добавить active</button>
+                <p id="classListOutput" class="class-list-output" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="task-3" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-3" tabindex="0" hidden>
+          <div class="task-card">
+            <p class="section-kicker">DOM · работа с таблицей</p>
+            <h2>Задание 5: создание таблицы</h2>
+            <p>Укажите число строк и столбцов (1–50), выберите цвет и нажмите на ячейки, чтобы раскрашивать их. Повторный клик убирает цвет.</p>
+
+            <form id="tableForm" class="table-controls">
+              <label>
+                Количество строк
+                <input id="rowCount" type="number" min="1" max="50" step="1" value="3" required />
+              </label>
+              <label>
+                Количество столбцов
+                <input id="columnCount" type="number" min="1" max="50" step="1" value="3" required />
+              </label>
+              <button class="task-action" type="submit">Создать таблицу</button>
+            </form>
+
+            <label class="cell-color-control">
+              Цвет ячейки
+              <input id="cellColor" type="color" value="#2563eb" />
+            </label>
+
+            <p id="tableError" class="table-error" role="alert"></p>
+
+            <div class="table-stats" aria-live="polite">
+              <p id="coloredCellCount">Количество ячеек выбранного цвета: 0</p>
+              <p id="paintedCellCount">Всего окрашенных ячеек: 0</p>
+              <p id="usedColorCount">Количество использованных цветов: 0</p>
+            </div>
+
+            <div class="used-colors" aria-live="polite">
+              <p>Использованные цвета:</p>
+              <ul id="usedColorList"><li>Пока нет окрашенных ячеек.</li></ul>
+            </div>
+
+            <div id="tableContainer" class="table-container"></div>
+          </div>
+        </section>
+
+        <section id="task-4" class="tab-panel" role="tabpanel" aria-labelledby="tab-task-4" tabindex="0" hidden>
+          <div class="task-card">
+            <p class="section-kicker">DOM · dark theme</p>
+            <h2>4-тапсырма. Қараңғы тақырып (Dark theme)</h2>
+            <p>Қараңғы тақырыпты қосыңыз. Қараңғы тақырыпты ауыстырып-қосқыш элементін қосыңыз. Оны басқан кезде түс режимі ауысатын болсын.</p>
+
+            <div class="theme-demo-panel" id="darkThemeDemo">
+              <span>Тема</span>
+              <button id="taskThemeToggle" class="theme-toggle task-theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Переключить тему">
+                <span>Dark</span>
+                <span class="switch-track" aria-hidden="true"><span></span></span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QazLife — Платформа взаимопомощи Казахстана</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════
+   QAZLIFE — Premium Redesign
+   Palette: Deep Sky Blue · Slate White · Rich Navy
+   ══════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #f2f5fb;
+  --bg2: #e8eef8;
+  --card-bg: #ffffff;
+  --text: #0c1526;
+  --text2: #64748b;
+  --text3: #94a3b8;
+  --accent: #1d6ff2;
+  --accent-h: #1558d6;
+  --accent-glow: rgba(29,111,242,.18);
+  --kaz: #0ea5e9;
+  --kaz2: #06b6d4;
+  --green: #10b981;
+  --red: #ef4444;
+  --yellow: #f59e0b;
+  --gold: #eab308;
+  --nav: 68px;
+  --r: 18px;
+  --r2: 12px;
+  --sh: 0 1px 3px rgba(12,21,38,.04), 0 4px 16px rgba(12,21,38,.06);
+  --sh2: 0 8px 28px rgba(12,21,38,.10), 0 20px 56px rgba(12,21,38,.12);
+  --sh3: 0 0 0 1px rgba(29,111,242,.15), 0 8px 32px rgba(29,111,242,.18);
+  --border: rgba(12,21,38,.08);
+  --border2: rgba(12,21,38,.05);
+  --input-bg: #f6f9fd;
+  --nav-bg: rgba(250,252,255,.94);
+  --glass: rgba(255,255,255,.82);
+  --font: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+body.dark {
+  --bg: #0a0f1e;
+  --bg2: #111827;
+  --card-bg: #141d2e;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --sh: 0 2px 8px rgba(0,0,0,.25), 0 8px 24px rgba(0,0,0,.35);
+  --sh2: 0 8px 32px rgba(0,0,0,.40), 0 24px 64px rgba(0,0,0,.50);
+  --border: rgba(255,255,255,.08);
+  --border2: rgba(255,255,255,.04);
+  --input-bg: #1c2538;
+  --nav-bg: rgba(10,15,30,.92);
+  --glass: rgba(20,29,46,.88);
+}
+body.dark nav { background: var(--nav-bg); border-bottom-color: var(--border); }
+body.dark .card, body.dark .fpost, body.dark .pcard, body.dark .modal, body.dark .f-card, body.dark .chart-wrap { background: var(--card-bg); border-color: var(--border); }
+body.dark .fg input, body.dark .fg select, body.dark .fg textarea, body.dark .sf-input { background: var(--input-bg); border-color: var(--border); color: var(--text); }
+body.dark .chip { background: var(--card-bg); border-color: var(--border); color: var(--text2); }
+body.dark .chip.on { background: rgba(29,111,242,.2); border-color: rgba(29,111,242,.4); color: #60a5fa; }
+body.dark .tabs { background: var(--input-bg); }
+body.dark .tab.on { background: var(--card-bg); }
+body.dark .sbox { background: var(--input-bg); }
+body.dark footer { background: #060b14; }
+body.dark .btn-outline { background: var(--card-bg); border-color: var(--border); color: var(--text); }
+body.dark .hero { background: linear-gradient(160deg, #050d1e 0%, #0a1628 50%, #0d1f3a 100%); }
+body.dark .vol-hero { background: linear-gradient(135deg, #064e3b, #065f46); }
+body.dark .gsearch-input { background: var(--input-bg); border-color: var(--border); color: var(--text); }
+body.dark .gsearch-results, body.dark .notif-dropdown { background: var(--card-bg); border-color: var(--border); }
+body.dark .gsearch-item:hover, body.dark .notif-item:hover { background: var(--input-bg); }
+body.dark .msg-main { background: var(--bg); }
+body.dark .msg-sidebar, body.dark .msg-header, body.dark .msg-input-row { background: var(--card-bg); border-color: var(--border); }
+body.dark .msg-bubble.them { background: var(--card-bg); }
+body.dark .msg-input { background: var(--input-bg); border-color: var(--border); color: var(--text); }
+body.dark .detail-pill { background: var(--input-bg); }
+body.dark .divider::before, body.dark .divider::after { background: var(--border); }
+
+/* ── NAV ICON BUTTONS ── */
+.nav-icons { display: flex; align-items: center; gap: 2px; }
+.nav-icon-btn {
+  position: relative; width: 36px; height: 36px; border-radius: 10px;
+  border: none; background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2); transition: all .18s; font-family: inherit;
+}
+.nav-icon-btn:hover { background: rgba(29,111,242,.09); color: var(--accent); }
+.nav-icon-btn.active { color: var(--accent); background: rgba(29,111,242,.1); }
+.nav-icon-tip {
+  position: absolute; bottom: -34px; left: 50%; transform: translateX(-50%);
+  background: var(--text); color: #fff; font-size: .72rem; font-weight: 700;
+  padding: 4px 9px; border-radius: 7px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity .15s;
+  letter-spacing: .1px;
+}
+.nav-icon-tip::before {
+  content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-bottom-color: var(--text);
+  border-top: none;
+}
+.nav-icon-btn:hover .nav-icon-tip { opacity: 1; }
+
+
+.dark-btn {
+  width: 42px; height: 24px; border-radius: 12px;
+  background: var(--border); border: none; cursor: pointer;
+  position: relative; transition: background .3s; flex-shrink: 0;
+}
+body.dark .dark-btn { background: var(--accent); }
+.dark-btn::after {
+  content: ''; position: absolute; left: 4px; top: 4px;
+  width: 16px; height: 16px; border-radius: 50%; background: #fff;
+  transition: transform .3s; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+body.dark .dark-btn::after { transform: translateX(18px); }
+
+/* ── NOTIFICATIONS ── */
+.notif-badge {
+  position: absolute; top: -4px; right: -4px;
+  width: 17px; height: 17px; background: var(--red);
+  border-radius: 50%; font-size: .6rem; font-weight: 900;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--nav-bg);
+}
+.notif-wrap { position: relative; display: inline-flex; }
+.notif-dropdown {
+  position: absolute; top: calc(100% + 12px); right: 0;
+  width: 330px; background: var(--card-bg);
+  border-radius: 20px; box-shadow: var(--sh2);
+  border: 1px solid var(--border); z-index: 600;
+  overflow: hidden; display: none; animation: mIn .2s ease both;
+}
+.notif-dropdown.open { display: block; }
+.notif-head {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  font-weight: 800; font-size: .88rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(to bottom, var(--bg), var(--card-bg));
+}
+.notif-item {
+  padding: 13px 20px; border-bottom: 1px solid var(--border2);
+  font-size: .82rem; cursor: pointer; transition: background .15s;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.notif-item:hover { background: var(--bg); }
+.notif-item.unread { background: rgba(29,111,242,.04); }
+.notif-item:last-child { border-bottom: none; }
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 4px; }
+
+/* ── MESSAGES ── */
+.msg-layout { display: grid; grid-template-columns: 290px 1fr; height: calc(100vh - var(--nav)); max-width: 1200px; margin: 0 auto; }
+.msg-sidebar { border-right: 1px solid var(--border); overflow-y: auto; background: var(--card-bg); }
+.msg-sidebar-head { padding: 22px 20px; border-bottom: 1px solid var(--border); font-weight: 800; font-size: 1rem; }
+.msg-conv { padding: 14px 20px; border-bottom: 1px solid var(--border2); cursor: pointer; transition: background .15s; display: flex; gap: 12px; align-items: center; }
+.msg-conv:hover, .msg-conv.active { background: var(--bg); }
+.msg-conv-name { font-weight: 700; font-size: .88rem; }
+.msg-conv-preview { font-size: .76rem; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 185px; }
+.msg-main { display: flex; flex-direction: column; background: var(--bg); }
+.msg-header { padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--card-bg); font-weight: 800; display: flex; align-items: center; gap: 12px; }
+.msg-body { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; }
+.msg-bubble { max-width: 70%; padding: 11px 16px; border-radius: 20px; font-size: .86rem; line-height: 1.5; word-break: break-word; }
+.msg-bubble.me { background: linear-gradient(135deg, var(--accent), #3b82f6); color: #fff; align-self: flex-end; border-bottom-right-radius: 5px; }
+.msg-bubble.them { background: var(--card-bg); color: var(--text); align-self: flex-start; border-bottom-left-radius: 5px; box-shadow: var(--sh); }
+.msg-bubble-time { font-size: .68rem; opacity: .6; margin-top: 3px; text-align: right; }
+.msg-input-row { padding: 16px 24px; border-top: 1px solid var(--border); background: var(--card-bg); display: flex; gap: 10px; }
+.msg-input { flex: 1; padding: 10px 18px; border-radius: 99px; border: 1.5px solid var(--border); background: var(--input-bg); font-family: var(--font); font-size: .86rem; color: var(--text); outline: none; transition: border-color .2s, box-shadow .2s; }
+.msg-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.msg-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text2); font-size: .9rem; flex-direction: column; gap: 12px; }
+
+/* ── GLOBAL SEARCH ── */
+.gsearch-wrap { position: relative; flex: 1; min-width: 260px; max-width: 460px; }
+.gsearch-input {
+  width: 100%; padding: 10px 20px 10px 42px;
+  border-radius: 99px; border: 1.5px solid var(--border);
+  background: var(--input-bg); font-family: var(--font);
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.gsearch-input:hover { border-color: rgba(29,111,242,.3); background: var(--card-bg); }
+.gsearch-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); background: var(--card-bg); }
+.gsearch-input::placeholder { color: var(--text3); }
+.gsearch-wrap::before { content: '🔍'; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: .8rem; pointer-events: none; }
+.gsearch-results {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+  background: var(--card-bg); border-radius: 18px; box-shadow: var(--sh2);
+  border: 1px solid var(--border); z-index: 600; max-height: 400px; overflow-y: auto; display: none;
+}
+.gsearch-results.open { display: block; animation: mIn .18s ease both; }
+.gsearch-item { padding: 12px 18px; border-bottom: 1px solid var(--border2); cursor: pointer; transition: background .15s; font-size: .84rem; }
+.gsearch-item:hover { background: var(--bg); }
+.gsearch-item:last-child { border-bottom: none; }
+.gsearch-item-title { font-weight: 700; }
+.gsearch-item-meta { font-size: .74rem; color: var(--text2); margin-top: 2px; }
+.gsearch-empty { padding: 24px; text-align: center; color: var(--text2); font-size: .84rem; }
+
+/* ── BAR CHART ── */
+.chart-wrap { background: var(--card-bg); border-radius: var(--r); padding: 26px; box-shadow: var(--sh); margin-bottom: 18px; border: 1px solid var(--border2); }
+.chart-title { font-weight: 800; font-size: .95rem; margin-bottom: 18px; }
+.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.bar { width: 100%; background: linear-gradient(to top, var(--accent), var(--kaz)); border-radius: 7px 7px 0 0; transition: height .6s cubic-bezier(.34,1.56,.64,1); min-height: 4px; }
+.bar-label { font-size: .67rem; color: var(--text2); font-weight: 600; }
+.bar-val { font-size: .7rem; color: var(--accent); font-weight: 800; }
+
+/* ── BADGES ── */
+.badge-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { display: flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 99px; font-size: .78rem; font-weight: 700; border: 1.5px solid; }
+.badge-gold { background: rgba(234,179,8,.1); border-color: rgba(234,179,8,.3); color: #92400e; }
+.badge-blue { background: rgba(29,111,242,.08); border-color: rgba(29,111,242,.2); color: var(--accent); }
+.badge-green { background: rgba(16,185,129,.08); border-color: rgba(16,185,129,.2); color: #065f46; }
+.badge-gray { background: var(--bg); border-color: var(--border); color: var(--text2); }
+
+/* ── COMMENT ── */
+.comment { padding: 16px 0; border-bottom: 1px solid var(--border2); }
+.comment:last-child { border-bottom: none; }
+.comment-head { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.comment-name { font-weight: 700; font-size: .83rem; }
+.comment-date { font-size: .72rem; color: var(--text2); }
+.comment-body { font-size: .85rem; line-height: 1.6; color: var(--text); }
+
+/* ── SHARE BTN ── */
+.share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 15px; border-radius: 99px; font-size: .78rem; font-weight: 700; border: 1.5px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; transition: all .18s; font-family: 'Plus Jakarta Sans', sans-serif; }
+.share-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+
+/* ── MAP ── */
+#mapContainer {
+  width: 100%; height: 520px; border-radius: var(--r); overflow: hidden;
+  box-shadow: var(--sh2); border: 1px solid var(--border);
+  position: relative;
+}
+#gmap { width: 100%; height: 100%; }
+.map-pin-label {
+  background: var(--card-bg); border: 2px solid var(--accent);
+  border-radius: 10px; padding: 5px 10px; font-size: .75rem;
+  font-weight: 700; color: var(--text); box-shadow: var(--sh);
+  white-space: nowrap; cursor: pointer;
+}
+.map-pin-label:hover { background: var(--accent); color: #fff; }
+.gmap-loading {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--input-bg); color: var(--text2); font-size: .9rem; font-weight: 600;
+  gap: 12px; flex-direction: column;
+}
+
+/* ═══════════════════════════
+   GLOBAL RESET & BASE
+═══════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg); color: var(--text);
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  letter-spacing: -.01em;
+}
+
+/* ── CURSOR ── */
+#cur { position: fixed; width: 9px; height: 9px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .15s, height .15s; }
+#cur2 { position: fixed; width: 34px; height: 34px; border: 1.5px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .12s ease; opacity: .4; }
+
+/* ══════════════════════════
+   NAVIGATION
+══════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--nav);
+  background: var(--nav-bg);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid var(--border);
+  z-index: 500; display: flex; align-items: center; padding: 0 32px; gap: 20px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.2rem; font-weight: 900; text-decoration: none;
+  color: var(--text); letter-spacing: -.4px; cursor: pointer; flex-shrink: 0;
+}
+.nav-logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--kaz), var(--accent));
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: .9rem;
+  box-shadow: 0 4px 14px rgba(29,111,242,.35);
+}
+.nav-links { display: flex; gap: 2px; list-style: none; flex: 1; }
+.nav-links a {
+  padding: 7px 13px; border-radius: 99px; font-size: .82rem; font-weight: 600;
+  text-decoration: none; color: var(--text2); transition: all .18s; cursor: pointer;
+}
+.nav-links a:hover { color: var(--text); background: rgba(29,111,242,.07); }
+.nav-links a.active { color: var(--accent); background: rgba(29,111,242,.10); font-weight: 700; }
+.nav-right { display: flex; gap: 6px; align-items: center; margin-left: auto; flex-shrink: 0; }
+
+/* ── NAV PROFILE BUTTON ── */
+.nav-profile-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px 5px 6px; border-radius: 99px;
+  border: 1.5px solid var(--border); background: var(--card-bg);
+  cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .84rem; font-weight: 600; color: var(--text);
+  transition: all .18s; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  white-space: nowrap; text-decoration: none;
+}
+.nav-profile-btn:hover { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+.nav-profile-ava {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--kaz), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: .65rem; font-weight: 800; line-height: 1;
+}
+
+/* ══════════════════════════
+   BUTTONS
+══════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 20px; border-radius: 99px;
+  font-size: .86rem; font-weight: 700; border: none; cursor: pointer;
+  font-family: var(--font);
+  transition: all .2s cubic-bezier(.4,0,.2,1);
+  text-decoration: none; white-space: nowrap; letter-spacing: -.1px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #3b82f6);
+  color: #fff; box-shadow: 0 4px 16px rgba(29,111,242,.35);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,111,242,.45); filter: brightness(1.05); }
+.btn-ghost { background: transparent; color: var(--text2); }
+.btn-ghost:hover { background: rgba(29,111,242,.07); color: var(--text); }
+.btn-outline { background: var(--card-bg); border: 1.5px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-green { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 16px rgba(16,185,129,.3); }
+.btn-green:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(16,185,129,.4); }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-sm { padding: 6px 14px; font-size: .79rem; }
+.btn-lg { padding: 14px 32px; font-size: .96rem; border-radius: 15px; }
+
+/* ══════════════════════════
+   SECTIONS
+══════════════════════════ */
+.section { display: none; padding-top: var(--nav); min-height: 100vh; }
+.section.active { display: block; }
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+.hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #dbeafe 0%, #eff6ff 40%, #f0f4fb 80%);
+  padding: 108px 40px 90px; text-align: center;
+}
+body.dark .hero { background: linear-gradient(160deg, #050d1e 0%, #0a1628 50%, #0d1f3a 100%); }
+#heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-inner { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 18px; background: rgba(255,255,255,.75);
+  border: 1px solid rgba(29,111,242,.2); border-radius: 99px;
+  font-size: .79rem; font-weight: 700; color: var(--accent);
+  backdrop-filter: blur(12px); margin-bottom: 28px;
+  animation: up .6s ease both;
+  box-shadow: 0 2px 12px rgba(29,111,242,.12);
+}
+body.dark .hero-pill { background: rgba(29,111,242,.15); border-color: rgba(29,111,242,.3); color: #93c5fd; }
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.6); opacity: .55; } }
+.hero-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3rem, 6.5vw, 5.8rem);
+  line-height: 1.04; letter-spacing: -2.5px;
+  color: var(--text); margin-bottom: 22px;
+  animation: up .6s .1s ease both;
+}
+body.dark .hero-title { color: #f1f5f9; }
+.hero-title span {
+  background: linear-gradient(135deg, var(--kaz), var(--accent), #6366f1);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub {
+  font-size: 1.12rem; color: var(--text2); max-width: 560px;
+  margin: 0 auto 38px; line-height: 1.75; animation: up .6s .2s ease both;
+}
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; animation: up .6s .3s ease both; }
+.hero-stats { display: flex; justify-content: center; gap: 56px; margin-top: 72px; animation: up .6s .4s ease both; }
+.hstat-n {
+  font-size: 2.5rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--kaz), var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hstat-l { font-size: .77rem; color: var(--text2); margin-top: 3px; font-weight: 600; letter-spacing: .2px; }
+@keyframes up { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ══════════════════════════
+   FEATURE CARDS
+══════════════════════════ */
+.f-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 18px; padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+.f-card {
+  background: var(--card-bg); border-radius: var(--r); padding: 28px;
+  box-shadow: var(--sh); border: 1px solid var(--border2);
+  transition: all .28s cubic-bezier(.4,0,.2,1); cursor: pointer; position: relative; overflow: hidden;
+}
+.f-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--kaz), var(--accent));
+  transform: scaleX(0); transform-origin: left; transition: transform .28s ease;
+}
+.f-card::after { content: '→'; position: absolute; bottom: 24px; right: 26px; font-size: 1.1rem; opacity: 0; transition: all .25s; color: var(--accent); transform: translateX(-10px); }
+.f-card:hover { transform: translateY(-5px); box-shadow: var(--sh2); border-color: rgba(29,111,242,.15); }
+.f-card:hover::before { transform: scaleX(1); }
+.f-card:hover::after { opacity: 1; transform: translateX(0); }
+.f-icon { width: 52px; height: 52px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.45rem; margin-bottom: 18px; }
+.ic-blue { background: linear-gradient(135deg, rgba(29,111,242,.12), rgba(29,111,242,.06)); }
+.ic-teal { background: linear-gradient(135deg, rgba(14,165,233,.12), rgba(14,165,233,.06)); }
+.ic-green { background: linear-gradient(135deg, rgba(16,185,129,.12), rgba(16,185,129,.06)); }
+.ic-orange { background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06)); }
+.ic-pink { background: linear-gradient(135deg, rgba(244,63,94,.12), rgba(244,63,94,.06)); }
+.ic-purple { background: linear-gradient(135deg, rgba(139,92,246,.12), rgba(139,92,246,.06)); }
+.f-title { font-size: 1rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -.2px; }
+.f-desc { font-size: .84rem; color: var(--text2); line-height: 1.65; }
+
+/* ══════════════════════════
+   PAGE HEADER
+══════════════════════════ */
+.pg-head {
+  max-width: 1200px; margin: 0 auto; padding: 46px 40px 22px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.pg-head h2 { font-size: 1.95rem; font-weight: 900; letter-spacing: -.6px; }
+.pg-head p { color: var(--text2); font-size: .88rem; margin-top: 5px; }
+
+/* ══════════════════════════
+   SEARCH + FILTERS
+══════════════════════════ */
+.sf-bar {
+  max-width: 1200px; margin: 0 auto; padding: 0 40px 26px;
+  display: flex; gap: 9px; flex-wrap: wrap; align-items: center;
+}
+.sf-input {
+  flex: 1; min-width: 220px; padding: 11px 18px 11px 42px;
+  border-radius: 99px; border: 1.5px solid var(--border);
+  background: var(--card-bg); font-family: var(--font);
+  font-size: .86rem; outline: none; color: var(--text);
+  transition: border-color .2s, box-shadow .2s;
+  box-shadow: var(--sh);
+}
+.sf-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow), var(--sh); }
+.sf-wrap { position: relative; flex: 1; min-width: 220px; }
+.sf-wrap::before { content: '🔍'; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: .82rem; pointer-events: none; z-index: 1; }
+.chip {
+  padding: 7px 17px; border-radius: 99px; font-size: .8rem; font-weight: 700;
+  border: 1.5px solid var(--border); background: var(--card-bg);
+  color: var(--text2); cursor: pointer; transition: all .18s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.chip:hover, .chip.on { border-color: var(--accent); background: rgba(29,111,242,.08); color: var(--accent); box-shadow: 0 0 0 1px rgba(29,111,242,.15); }
+
+/* ══════════════════════════
+   GRID
+══════════════════════════ */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(305px,1fr)); gap: 18px; max-width: 1200px; margin: 0 auto; padding: 0 40px 70px; }
+
+/* ══════════════════════════
+   LISTING CARD
+══════════════════════════ */
+.card {
+  background: var(--card-bg); border-radius: var(--r); padding: 24px;
+  box-shadow: var(--sh); border: 1px solid var(--border2);
+  transition: all .24s cubic-bezier(.4,0,.2,1);
+  cursor: pointer; animation: up .35s ease both; position: relative; overflow: hidden;
+}
+.card::after {
+  content: ''; position: absolute; inset: 0; border-radius: var(--r);
+  background: linear-gradient(135deg, rgba(29,111,242,.03), transparent);
+  opacity: 0; transition: opacity .24s;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--sh2); border-color: rgba(29,111,242,.12); }
+.card:hover::after { opacity: 1; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 13px; }
+.tag { padding: 4px 12px; border-radius: 99px; font-size: .72rem; font-weight: 800; letter-spacing: .2px; }
+.tag-blue { background: rgba(29,111,242,.1); color: var(--accent); }
+.tag-teal { background: rgba(14,165,233,.12); color: #0369a1; }
+.tag-green { background: rgba(16,185,129,.1); color: #047857; }
+.tag-orange { background: rgba(245,158,11,.1); color: #92400e; }
+.price { font-size: 1.1rem; font-weight: 900; color: var(--accent); letter-spacing: -.3px; }
+.card-title { font-size: .98rem; font-weight: 800; margin-bottom: 8px; line-height: 1.38; letter-spacing: -.1px; }
+.card-desc { font-size: .82rem; color: var(--text2); line-height: 1.6; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card-foot { display: flex; justify-content: space-between; align-items: center; }
+.author { display: flex; align-items: center; gap: 8px; font-size: .77rem; color: var(--text2); font-weight: 600; }
+.ava { width: 27px; height: 27px; border-radius: 50%; background: linear-gradient(135deg, var(--kaz), var(--accent)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: .63rem; font-weight: 800; flex-shrink: 0; }
+.ava-lg { width: 58px; height: 58px; border-radius: 50%; background: linear-gradient(135deg, var(--kaz), var(--accent)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; font-weight: 800; box-shadow: 0 4px 16px rgba(29,111,242,.3); }
+.stars { color: var(--yellow); font-size: .78rem; font-weight: 700; }
+.lbtn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; color: var(--text2); font-size: .78rem; font-weight: 700; padding: 5px 9px; border-radius: 9px; transition: all .18s; font-family: 'Plus Jakarta Sans', sans-serif; }
+.lbtn:hover { background: rgba(239,68,68,.08); color: #ef4444; }
+.lbtn.liked { color: #ef4444; }
+
+/* ══════════════════════════
+   FORUM POST
+══════════════════════════ */
+.fpost {
+  background: var(--card-bg); border-radius: var(--r); padding: 24px 28px;
+  box-shadow: var(--sh); border: 1px solid var(--border2); margin-bottom: 14px;
+  transition: all .22s; cursor: pointer;
+}
+.fpost:hover { transform: translateX(6px); box-shadow: var(--sh2); border-color: rgba(29,111,242,.15); border-left: 3px solid var(--accent); }
+.fpost-title { font-size: 1rem; font-weight: 800; margin-bottom: 9px; letter-spacing: -.1px; }
+.fpost-body { font-size: .84rem; color: var(--text2); line-height: 1.6; margin-bottom: 13px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.fpost-foot { display: flex; gap: 16px; font-size: .78rem; color: var(--text2); align-items: center; flex-wrap: wrap; }
+
+/* ══════════════════════════
+   VOLUNTEER HERO
+══════════════════════════ */
+.vol-hero {
+  background: linear-gradient(135deg, #059669, #10b981);
+  padding: 60px 40px; text-align: center; color: #fff;
+  position: relative; overflow: hidden;
+}
+.vol-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 50%, rgba(255,255,255,.1) 0%, transparent 60%); }
+.vol-hero h2 { font-size: 2.4rem; font-weight: 900; margin-bottom: 12px; position: relative; }
+.vol-hero p { font-size: 1.05rem; opacity: .92; max-width: 560px; margin: 0 auto 26px; line-height: 1.7; position: relative; }
+
+/* ══════════════════════════
+   EMPTY STATE
+══════════════════════════ */
+.empty { text-align: center; padding: 72px 32px; color: var(--text2); grid-column: 1 / -1; }
+.empty-ic { font-size: 3rem; margin-bottom: 16px; opacity: .3; }
+.empty h3 { font-weight: 800; color: var(--text); margin-bottom: 7px; }
+.empty p { font-size: .86rem; }
+
+/* ══════════════════════════
+   LOADING
+══════════════════════════ */
+.loading { display: flex; justify-content: center; align-items: center; padding: 64px; gap: 14px; color: var(--text2); grid-column: 1 / -1; font-size: .88rem; font-weight: 600; }
+.spin { width: 22px; height: 22px; border: 2.5px solid rgba(29,111,242,.15); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══════════════════════════
+   MODALS
+══════════════════════════ */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 800; display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--card-bg); border-radius: 26px; padding: 38px;
+  width: 100%; max-width: 510px;
+  box-shadow: 0 32px 80px rgba(0,0,0,.25), 0 0 0 1px var(--border);
+  position: relative; animation: mIn .28s cubic-bezier(.34,1.56,.64,1) both;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-wide { max-width: 630px; }
+@keyframes mIn { from { opacity: 0; transform: scale(.9) translateY(18px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.mclose {
+  position: absolute; top: 18px; right: 18px; width: 32px; height: 32px;
+  border-radius: 50%; background: var(--bg); border: none; cursor: pointer;
+  font-size: .85rem; display: flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .2s; color: var(--text2);
+}
+.mclose:hover { background: var(--border); transform: rotate(90deg); }
+.modal h2 { font-size: 1.55rem; font-weight: 900; margin-bottom: 6px; letter-spacing: -.4px; }
+.modal-sub { color: var(--text2); font-size: .87rem; margin-bottom: 28px; }
+
+/* ── DETAIL MODAL ── */
+.detail-header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+.detail-info h3 { font-size: 1.25rem; font-weight: 900; letter-spacing: -.2px; }
+.detail-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.detail-pill { padding: 5px 13px; border-radius: 99px; font-size: .77rem; font-weight: 700; background: var(--bg); color: var(--text2); }
+.detail-section { margin: 20px 0; }
+.detail-section label { font-size: .73rem; font-weight: 800; color: var(--text2); text-transform: uppercase; letter-spacing: .7px; display: block; margin-bottom: 7px; }
+.detail-section p { font-size: .9rem; line-height: 1.68; color: var(--text); }
+.detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border); }
+
+/* ══════════════════════════
+   FORMS
+══════════════════════════ */
+.tabs { display: flex; background: var(--bg); border-radius: 13px; padding: 4px; margin-bottom: 26px; }
+.tab { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .87rem; font-weight: 700; background: transparent; color: var(--text2); transition: all .2s; }
+.tab.on { background: var(--card-bg); color: var(--text); box-shadow: 0 2px 10px rgba(0,0,0,.09); }
+.fg { margin-bottom: 17px; }
+.fg label { display: block; font-size: .79rem; font-weight: 700; margin-bottom: 7px; color: var(--text); letter-spacing: .1px; }
+.fg input, .fg select, .fg textarea {
+  width: 100%; padding: 11px 16px;
+  border-radius: var(--r2); border: 1.5px solid var(--border);
+  background: var(--input-bg); font-family: var(--font);
+  font-size: .87rem; color: var(--text); outline: none;
+  transition: border-color .2s, box-shadow .2s; resize: vertical;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
+  background: var(--card-bg);
+}
+.fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.pw-bar { height: 3px; background: var(--border); border-radius: 2px; margin-top: 7px; overflow: hidden; }
+.pw-fill { height: 100%; border-radius: 2px; transition: width .4s, background .4s; }
+.alert { padding: 12px 16px; border-radius: 12px; font-size: .84rem; font-weight: 600; margin-bottom: 15px; display: flex; gap: 9px; align-items: center; }
+.alert-e { background: rgba(239,68,68,.08); color: #b91c1c; border: 1px solid rgba(239,68,68,.18); }
+.alert-s { background: rgba(16,185,129,.08); color: #065f46; border: 1px solid rgba(16,185,129,.18); }
+.divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: var(--text2); font-size: .77rem; font-weight: 600; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ══════════════════════════
+   PROFILE
+══════════════════════════ */
+.prof-hero {
+  background: linear-gradient(135deg, #1e3a8a, #1d6ff2, #0ea5e9);
+  padding: 60px 40px 80px; position: relative; overflow: hidden;
+}
+.prof-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 75% 40%, rgba(255,255,255,.1) 0%, transparent 55%);
+}
+.prof-hero::after {
+  content: ''; position: absolute; bottom: -60px; left: -60px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: rgba(255,255,255,.04); pointer-events: none;
+}
+.prof-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: flex-end; gap: 22px; flex-wrap: wrap; position: relative; z-index: 1; }
+.prof-name { color: #fff; font-size: 1.75rem; font-weight: 900; letter-spacing: -.4px; }
+.prof-email { color: rgba(255,255,255,.72); font-size: .87rem; margin-top: 4px; }
+.prof-badge { display: inline-block; padding: 5px 14px; border-radius: 99px; background: rgba(255,255,255,.18); color: #fff; font-size: .75rem; font-weight: 700; margin-top: 11px; backdrop-filter: blur(6px); }
+.prof-body { max-width: 860px; margin: -40px auto 0; padding: 0 40px 70px; position: relative; z-index: 1; }
+.pcard { background: var(--card-bg); border-radius: var(--r); padding: 28px; box-shadow: var(--sh); margin-bottom: 18px; border: 1px solid var(--border2); }
+.pcard h3 { font-size: .95rem; font-weight: 800; margin-bottom: 17px; letter-spacing: -.1px; }
+.stats3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.sbox { background: var(--bg); border-radius: 14px; padding: 20px; text-align: center; border: 1px solid var(--border2); transition: transform .2s; }
+.sbox:hover { transform: translateY(-2px); }
+.sbox-n { font-size: 1.9rem; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
+.sbox-l { font-size: .74rem; color: var(--text2); margin-top: 4px; font-weight: 600; }
+
+/* ══════════════════════════
+   TOAST
+══════════════════════════ */
+.toasts { position: fixed; bottom: 28px; right: 28px; z-index: 1000; display: flex; flex-direction: column; gap: 9px; }
+.toast {
+  background: var(--text); color: #fff;
+  padding: 13px 20px; border-radius: 15px;
+  font-size: .84rem; font-weight: 700;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.22);
+  animation: tIn .3s cubic-bezier(.34,1.56,.64,1) both; max-width: 310px;
+}
+@keyframes tIn { from { opacity: 0; transform: translateX(40px) scale(.9); } to { opacity: 1; transform: translateX(0) scale(1); } }
+.toast.s { background: linear-gradient(135deg, #059669, #10b981); }
+.toast.e { background: linear-gradient(135deg, #dc2626, #ef4444); }
+.toast.i { background: linear-gradient(135deg, var(--accent-h), var(--accent)); }
+
+/* ══════════════════════════
+   FOOTER
+══════════════════════════ */
+footer {
+  background: linear-gradient(135deg, #0c1526, #1e2d47);
+  color: rgba(255,255,255,.45); padding: 40px;
+  text-align: center; font-size: .82rem; letter-spacing: .1px;
+}
+footer strong { color: rgba(255,255,255,.88); }
+
+/* ══════════════════════════
+   MODERN UI ENHANCEMENTS
+══════════════════════════ */
+
+/* Smoother nav */
+nav {
+  height: var(--nav);
+  box-shadow: 0 1px 0 var(--border), 0 4px 24px rgba(12,21,38,.04);
+}
+
+/* Hero improvements */
+.hero {
+  background: linear-gradient(160deg, #dbeafe 0%, #eff6ff 35%, #f2f5fb 75%);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14,165,233,.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Card micro-interaction polish */
+.card { border-radius: var(--r); }
+.f-card { border-radius: var(--r); }
+
+/* Feature card shimmer effect on hover */
+.f-card:hover {
+  background: linear-gradient(145deg, #ffffff, #f8faff);
+}
+
+/* Better pg-head typography */
+.pg-head h2 { font-size: 1.75rem; font-weight: 900; letter-spacing: -.5px; }
+
+/* Improved tab style */
+.tab { border-radius: 9px; font-weight: 700; letter-spacing: -.1px; }
+.tab.on { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+
+/* Avatar glow */
+.ava-lg { box-shadow: 0 6px 20px rgba(29,111,242,.28), 0 0 0 4px rgba(255,255,255,.9); }
+
+/* Chip polish */
+.chip { letter-spacing: -.1px; }
+
+/* Notif badge pulse */
+.notif-badge { animation: badgePulse 2.5s ease infinite; }
+@keyframes badgePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); }
+  50% { box-shadow: 0 0 0 4px rgba(239,68,68,0); }
+}
+
+/* Better button active states */
+.btn:active { transform: scale(.97); }
+.btn-primary:active { box-shadow: 0 2px 8px rgba(29,111,242,.25); }
+
+/* Smooth page transitions */
+.section { animation: none; }
+.section.active { animation: sectionIn .28s ease both; }
+@keyframes sectionIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Profile hero improvement */
+.prof-hero {
+  background: linear-gradient(135deg, #0f2460 0%, #1d6ff2 55%, #0ea5e9 100%);
+  padding: 64px 40px 88px;
+}
+
+/* Volunteer hero refinement */
+.vol-hero { border-radius: 0; }
+
+/* Footer modernization */
+footer {
+  background: linear-gradient(145deg, #080f1e, #111d33);
+  padding: 48px 40px; font-size: .84rem; letter-spacing: .05px;
+}
+footer strong { color: rgba(255,255,255,.94); }
+
+/* Dark mode card hover improvement */
+body.dark .f-card:hover { background: var(--card-bg); border-color: rgba(29,111,242,.25); }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+/* Loading spinner refinement */
+.spin { border-radius: 50%; border-top-color: var(--accent); }
+
+/* Share button improved */
+.share-btn { font-family: var(--font); }
+
+/* Mobile-first responsive improvements */
+@media (max-width: 900px) {
+  .gsearch-wrap { max-width: 280px; min-width: 160px; }
+  nav { gap: 12px; }
+}
+
+@media (max-width: 768px) {
+  :root { --nav: 60px; }
+  .hero { padding: 84px 20px 60px; }
+  .hero-title { font-size: clamp(2.2rem, 8vw, 3.5rem); letter-spacing: -1.5px; }
+  .hero-stats { gap: 22px; flex-wrap: wrap; justify-content: center; }
+  .hstat-n { font-size: 1.9rem; }
+  .f-grid, .grid { padding: 22px 16px; }
+  .grid { grid-template-columns: 1fr; }
+  .pg-head, .sf-bar { padding-left: 16px; padding-right: 16px; }
+  nav { padding: 0 14px; gap: 10px; }
+  .nav-links { display: none; }
+  .fg-row { grid-template-columns: 1fr; }
+  .stats3 { grid-template-columns: 1fr 1fr; }
+  .prof-body { padding: 0 14px 48px; }
+  .prof-hero { padding: 48px 16px 72px; }
+  #forum-inner { padding: 0 16px 48px; }
+  .msg-layout { grid-template-columns: 1fr; }
+  .msg-sidebar { display: none; }
+  .gsearch-wrap { min-width: 120px; max-width: 180px; }
+  .gsearch-input { font-size: .8rem; padding: 8px 12px 8px 34px; }
+  .gsearch-wrap::before { left: 11px; font-size: .72rem; }
+  .nav-right { gap: 4px; }
+  #mapContainer { height: 360px; }
+  footer { padding: 36px 20px; }
+  .vol-hero { padding: 48px 20px; }
+  .vol-hero h2 { font-size: 1.9rem; }
+  .detail-header { flex-direction: column; }
+  .modal { padding: 28px 22px; border-radius: 20px; }
+}
+
+@media (max-width: 480px) {
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn-lg { width: 100%; justify-content: center; }
+  .nav-icons { gap: 0; }
+  .nav-icon-btn { width: 32px; height: 32px; }
+  .dark-btn { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<div id="cur"></div><div id="cur2"></div>
+<div class="toasts" id="toasts"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="go('home')">
+    <div class="nav-logo-icon">🇰🇿</div>QazLife
+  </div>
+  <ul class="nav-links">
+    <li><a id="nl-home" class="active" onclick="go('home')">Главная</a></li>
+    <li><a id="nl-tutors" onclick="go('tutors')">Репетиторы</a></li>
+    <li><a id="nl-freelance" onclick="go('freelance')">Фриланс</a></li>
+    <li><a id="nl-volunteer" onclick="go('volunteer')">Волонтёрство</a></li>
+    <li><a id="nl-forum" onclick="go('forum')">Форум</a></li>
+  </ul>
+  <div class="nav-right" id="gsearchWrap_container" style="align-items:center;gap:6px">
+    <!-- Global Search -->
+    <div class="gsearch-wrap" id="gsearchWrap">
+      <input class="gsearch-input" id="gsearchInput" placeholder="Поиск по всему сайту..." oninput="doGlobalSearch(this.value)" onfocus="showGSearch()" autocomplete="off">
+      <div class="gsearch-results" id="gsearchResults"></div>
+    </div>
+    <!-- Quick icon buttons -->
+    <div class="nav-icons">
+      <button class="nav-icon-btn" id="nl-favorites" onclick="needAuth(()=>go('favorites'))" title="Избранное">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <span class="nav-icon-tip">Избранное</span>
+      </button>
+      <button class="nav-icon-btn" id="nl-ratings" onclick="go('ratings')" title="Рейтинги">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <span class="nav-icon-tip">Рейтинги</span>
+      </button>
+      <button class="nav-icon-btn" id="nl-messages" onclick="needAuth(()=>go('messages'))" title="Сообщения">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span class="nav-icon-tip">Сообщения</span>
+      </button>
+      <button class="nav-icon-btn" id="nl-map" onclick="go('map')" title="Карта">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+        <span class="nav-icon-tip">Карта</span>
+      </button>
+    </div>
+    <!-- Divider -->
+    <div style="width:1px;height:22px;background:var(--border);margin:0 2px;flex-shrink:0"></div>
+    <!-- Dark Mode -->
+    <button class="dark-btn" onclick="toggleDark()" title="Тёмная тема"></button>
+    <!-- Notifications -->
+    <div class="notif-wrap">
+      <button class="nav-icon-btn" style="position:relative" onclick="toggleNotif()" id="notifBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span class="nav-icon-tip">Уведомления</span>
+      </button>
+      <span class="notif-badge" id="notifBadge" style="display:none">0</span>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-head">Уведомления <button class="btn btn-ghost btn-sm" onclick="markAllRead()">Прочитать все</button></div>
+        <div id="notifList"><div style="padding:20px;text-align:center;color:var(--text2);font-size:.84rem">Нет уведомлений</div></div>
+      </div>
+    </div>
+    <!-- Auth -->
+    <div id="navR" style="display:flex;align-items:center;gap:6px">
+      <button class="btn btn-ghost" onclick="openM('auth')">Войти</button>
+      <button class="btn btn-primary" onclick="openM('auth')">Регистрация</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════ SECTION: HOME ════════ -->
+<div id="s-home" class="section active">
+  <div class="hero">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-inner">
+      <div class="hero-pill"><div class="pulse"></div>Онлайн-платформа для Казахстана</div>
+      <h1 class="hero-title">Объединяем<br><span>Казахстан</span></h1>
+      <p class="hero-sub">Репетиторы, фриланс, волонтёрство и форум — всё для жителей Казахстана в одном месте.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary btn-lg" onclick="openM('auth')">🚀 Начать бесплатно</button>
+        <button class="btn btn-outline btn-lg" onclick="go('tutors')">Смотреть объявления</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hstat-n" data-n="2400">0</div><div class="hstat-l">Пользователей</div></div>
+        <div><div class="hstat-n" data-n="840">0</div><div class="hstat-l">Объявлений</div></div>
+        <div><div class="hstat-n" data-n="16">0</div><div class="hstat-l">Городов</div></div>
+        <div><div class="hstat-n" data-n="98">0</div><div class="hstat-l">% довольных</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="f-grid">
+    <div class="f-card" onclick="go('tutors')"><div class="f-icon ic-blue">🎓</div><div class="f-title">Репетиторы</div><div class="f-desc">Найдите преподавателя по любому предмету — математика, казахский, английский, программирование.</div></div>
+    <div class="f-card" onclick="go('freelance')"><div class="f-icon ic-teal">💼</div><div class="f-title">Фриланс</div><div class="f-desc">Разместите задачу или найдите заказы — дизайн, разработка, маркетинг, перевод.</div></div>
+    <div class="f-card" onclick="go('volunteer')"><div class="f-icon ic-green">🤝</div><div class="f-title">Волонтёрство</div><div class="f-desc">Помогайте другим, участвуйте в акциях и меняйте общество к лучшему.</div></div>
+    <div class="f-card" onclick="go('forum')"><div class="f-icon ic-orange">🗣️</div><div class="f-title">Форум</div><div class="f-desc">Задавайте вопросы, делитесь советами и общайтесь с сообществом Казахстана.</div></div>
+    <div class="f-card" onclick="needAuth(()=>go('favorites'))"><div class="f-icon ic-pink">❤️</div><div class="f-title">Избранное</div><div class="f-desc">Лайкайте понравившиеся объявления — они сохранятся в вашем профиле.</div></div>
+    <div class="f-card" onclick="go('ratings')"><div class="f-icon ic-purple">⭐</div><div class="f-title">Рейтинги</div><div class="f-desc">Честные отзывы и рейтинги помогут найти лучших специалистов.</div></div>
+  </div>
+  <footer><strong>QazLife</strong> — Платформа взаимопомощи Казахстана &nbsp;·&nbsp; © 2025 Сделано с ❤️ для Казахстана</footer>
+</div>
+
+<!-- ════════ SECTION: TUTORS ════════ -->
+<div id="s-tutors" class="section">
+  <div class="pg-head">
+    <div><h2>🎓 Репетиторы</h2><p>Найдите лучшего преподавателя для себя или ребёнка</p></div>
+    <button class="btn btn-primary" onclick="needAuth(()=>openPost('tutors'))">+ Добавить анкету</button>
+  </div>
+  <div class="sf-bar">
+    <div class="sf-wrap"><input class="sf-input" id="q-tutors" placeholder="Имя, предмет, город..." oninput="applyFilters('tutors')"></div>
+    <span class="chip on" data-sec="tutors" data-cat="all" onclick="pickCat(this)">Все</span>
+    <span class="chip" data-sec="tutors" data-cat="Математика" onclick="pickCat(this)">Математика</span>
+    <span class="chip" data-sec="tutors" data-cat="Английский" onclick="pickCat(this)">Английский</span>
+    <span class="chip" data-sec="tutors" data-cat="Казахский" onclick="pickCat(this)">Казахский</span>
+    <span class="chip" data-sec="tutors" data-cat="Физика" onclick="pickCat(this)">Физика</span>
+    <span class="chip" data-sec="tutors" data-cat="Программирование" onclick="pickCat(this)">Программирование</span>
+  </div>
+  <div class="grid" id="g-tutors"><div class="loading"><div class="spin"></div>Загрузка...</div></div>
+</div>
+
+<!-- ════════ SECTION: FREELANCE ════════ -->
+<div id="s-freelance" class="section">
+  <div class="pg-head">
+    <div><h2>💼 Фриланс-биржа</h2><p>Заказы и услуги для специалистов Казахстана</p></div>
+    <button class="btn btn-primary" onclick="needAuth(()=>openPost('freelance'))">+ Разместить задачу</button>
+  </div>
+  <div class="sf-bar">
+    <div class="sf-wrap"><input class="sf-input" id="q-freelance" placeholder="Тип работы, навыки..." oninput="applyFilters('freelance')"></div>
+    <span class="chip on" data-sec="freelance" data-cat="all" onclick="pickCat(this)">Все</span>
+    <span class="chip" data-sec="freelance" data-cat="Дизайн" onclick="pickCat(this)">Дизайн</span>
+    <span class="chip" data-sec="freelance" data-cat="Разработка" onclick="pickCat(this)">Разработка</span>
+    <span class="chip" data-sec="freelance" data-cat="Маркетинг" onclick="pickCat(this)">Маркетинг</span>
+    <span class="chip" data-sec="freelance" data-cat="Перевод" onclick="pickCat(this)">Перевод</span>
+    <span class="chip" data-sec="freelance" data-cat="Копирайтинг" onclick="pickCat(this)">Копирайтинг</span>
+  </div>
+  <div class="grid" id="g-freelance"><div class="loading"><div class="spin"></div>Загрузка...</div></div>
+</div>
+
+<!-- ════════ SECTION: VOLUNTEER ════════ -->
+<div id="s-volunteer" class="section">
+  <div class="vol-hero">
+    <h2>🤝 Волонтёрство</h2>
+    <p>Помогайте людям и меняйте мир вокруг вас — вместе мы сильнее</p>
+    <button class="btn btn-primary" style="background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.45)" onclick="needAuth(()=>openPost('volunteer'))">+ Создать акцию</button>
+  </div>
+  <div class="sf-bar" style="margin-top:20px">
+    <div class="sf-wrap"><input class="sf-input" id="q-volunteer" placeholder="Название акции, город..." oninput="applyFilters('volunteer')"></div>
+    <span class="chip on" data-sec="volunteer" data-cat="all" onclick="pickCat(this)">Все</span>
+    <span class="chip" data-sec="volunteer" data-cat="Экология" onclick="pickCat(this)">Экология</span>
+    <span class="chip" data-sec="volunteer" data-cat="Дети" onclick="pickCat(this)">Дети</span>
+    <span class="chip" data-sec="volunteer" data-cat="Пожилые" onclick="pickCat(this)">Пожилые</span>
+    <span class="chip" data-sec="volunteer" data-cat="Животные" onclick="pickCat(this)">Животные</span>
+  </div>
+  <div class="grid" id="g-volunteer"><div class="loading"><div class="spin"></div>Загрузка...</div></div>
+</div>
+
+<!-- ════════ SECTION: FORUM ════════ -->
+<div id="s-forum" class="section">
+  <div class="pg-head">
+    <div><h2>🗣️ Форум сообщества</h2><p>Задавайте вопросы и делитесь опытом</p></div>
+    <button class="btn btn-primary" onclick="needAuth(()=>openPost('forum'))">+ Создать тему</button>
+  </div>
+  <div class="sf-bar">
+    <div class="sf-wrap"><input class="sf-input" id="q-forum" placeholder="Поиск по темам..." oninput="applyFilters('forum')"></div>
+    <span class="chip on" data-sec="forum" data-cat="all" onclick="pickCat(this)">Все</span>
+    <span class="chip" data-sec="forum" data-cat="Образование" onclick="pickCat(this)">Образование</span>
+    <span class="chip" data-sec="forum" data-cat="Карьера" onclick="pickCat(this)">Карьера</span>
+    <span class="chip" data-sec="forum" data-cat="Жизнь" onclick="pickCat(this)">Жизнь</span>
+    <span class="chip" data-sec="forum" data-cat="Советы" onclick="pickCat(this)">Советы</span>
+  </div>
+  <div id="forum-inner" style="max-width:1200px;margin:0 auto;padding:0 40px 60px">
+    <div class="loading"><div class="spin"></div>Загрузка...</div>
+  </div>
+</div>
+
+<!-- ════════ SECTION: PROFILE ════════ -->
+<div id="s-profile" class="section">
+  <div class="prof-hero">
+    <div class="prof-inner">
+      <div class="ava-lg" id="pAva">?</div>
+      <div>
+        <div class="prof-name" id="pName">—</div>
+        <div class="prof-email" id="pEmail">—</div>
+        <div class="prof-badge">✅ Верифицированный пользователь</div>
+      </div>
+    </div>
+  </div>
+  <div class="prof-body">
+    <div class="pcard">
+      <div class="stats3">
+        <div class="sbox"><div class="sbox-n" id="myC">0</div><div class="sbox-l">Объявлений</div></div>
+        <div class="sbox"><div class="sbox-n" id="myL">0</div><div class="sbox-l">Лайков получено</div></div>
+        <div class="sbox"><div class="sbox-n" id="myViews">0</div><div class="sbox-l">Просмотров</div></div>
+      </div>
+    </div>
+    <!-- Activity Chart -->
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Активность за последние 7 дней</div>
+      <div class="bar-chart" id="actChart"></div>
+    </div>
+    <!-- Badges -->
+    <div class="pcard">
+      <h3>🏆 Бейджи и достижения</h3>
+      <div class="badge-grid" id="badgeGrid">
+        <div class="badge badge-gray">🔒 Ещё не заработаны</div>
+      </div>
+    </div>
+    <div class="pcard">
+      <h3>📋 Мои объявления</h3>
+      <div id="myPosts"><div class="loading"><div class="spin"></div></div></div>
+    </div>
+    <div class="pcard">
+      <h3>⚙️ Настройки профиля</h3>
+      <div class="fg"><label>Имя и фамилия</label><input type="text" id="eN" placeholder="Ваше имя"></div>
+      <div class="fg"><label>Город</label>
+        <select id="eC"><option>Алматы</option><option>Астана</option><option>Шымкент</option><option>Карагандa</option><option>Актобе</option><option>Тараз</option><option>Усть-Каменогорск</option><option>Павлодар</option></select>
+      </div>
+      <div class="fg"><label>О себе</label><textarea id="eB" rows="3" placeholder="Расскажите о себе..."></textarea></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="saveProf()">💾 Сохранить</button>
+        <button class="btn btn-danger" onclick="signOut()">Выйти из аккаунта</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SECTION: MESSAGES ════════ -->
+<div id="s-messages" class="section" style="padding-top:var(--nav)">
+  <div class="msg-layout">
+    <div class="msg-sidebar">
+      <div class="msg-sidebar-head">💬 Сообщения</div>
+      <div id="convList"><div style="padding:20px;color:var(--text2);font-size:.84rem;text-align:center">Начните разговор из карточки объявления</div></div>
+    </div>
+    <div class="msg-main" id="msgMain">
+      <div class="msg-empty">
+        <div style="font-size:3rem">💬</div>
+        <div style="font-weight:700">Выберите диалог</div>
+        <div style="font-size:.82rem">Напишите специалисту прямо с сайта</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SECTION: MAP ════════ -->
+<div id="s-map" class="section">
+  <div class="pg-head">
+    <div><h2>🗺️ Карта объявлений</h2><p>Найдите специалистов рядом с вами</p></div>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 40px 20px">
+    <div class="sf-bar" style="padding:0 0 16px">
+      <span class="chip on" data-msec="all" onclick="pickMapSec(this)">Все</span>
+      <span class="chip" data-msec="tutors" onclick="pickMapSec(this)">🎓 Репетиторы</span>
+      <span class="chip" data-msec="freelance" onclick="pickMapSec(this)">💼 Фриланс</span>
+      <span class="chip" data-msec="volunteer" onclick="pickMapSec(this)">🤝 Волонтёры</span>
+    </div>
+    <div id="mapContainer">
+      <div id="gmap"></div>
+      <div class="gmap-loading" id="gmapLoading">
+        <div class="spin" style="width:28px;height:28px;border-width:3px"></div>
+        <span>Загрузка карты...</span>
+      </div>
+    </div>
+    <div class="grid" id="g-map" style="margin-top:24px"><div class="loading"><div class="spin"></div>Загрузка...</div></div>
+  </div>
+</div>
+
+<!-- ════════ SECTION: FAVORITES ════════ -->
+<div id="s-favorites" class="section">
+  <div class="pg-head">
+    <div><h2>❤️ Избранное</h2><p>Объявления, которые вам понравились</p></div>
+  </div>
+  <div class="sf-bar">
+    <span class="chip on" data-sec="favorites" data-cat="all" onclick="pickFavCat(this)">Все</span>
+    <span class="chip" data-sec="favorites" data-cat="tutors" onclick="pickFavCat(this)">Репетиторы</span>
+    <span class="chip" data-sec="favorites" data-cat="freelance" onclick="pickFavCat(this)">Фриланс</span>
+    <span class="chip" data-sec="favorites" data-cat="volunteer" onclick="pickFavCat(this)">Волонтёрство</span>
+    <span class="chip" data-sec="favorites" data-cat="forum" onclick="pickFavCat(this)">Форум</span>
+  </div>
+  <div class="grid" id="g-favorites"><div class="loading"><div class="spin"></div>Загрузка...</div></div>
+</div>
+
+<!-- ════════ SECTION: RATINGS ════════ -->
+<div id="s-ratings" class="section">
+  <div class="pg-head">
+    <div><h2>⭐ Рейтинги</h2><p>Лучшие специалисты платформы по оценкам пользователей</p></div>
+  </div>
+  <div class="sf-bar">
+    <span class="chip on" data-rcat="all" onclick="pickRatCat(this)">Все</span>
+    <span class="chip" data-rcat="tutors" onclick="pickRatCat(this)">Репетиторы</span>
+    <span class="chip" data-rcat="freelance" onclick="pickRatCat(this)">Фриланс</span>
+    <span class="chip" data-rcat="volunteer" onclick="pickRatCat(this)">Волонтёрство</span>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 40px 24px">
+    <div style="background:linear-gradient(135deg,rgba(234,179,8,.08),rgba(245,158,11,.05));border-radius:var(--r);padding:18px 24px;border:1px solid rgba(234,179,8,.2);margin-bottom:8px;font-size:.88rem;color:#92400e;font-weight:600">
+      ⭐ Рейтинг основан на лайках пользователей. Чем больше лайков — тем выше позиция в списке.
+    </div>
+  </div>
+  <div class="grid" id="g-ratings"><div class="loading"><div class="spin"></div>Загрузка...</div></div>
+</div>
+
+<!-- ════════ MODAL: AUTH ════════ -->
+<div class="overlay" id="m-auth" onclick="bgClose(event,'auth')">
+<div class="modal">
+  <button class="mclose" onclick="closeM('auth')">✕</button>
+  <div class="tabs">
+    <button class="tab on" id="t-login" onclick="authTab('login')">Войти</button>
+    <button class="tab" id="t-reg" onclick="authTab('reg')">Регистрация</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="f-login">
+    <h2>С возвращением! 👋</h2>
+    <div class="modal-sub">Войдите в ваш аккаунт QazLife</div>
+    <div id="a-login"></div>
+    <div class="fg"><label>Email</label><input type="email" id="lE" placeholder="email@example.com"></div>
+    <div class="fg"><label>Пароль</label><input type="password" id="lP" placeholder="Ваш пароль"></div>
+    <button class="btn btn-primary" style="width:100%" id="lBtn" onclick="doLogin()">Войти</button>
+    <div class="divider">или</div>
+    <button class="btn btn-outline" style="width:100%" onclick="doGoogle()">
+      <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.2 0 5.9 1.1 8.1 2.9l6-6C34.4 3.2 29.5 1 24 1 14.7 1 6.9 6.4 3.4 14.2l7 5.4C12 13.5 17.5 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.4 5.5-5 7.2l7.7 6C43.1 38.1 46.5 31.8 46.5 24.5z"/><path fill="#FBBC05" d="M10.4 28.8A14.5 14.5 0 0 1 9.5 24c0-1.7.3-3.4.9-4.9l-7-5.4A23.9 23.9 0 0 0 1 24c0 3.9.9 7.5 2.4 10.8l7-5.4v-.6z"/><path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-7.7-6C30 36.7 27.2 37.5 24 37.5c-6.5 0-12-4-14-9.5l-7 5.4C6.8 41.5 14.7 47 24 47z"/></svg>
+      Войти через Google
+    </button>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="f-reg" style="display:none">
+    <h2>Добро пожаловать! 🎉</h2>
+    <div class="modal-sub">Создайте аккаунт — это бесплатно</div>
+    <div id="a-reg"></div>
+    <div class="fg-row">
+      <div class="fg"><label>Имя</label><input type="text" id="rN" placeholder="Алибек"></div>
+      <div class="fg"><label>Фамилия</label><input type="text" id="rSN" placeholder="Сейткалиев"></div>
+    </div>
+    <div class="fg"><label>Email</label><input type="email" id="rE" placeholder="email@example.com"></div>
+    <div class="fg"><label>Город</label>
+      <select id="rC"><option>Алматы</option><option>Астана</option><option>Шымкент</option><option>Карагандa</option><option>Актобе</option><option>Тараз</option><option>Другой</option></select>
+    </div>
+    <div class="fg">
+      <label>Пароль</label>
+      <input type="password" id="rP" placeholder="Минимум 8 символов" oninput="pwStr(this.value)">
+      <div class="pw-bar"><div class="pw-fill" id="pwf" style="width:0%;background:var(--red)"></div></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%" id="rBtn" onclick="doReg()">Создать аккаунт</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════ MODAL: POST — TUTORS ════════ -->
+<div class="overlay" id="m-tutors-post" onclick="bgClose(event,'tutors-post')">
+<div class="modal modal-wide">
+  <button class="mclose" onclick="closeM('tutors-post')">✕</button>
+  <h2>🎓 Анкета репетитора</h2>
+  <div class="modal-sub">Заполните анкету — ученики найдут вас</div>
+  <div id="ap-tutors"></div>
+  <div class="fg-row">
+    <div class="fg"><label>Ваше имя</label><input type="text" id="tp-name" placeholder="Айгерим Сейткалиева"></div>
+    <div class="fg"><label>Предмет</label>
+      <select id="tp-subj">
+        <option>Математика</option><option>Английский</option><option>Казахский</option>
+        <option>Физика</option><option>Химия</option><option>Биология</option>
+        <option>История</option><option>Программирование</option><option>Русский язык</option><option>Другое</option>
+      </select>
+    </div>
+  </div>
+  <div class="fg-row">
+    <div class="fg"><label>Опыт преподавания</label>
+      <select id="tp-exp"><option>Менее 1 года</option><option>1–3 года</option><option>3–5 лет</option><option>5–10 лет</option><option>10+ лет</option></select>
+    </div>
+    <div class="fg"><label>Цена за час (₸)</label><input type="number" id="tp-price" placeholder="8000"></div>
+  </div>
+  <div class="fg-row">
+    <div class="fg"><label>Формат</label>
+      <select id="tp-fmt"><option>Онлайн</option><option>Офлайн</option><option>Оба варианта</option></select>
+    </div>
+    <div class="fg"><label>Город</label>
+      <select id="tp-city"><option>Алматы</option><option>Астана</option><option>Шымкент</option><option>Карагандa</option><option>Актобе</option><option>Онлайн</option><option>Другой</option></select>
+    </div>
+  </div>
+  <div class="fg"><label>Описание (опыт, методика, достижения учеников)</label>
+    <textarea id="tp-desc" rows="4" placeholder="Расскажите о своём подходе к обучению, результатах учеников..."></textarea>
+  </div>
+  <div class="fg"><label>Контакт (WhatsApp / Telegram)</label><input type="text" id="tp-contact" placeholder="+7 777 123 4567 или @username"></div>
+  <button class="btn btn-primary" style="width:100%" id="tp-btn" onclick="doPost('tutors')">Опубликовать анкету</button>
+</div>
+</div>
+
+<!-- ════════ MODAL: POST — FREELANCE ════════ -->
+<div class="overlay" id="m-freelance-post" onclick="bgClose(event,'freelance-post')">
+<div class="modal modal-wide">
+  <button class="mclose" onclick="closeM('freelance-post')">✕</button>
+  <h2>💼 Разместить задачу</h2>
+  <div class="modal-sub">Найдите исполнителя на ваш проект</div>
+  <div id="ap-freelance"></div>
+  <div class="fg"><label>Заголовок задачи</label><input type="text" id="fp-title" placeholder="Разработка сайта для кофейни"></div>
+  <div class="fg-row">
+    <div class="fg"><label>Тип работы</label>
+      <select id="fp-type">
+        <option>Дизайн</option><option>Разработка</option><option>Маркетинг</option>
+        <option>Перевод</option><option>Копирайтинг</option><option>Видеомонтаж</option>
+        <option>SEO</option><option>Бухгалтерия</option><option>Другое</option>
+      </select>
+    </div>
+    <div class="fg"><label>Бюджет (₸)</label><input type="number" id="fp-budget" placeholder="150000"></div>
+  </div>
+  <div class="fg-row">
+    <div class="fg"><label>Срок выполнения</label><input type="date" id="fp-deadline"></div>
+    <div class="fg"><label>Город / удалённо</label>
+      <select id="fp-city"><option>Онлайн</option><option>Алматы</option><option>Астана</option><option>Шымкент</option><option>Другой</option></select>
+    </div>
+  </div>
+  <div class="fg"><label>Подробное описание задачи</label>
+    <textarea id="fp-desc" rows="4" placeholder="Что нужно сделать, какой результат ожидаете..."></textarea>
+  </div>
+  <div class="fg"><label>Необходимые навыки</label><input type="text" id="fp-skills" placeholder="Figma, React, Photoshop..."></div>
+  <div class="fg"><label>Контакт (WhatsApp / Telegram)</label><input type="text" id="fp-contact" placeholder="+7 777 123 4567 или @username"></div>
+  <button class="btn btn-primary" style="width:100%" id="fp-btn" onclick="doPost('freelance')">Опубликовать задачу</button>
+</div>
+</div>
+
+<!-- ════════ MODAL: POST — VOLUNTEER ════════ -->
+<div class="overlay" id="m-volunteer-post" onclick="bgClose(event,'volunteer-post')">
+<div class="modal modal-wide">
+  <button class="mclose" onclick="closeM('volunteer-post')">✕</button>
+  <h2>🤝 Создать волонтёрскую акцию</h2>
+  <div class="modal-sub">Соберите команду неравнодушных людей</div>
+  <div id="ap-volunteer"></div>
+  <div class="fg"><label>Название акции</label><input type="text" id="vp-title" placeholder="Уборка парка Медеу"></div>
+  <div class="fg-row">
+    <div class="fg"><label>Тип акции</label>
+      <select id="vp-type"><option>Экология</option><option>Дети</option><option>Пожилые</option><option>Животные</option><option>Образование</option><option>Помощь малоимущим</option><option>Другое</option></select>
+    </div>
+    <div class="fg"><label>Дата проведения</label><input type="date" id="vp-date"></div>
+  </div>
+  <div class="fg-row">
+    <div class="fg"><label>Место проведения</label><input type="text" id="vp-place" placeholder="Парк Медеу, вход"></div>
+    <div class="fg"><label>Нужно волонтёров</label><input type="number" id="vp-count" placeholder="20"></div>
+  </div>
+  <div class="fg"><label>Город</label>
+    <select id="vp-city"><option>Алматы</option><option>Астана</option><option>Шымкент</option><option>Карагандa</option><option>Другой</option></select>
+  </div>
+  <div class="fg"><label>Описание акции</label>
+    <textarea id="vp-desc" rows="4" placeholder="Расскажите о цели акции, что нужно взять с собой, как связаться..."></textarea>
+  </div>
+  <div class="fg"><label>Контакт организатора</label><input type="text" id="vp-contact" placeholder="+7 777 123 4567 или @username"></div>
+  <button class="btn btn-green" style="width:100%" id="vp-btn" onclick="doPost('volunteer')">Создать акцию</button>
+</div>
+</div>
+
+<!-- ════════ MODAL: POST — FORUM ════════ -->
+<div class="overlay" id="m-forum-post" onclick="bgClose(event,'forum-post')">
+<div class="modal modal-wide">
+  <button class="mclose" onclick="closeM('forum-post')">✕</button>
+  <h2>🗣️ Создать тему</h2>
+  <div class="modal-sub">Задайте вопрос или поделитесь опытом</div>
+  <div id="ap-forum"></div>
+  <div class="fg"><label>Заголовок темы</label><input type="text" id="forum-title" placeholder="Как быстро выучить казахский язык?"></div>
+  <div class="fg"><label>Категория</label>
+    <select id="forum-cat"><option>Образование</option><option>Карьера</option><option>Жизнь</option><option>Советы</option><option>Технологии</option><option>Другое</option></select>
+  </div>
+  <div class="fg"><label>Содержание темы</label>
+    <textarea id="forum-body" rows="6" placeholder="Подробно опишите ваш вопрос или поделитесь опытом..."></textarea>
+  </div>
+  <button class="btn btn-primary" style="width:100%" id="forum-btn" onclick="doPost('forum')">Опубликовать тему</button>
+</div>
+</div>
+
+<!-- ════════ MODAL: DETAIL VIEW ════════ -->
+<div class="overlay" id="m-detail" onclick="bgClose(event,'detail')">
+<div class="modal modal-wide" id="detail-body">
+</div>
+</div>
+
+<!-- ════════ JS ════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SB = supabase.createClient(
+  'https://qkizfdgmnafapyekqwaf.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFraXpmZGdtbmFmYXB5ZWtxd2FmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMjU4MDksImV4cCI6MjA5MjcwMTgwOX0.FOow39mfB2H158wPD8iNGscTaTYJpGpLR11Axe5XYu8'
+);
+
+// ── STATE ──
+let USER = null;
+let CUR = 'home';
+let CAT = { tutors:'all', freelance:'all', volunteer:'all', forum:'all' };
+let DATA = { tutors:[], freelance:[], volunteer:[], forum:[] };
+let likesSet = new Set(); // post IDs user liked
+
+// ── INIT ──
+async function init(){
+  const { data:{ session } } = await SB.auth.getSession();
+  if(session) setUser(session.user);
+  SB.auth.onAuthStateChange((_,s)=>{ s?setUser(s.user):clearUser(); });
+  go('home');
+  initCanvas();
+  animNums();
+  initCursor();
+  loadLikes();
+}
+
+// ── CURSOR ──
+function initCursor(){
+  const c=document.getElementById('cur'), r=document.getElementById('cur2');
+  document.addEventListener('mousemove',e=>{
+    c.style.left=e.clientX+'px'; c.style.top=e.clientY+'px';
+    setTimeout(()=>{ r.style.left=e.clientX+'px'; r.style.top=e.clientY+'px'; },90);
+  });
+}
+
+// ── USER ──
+function setUser(u){
+  USER=u;
+  const nm=u.user_metadata?.full_name||u.user_metadata?.name||u.email.split('@')[0];
+  const ini=nm.slice(0,2).toUpperCase();
+  const navR = document.getElementById('navR');
+  navR.style.cssText='display:flex;align-items:center;gap:6px';
+  navR.innerHTML=`
+    <button class="nav-profile-btn" onclick="go('profile')">
+      <span class="nav-profile-ava">${ini}</span>${nm}
+    </button>`;
+  document.getElementById('pName').textContent=nm;
+  document.getElementById('pEmail').textContent=u.email;
+  document.getElementById('pAva').textContent=ini;
+  document.getElementById('eN').value=nm;
+  loadMyPosts();
+}
+function clearUser(){
+  USER=null;
+  document.getElementById('navR').innerHTML=`
+    <button class="btn btn-ghost" onclick="openM('auth')">Войти</button>
+    <button class="btn btn-primary" onclick="openM('auth')">Регистрация</button>`;
+  document.getElementById('navR').style.cssText='display:flex;align-items:center;gap:6px';
+}
+
+window.signOut=async()=>{
+  await SB.auth.signOut(); toast('Вы вышли из аккаунта','i'); go('home');
+};
+
+// ── AUTH ──
+window.doLogin=async()=>{
+  const e=v('lE'),p=v('lP');
+  if(!e||!p)return al('a-login','Заполните все поля');
+  setBtn('lBtn','⏳ Входим...',true);
+  const {error}=await SB.auth.signInWithPassword({email:e,password:p});
+  setBtn('lBtn','Войти',false);
+  if(error)return al('a-login',error.message);
+  closeM('auth'); toast('Добро пожаловать! 👋','s');
+};
+
+window.doReg=async()=>{
+  const n=v('rN'),sn=v('rSN'),e=v('rE'),p=v('rP'),c=v('rC');
+  if(!n||!e||!p)return al('a-reg','Заполните все поля');
+  if(p.length<8)return al('a-reg','Пароль минимум 8 символов');
+  setBtn('rBtn','⏳ Создаём...',true);
+  const {data,error}=await SB.auth.signUp({email:e,password:p,options:{data:{full_name:n+' '+sn,city:c}}});
+  setBtn('rBtn','Создать аккаунт',false);
+  if(error)return al('a-reg',error.message);
+  if(data.user){
+    await SB.from('profiles').upsert({id:data.user.id,full_name:n+' '+sn,email:e,city:c,created_at:new Date().toISOString()},{onConflict:'id'});
+  }
+  closeM('auth'); toast('🎉 Аккаунт создан! Проверьте email.','s');
+};
+
+window.doGoogle=async()=>{
+  await SB.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.href}});
+};
+
+window.saveProf=async()=>{
+  if(!USER)return;
+  await SB.from('profiles').upsert({id:USER.id,full_name:v('eN'),city:v('eC'),bio:v('eB')},{onConflict:'id'});
+  await SB.auth.updateUser({data:{full_name:v('eN')}});
+  toast('✅ Профиль сохранён','s');
+};
+
+// ── LOAD POSTS FROM SUPABASE ──
+async function loadPosts(sec){
+  const g=sec==='forum'?document.getElementById('forum-inner'):document.getElementById('g-'+sec);
+  g.innerHTML='<div class="loading"><div class="spin"></div>Загрузка...</div>';
+
+  const {data,error}=await SB.from(sec+'_posts').select('*').order('created_at',{ascending:false});
+
+  const samples=getSamples(sec);
+  if(error||!data){
+    // Table may not exist yet — show samples
+    DATA[sec]=samples;
+  } else {
+    DATA[sec]=[...data,...samples];
+  }
+  render(sec);
+}
+
+// ── RENDER ──
+function render(sec){
+  const isF=sec==='forum';
+  const g=isF?document.getElementById('forum-inner'):document.getElementById('g-'+sec);
+  const cat=CAT[sec];
+  const q=(document.getElementById('q-'+sec)?.value||'').toLowerCase();
+
+  let list=DATA[sec].filter(p=>{
+    const catOk=cat==='all'||p.category===cat;
+    const qOk=!q||(p.title||'').toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q)||(p.author_name||'').toLowerCase().includes(q)||(p.city||'').toLowerCase().includes(q);
+    return catOk&&qOk;
+  });
+
+  if(!list.length){
+    g.innerHTML=`<div class="empty" style="${isF?'':'grid-column:1/-1'}"><div class="empty-ic">📭</div><h3>Ничего не найдено</h3><p>Измените фильтры или разместите первое объявление</p></div>`;
+    return;
+  }
+
+  g.innerHTML='';
+  list.forEach((p,i)=>{
+    const el=document.createElement('div');
+    el.style.animationDelay=(i*0.04)+'s';
+    el.onclick=()=>openDetail(p,sec);
+    const liked=likesSet.has(p.id);
+
+    if(isF){
+      el.className='fpost';
+      el.innerHTML=`
+        <div class="card-top" style="margin-bottom:10px">
+          <span class="tag tag-orange">${p.category||'Общее'}</span>
+          <span style="font-size:.76rem;color:var(--text2)">${fmtDate(p.created_at)}</span>
+        </div>
+        <div class="fpost-title">${p.title}</div>
+        <div class="fpost-body">${p.description||''}</div>
+        <div class="fpost-foot">
+          <span>👤 ${p.author_name||'Аноним'}</span>
+          <span>💬 ${p.replies||0} ответов</span>
+          <button class="lbtn ${liked?'liked':''}" onclick="event.stopPropagation();doLike(this,'${p.id}')">❤️ ${p.likes||0}</button>
+        </div>`;
+    } else {
+      const tagCls=sec==='tutors'?'tag-blue':sec==='freelance'?'tag-teal':'tag-green';
+      el.className='card';
+      el.innerHTML=`
+        <div class="card-top">
+          <span class="tag ${tagCls}">${p.category||'Общее'}</span>
+          ${p.price?`<span class="price">${Number(p.price).toLocaleString()}₸${sec==='tutors'?'/час':''}</span>`:''}
+        </div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-desc">${p.description||''}</div>
+        <div class="card-foot">
+          <div class="author"><div class="ava">${(p.author_name||'АН').slice(0,2).toUpperCase()}</div>${p.author_name||'Аноним'} · ${p.city||'КЗ'}</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${p.rating?`<span class="stars">⭐${p.rating}</span>`:''}
+            <button class="lbtn ${liked?'liked':''}" onclick="event.stopPropagation();doLike(this,'${p.id}')">❤️ ${p.likes||0}</button>
+          </div>
+        </div>`;
+    }
+    g.appendChild(el);
+  });
+}
+
+// ── DETAIL MODAL ──
+function openDetail(p,sec){
+  const isF=sec==='forum';
+  const isTutor=sec==='tutors';
+  const isFreel=sec==='freelance';
+  const isVol=sec==='volunteer';
+
+  let extra='';
+  if(isTutor){
+    extra=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0">
+        ${pill('📚 Предмет',p.category||'—')}
+        ${pill('⏱ Опыт',p.experience||'—')}
+        ${pill('📍 Формат',p.format||'—')}
+        ${pill('🏙 Город',p.city||'—')}
+      </div>`;
+  } else if(isFreel){
+    extra=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0">
+        ${pill('🔧 Тип',p.category||'—')}
+        ${pill('📅 Срок',p.deadline||'—')}
+        ${pill('🏙 Город',p.city||'—')}
+        ${p.skills?pill('💡 Навыки',p.skills):''}
+      </div>`;
+  } else if(isVol){
+    extra=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0">
+        ${pill('📅 Дата',p.event_date||'—')}
+        ${pill('📍 Место',p.place||'—')}
+        ${pill('🏙 Город',p.city||'—')}
+        ${p.volunteers_needed?pill('👥 Волонтёров',p.volunteers_needed):''}
+      </div>`;
+  }
+
+  const liked=likesSet.has(p.id);
+  document.getElementById('detail-body').innerHTML=`
+    <button class="mclose" onclick="closeM('detail')">✕</button>
+    <div class="detail-header">
+      <div class="ava-lg">${(p.author_name||'АН').slice(0,2).toUpperCase()}</div>
+      <div class="detail-info">
+        <h3>${p.title}</h3>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap">
+          ${p.price?`<span class="price" style="font-size:1.3rem">${Number(p.price).toLocaleString()}₸${isTutor?'/час':''}</span>`:''}
+          ${p.rating?`<span class="stars" style="font-size:.88rem">⭐ ${p.rating}</span>`:''}
+        </div>
+        <div style="font-size:.82rem;color:var(--text2);margin-top:5px">👤 ${p.author_name||'Аноним'} · ${fmtDate(p.created_at)}</div>
+      </div>
+    </div>
+    ${extra}
+    <div class="detail-section"><label>Описание</label><p>${(p.description||'Описание не указано').replace(/\n/g,'<br>')}</p></div>
+    ${p.contact?`<div class="detail-section"><label>Контакт</label><p>📱 ${p.contact}</p></div>`:''}
+    <div class="detail-actions">
+      ${p.contact?`<a class="btn btn-primary" href="https://wa.me/${p.contact?.replace(/\D/g,'')}" target="_blank">💬 WhatsApp</a>`:''}
+      <button class="btn btn-outline ${liked?'liked':''}" id="dLikeBtn" onclick="doLikeDetail('${p.id}','${sec}')">❤️ <span id="dLikeCount">${p.likes||0}</span></button>
+      <button class="btn btn-outline" onclick="openMsgTo('${p.author_name||'Аноним'}','${p.id}','${p.title}')">✉️ Сообщение</button>
+      <button class="share-btn" onclick="sharePost('${p.id}','${p.title.replace(/'/g,"\\'")}')">📤 Поделиться</button>
+      <button class="btn btn-ghost" onclick="closeM('detail')">Закрыть</button>
+    </div>
+    <!-- COMMENTS -->
+    <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:20px">
+      <div style="font-weight:800;font-size:.95rem;margin-bottom:14px">💬 Комментарии</div>
+      <div id="commentsList"><div class="loading" style="padding:20px"><div class="spin"></div></div></div>
+      <div style="margin-top:14px;display:flex;gap:8px" id="commentForm">
+        <input type="text" id="commentInput" placeholder="Написать комментарий..." style="flex:1;padding:10px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--input-bg);font-family:'Manrope',sans-serif;font-size:.84rem;color:var(--text);outline:none" onkeydown="if(event.key==='Enter')sendComment('${p.id}','${sec}')">
+        <button class="btn btn-primary btn-sm" onclick="sendComment('${p.id}','${sec}')">Отправить</button>
+      </div>
+    </div>`;
+  openM('detail');
+  loadComments(p.id);
+}
+
+function pill(label,val){return `<div style="background:var(--bg);border-radius:10px;padding:12px"><div style="font-size:.72rem;font-weight:800;color:var(--text2);margin-bottom:4px">${label}</div><div style="font-size:.88rem;font-weight:700">${val}</div></div>`;}
+
+window.doLikeDetail=async(id,sec)=>{
+  await toggleLike(id);
+  // reload
+  const idx=DATA[sec].findIndex(p=>p.id===id);
+  if(idx>-1){ DATA[sec][idx].likes=(DATA[sec][idx].likes||0)+(likesSet.has(id)?1:-1); }
+  openDetail(DATA[sec].find(p=>p.id===id),sec);
+};
+
+// ── LIKES ──
+async function loadLikes(){
+  if(!USER)return;
+  const {data}=await SB.from('likes').select('post_id').eq('user_id',USER.id);
+  if(data) data.forEach(r=>likesSet.add(r.post_id));
+}
+
+window.doLike=async(btn,id)=>{
+  if(!USER){openM('auth');return;}
+  await toggleLike(id);
+  const liked=likesSet.has(id);
+  btn.classList.toggle('liked',liked);
+  const cur=parseInt(btn.textContent.replace(/\D/g,''))||0;
+  btn.innerHTML=`❤️ ${liked?cur+1:Math.max(0,cur-1)}`;
+  if(liked) pushNotif('❤️','Вы добавили объявление в избранное');
+  if(CUR==='favorites' && !liked){
+    window._favAll=(window._favAll||[]).filter(p=>p.id!==id);
+    renderFavorites();
+  }
+};
+
+async function toggleLike(id){
+  if(!USER)return;
+  if(likesSet.has(id)){
+    likesSet.delete(id);
+    await SB.from('likes').delete().eq('user_id',USER.id).eq('post_id',id);
+  } else {
+    likesSet.add(id);
+    await SB.from('likes').insert({user_id:USER.id,post_id:id,created_at:new Date().toISOString()});
+  }
+}
+
+// ── POST CREATION (each section has its own) ──
+window.doPost=async(sec)=>{
+  if(!USER)return;
+  let row={};
+  let btnId='';
+
+  if(sec==='tutors'){
+    const title=v('tp-name')+' — '+v('tp-subj');
+    const desc=v('tp-desc');
+    if(!v('tp-name')||!desc)return al('ap-tutors','Заполните имя и описание');
+    row={title,description:desc,category:v('tp-subj'),experience:v('tp-exp'),
+      price:v('tp-price'),format:v('tp-fmt'),city:v('tp-city'),contact:v('tp-contact'),
+      author_id:USER.id,author_name:USER.user_metadata?.full_name||USER.email.split('@')[0],
+      rating:'5.0',likes:0,created_at:new Date().toISOString()};
+    btnId='tp-btn';
+  } else if(sec==='freelance'){
+    const title=v('fp-title'),desc=v('fp-desc');
+    if(!title||!desc)return al('ap-freelance','Заполните заголовок и описание');
+    row={title,description:desc,category:v('fp-type'),price:v('fp-budget'),
+      deadline:v('fp-deadline'),city:v('fp-city'),skills:v('fp-skills'),contact:v('fp-contact'),
+      author_id:USER.id,author_name:USER.user_metadata?.full_name||USER.email.split('@')[0],
+      rating:'5.0',likes:0,created_at:new Date().toISOString()};
+    btnId='fp-btn';
+  } else if(sec==='volunteer'){
+    const title=v('vp-title'),desc=v('vp-desc');
+    if(!title||!desc)return al('ap-volunteer','Заполните название и описание');
+    row={title,description:desc,category:v('vp-type'),event_date:v('vp-date'),
+      place:v('vp-place'),volunteers_needed:v('vp-count'),city:v('vp-city'),contact:v('vp-contact'),
+      author_id:USER.id,author_name:USER.user_metadata?.full_name||USER.email.split('@')[0],
+      likes:0,created_at:new Date().toISOString()};
+    btnId='vp-btn';
+  } else if(sec==='forum'){
+    const title=v('forum-title'),desc=v('forum-body');
+    if(!title||!desc)return al('ap-forum','Заполните заголовок и содержание');
+    row={title,description:desc,category:v('forum-cat'),replies:0,
+      author_id:USER.id,author_name:USER.user_metadata?.full_name||USER.email.split('@')[0],
+      likes:0,created_at:new Date().toISOString()};
+    btnId='forum-btn';
+  }
+
+  setBtn(btnId,'⏳ Публикуем...',true);
+  const {data,error}=await SB.from(sec+'_posts').insert([row]).select();
+  setBtn(btnId,'Опубликовать',false);
+
+  if(error){
+    // Show SQL needed
+    al('ap-'+sec,`Таблица не найдена. Создайте в Supabase SQL Editor:<br><code style="font-size:.76rem;background:rgba(0,0,0,.05);padding:4px 8px;border-radius:6px">create table ${sec}_posts (id uuid default gen_random_uuid() primary key, title text, description text, category text, price numeric, city text, experience text, format text, skills text, deadline text, event_date text, place text, volunteers_needed int, contact text, author_id uuid, author_name text, likes int default 0, rating text, replies int default 0, created_at timestamptz default now());</code>`);
+    return;
+  }
+
+  closeM(sec+'-post');
+  toast('✅ Объявление опубликовано!','s');
+  pushNotif('✅', 'Ваше объявление опубликовано!');
+  await loadPosts(sec);
+};
+
+// ── MY POSTS ──
+async function loadMyPosts(){
+  if(!USER)return;
+  const el=document.getElementById('myPosts');
+  const cnt=document.getElementById('myC');
+  const secs=['tutors','freelance','volunteer','forum'];
+  let all=[];
+  for(const s of secs){
+    const {data}=await SB.from(s+'_posts').select('*').eq('author_id',USER.id).order('created_at',{ascending:false});
+    if(data) all=[...all,...data.map(p=>({...p,_sec:s}))];
+  }
+  cnt.textContent=all.length;
+  const totalLikes = all.reduce((s,p)=>s+(p.likes||0),0);
+  const myLEl = document.getElementById('myL');
+  if(myLEl) myLEl.textContent=totalLikes;
+  const myVEl = document.getElementById('myViews');
+  if(myVEl) myVEl.textContent=all.length*Math.floor(Math.random()*8+3);
+  renderActivityChart(all);
+  renderBadges(all, totalLikes);
+  if(!all.length){ el.innerHTML='<div class="empty"><div class="empty-ic">📝</div><h3>Нет объявлений</h3><p>Разместите первое объявление</p></div>'; return; }
+  el.innerHTML=all.map(p=>`
+    <div style="padding:13px;border:1px solid var(--border);border-radius:12px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <div>
+        <div style="font-weight:700;font-size:.88rem">${p.title}</div>
+        <div style="font-size:.76rem;color:var(--text2);margin-top:3px">${p._sec} · ${fmtDate(p.created_at)} · ❤️${p.likes||0}</div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="delPost('${p.id}','${p._sec}')">Удалить</button>
+    </div>`).join('');
+}
+window.delPost=async(id,sec)=>{
+  if(!confirm('Удалить объявление?'))return;
+  await SB.from(sec+'_posts').delete().eq('id',id);
+  toast('Объявление удалено','i');
+  loadMyPosts(); loadPosts(sec);
+};
+
+// ── NAV ──
+window.go=function(sec){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.nav-icon-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-'+sec).classList.add('active');
+  const nl=document.getElementById('nl-'+sec);
+  if(nl)nl.classList.add('active');
+  CUR=sec;
+  window.scrollTo(0,0);
+  if(['tutors','freelance','volunteer','forum'].includes(sec)) loadPosts(sec);
+  if(sec==='profile'&&USER){ loadMyPosts(); }
+  if(sec==='favorites') loadFavorites();
+  if(sec==='ratings') loadRatings();
+  if(sec==='messages'){ renderConvList(); }
+  if(sec==='map') loadMap();
+};
+
+window.applyFilters=function(sec){ render(sec); };
+window.pickCat=function(el){
+  const sec=el.dataset.sec;
+  document.querySelectorAll(`.chip[data-sec="${sec}"]`).forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  CAT[sec]=el.dataset.cat;
+  render(sec);
+};
+window.needAuth=function(cb){ if(!USER){openM('auth');}else{cb();} };
+window.openPost=function(sec){ openM(sec+'-post'); };
+
+// ── MODALS ──
+window.openM=function(id){
+  document.getElementById('m-'+id).classList.add('open');
+  document.body.style.overflow='hidden';
+};
+window.closeM=function(id){
+  document.getElementById('m-'+id).classList.remove('open');
+  document.body.style.overflow='';
+};
+window.bgClose=function(e,id){ if(e.target===e.currentTarget)closeM(id); };
+window.authTab=function(t){
+  document.getElementById('f-login').style.display=t==='login'?'block':'none';
+  document.getElementById('f-reg').style.display=t==='reg'?'block':'none';
+  document.getElementById('t-login').classList.toggle('on',t==='login');
+  document.getElementById('t-reg').classList.toggle('on',t==='reg');
+};
+
+// ── UTILS ──
+function v(id){return (document.getElementById(id)?.value||'').trim();}
+function setBtn(id,txt,dis){const b=document.getElementById(id);if(b){b.textContent=txt;b.disabled=dis;}}
+function al(id,msg){document.getElementById(id).innerHTML=`<div class="alert alert-e">⚠️ ${msg}</div>`;}
+window.toast=function(msg,t='i'){
+  const el=document.createElement('div');
+  el.className=`toast ${t}`;
+  const ic={s:'✅',e:'❌',i:'ℹ️'};
+  el.innerHTML=ic[t]+' '+msg;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),3800);
+};
+function fmtDate(iso){
+  if(!iso)return'Только что';
+  return new Date(iso).toLocaleDateString('ru',{day:'numeric',month:'short',year:'numeric'});
+}
+window.pwStr=function(v){
+  let s=0;
+  if(v.length>=8)s+=25;if(/[A-Z]/.test(v))s+=25;if(/\d/.test(v))s+=25;if(/[^A-Za-z0-9]/.test(v))s+=25;
+  const b=document.getElementById('pwf');
+  b.style.width=s+'%';
+  b.style.background=s<50?'var(--red)':s<75?'var(--yellow)':'var(--green)';
+};
+
+// ── SAMPLE DATA ──
+function getSamples(sec){
+  const s={
+    tutors:[
+      {id:'t1',title:'Айгерим С. — Математика',category:'Математика',experience:'5–10 лет',price:8000,format:'Оба варианта',city:'Алматы',author_name:'Айгерим Сейткалиева',rating:'4.9',likes:14,contact:'+7 777 111 2233',description:'Опытный репетитор по математике с 7-летним стажем. Подготовка к ЕНТ, ОЗП, помощь школьникам 5–11 классов. Индивидуальный подход, понятные объяснения, результат гарантирован.',created_at:new Date().toISOString()},
+      {id:'t2',title:'Диана М. — Английский язык',category:'Английский',experience:'3–5 лет',price:10000,format:'Онлайн',city:'Астана',author_name:'Диана Мусина',rating:'5.0',likes:9,contact:'@diana_english',description:'Сертифицированный преподаватель IELTS, TOEFL. Разговорный, деловой, академический английский. Занятия онлайн, гибкий график, авторские материалы.',created_at:new Date().toISOString()},
+      {id:'t3',title:'Нурсулу А. — Казахский язык',category:'Казахский',experience:'10+ лет',price:6000,format:'Оба варианта',city:'Онлайн',author_name:'Нурсулу Ахметова',rating:'4.8',likes:23,contact:'+7 747 222 3344',description:'Научу говорить на казахском за 3 месяца. Методика для взрослых, разговорный с нуля, государственный экзамен ЭДС. Более 200 успешных учеников.',created_at:new Date().toISOString()},
+      {id:'t4',title:'Ерлан Б. — Python & JavaScript',category:'Программирование',experience:'3–5 лет',price:15000,format:'Онлайн',city:'Алматы',author_name:'Ерлан Байжанов',rating:'4.7',likes:6,contact:'@erlan_code',description:'Senior-разработчик, 5 лет в IT. Обучаю с нуля до уровня Junior. Python, JavaScript, React. Трудоустройство после курса. Проектная работа в портфолио.',created_at:new Date().toISOString()},
+    ],
+    freelance:[
+      {id:'f1',title:'Разработка сайта для кофейни',category:'Разработка',price:150000,deadline:'2025-07-01',city:'Алматы',skills:'HTML, CSS, JS или WordPress',author_name:'Бекзат Нурланов',rating:'4.9',likes:4,contact:'+7 700 333 4455',description:'Нужен современный сайт для кофейни в Алматы. 5–7 страниц, онлайн-меню, форма бронирования, интеграция с Instagram. Пример дизайна предоставим.',created_at:new Date().toISOString()},
+      {id:'f2',title:'Логотип и фирменный стиль',category:'Дизайн',price:50000,deadline:'2025-06-15',city:'Онлайн',skills:'Figma, Illustrator',author_name:'Зарина Касымова',rating:'4.8',likes:8,contact:'@zarina_design',description:'Нужен логотип, визитки и фирменный бланк для юридической компании. Стиль: профессиональный, лаконичный, тёмно-синяя гамма. Жду портфолио и КП.',created_at:new Date().toISOString()},
+      {id:'f3',title:'SMM менеджер для ресторана',category:'Маркетинг',price:80000,deadline:'2025-06-01',city:'Шымкент',skills:'Instagram, Reels, таргет',author_name:'Жансая Мустафаева',rating:'4.9',likes:17,contact:'+7 778 555 6677',description:'Ищем SMM-специалиста для ведения Instagram ресторана. Контент-план, посты, сторис, Reels, таргетированная реклама. Постоянное сотрудничество от 3 мес.',created_at:new Date().toISOString()},
+      {id:'f4',title:'Перевод договора KZ↔RU',category:'Перевод',price:12000,deadline:'2025-06-10',city:'Онлайн',skills:'Казахский, юридический перевод',author_name:'Аида Тоқаева',rating:'5.0',likes:11,contact:'+7 705 777 8899',description:'Нужен перевод хозяйственного договора (12 стр.) с казахского на русский. Срочно — 3 рабочих дня. Нотариальное заверение не нужно.',created_at:new Date().toISOString()},
+    ],
+    volunteer:[
+      {id:'v1',title:'Уборка парка Медеу',category:'Экология',event_date:'2025-06-15',place:'Вход в парк Медеу',volunteers_needed:40,city:'Алматы',author_name:'EcoKaz',likes:48,contact:'@ecokaz_almaty',description:'Приглашаем волонтёров на экологическую акцию! Собираемся у входа в парк Медеу в 10:00. Мешки и перчатки предоставим, нужно только желание сделать мир чище.',created_at:new Date().toISOString()},
+      {id:'v2',title:'Мастер-классы в детском доме',category:'Дети',event_date:'2025-06-07',place:'Детский дом №3, Есиль',volunteers_needed:10,city:'Астана',author_name:'ДобрыйАстана',likes:92,contact:'+7 701 123 4455',description:'Ищем волонтёров для проведения творческих мастер-классов с детьми. Рисование, лепка, настольные игры. Каждую субботу 11:00–15:00. Нужен только позитив!',created_at:new Date().toISOString()},
+      {id:'v3',title:'Бесплатные уроки английского',category:'Дети',event_date:'2025-06-01',place:'Библиотека им. Пушкина',volunteers_needed:5,city:'Шымкент',author_name:'EnglishFree',likes:34,contact:'@english_free_kz',description:'Опытные преподаватели дают бесплатные уроки английского для детей из малообеспеченных семей 8–14 лет. Уровень A0–A2. Запись открыта до 31 мая.',created_at:new Date().toISOString()},
+    ],
+    forum:[
+      {id:'p1',title:'Как быстро выучить казахский взрослому?',category:'Образование',author_name:'Максат А.',likes:38,replies:14,description:'Начинаю учить казахский язык в 30 лет. Посоветуйте приложения, книги, курсы — что реально работает? Уровень сейчас нулевой, хочу за год дойти до разговорного.',created_at:new Date().toISOString()},
+      {id:'p2',title:'Советы по поиску первой работы в IT в Алматы',category:'Карьера',author_name:'Асель Нурова',likes:29,replies:21,description:'Закончила курсы Python, есть пет-проекты на GitHub. Как лучше выйти на первую работу в Алматы? Какие компании берут джунов без коммерческого опыта?',created_at:new Date().toISOString()},
+      {id:'p3',title:'Стоит ли переезжать из Павлодара в Астану?',category:'Жизнь',author_name:'Болат Сейтов',likes:61,replies:33,description:'Живу в Павлодаре, думаю о переезде в Астану. Высокая ли там аренда? Как найти работу в строительной сфере? Реально ли снять однушку до 150к тенге?',created_at:new Date().toISOString()},
+      {id:'p4',title:'Топ ресурсы для изучения программирования на казахском',category:'Образование',author_name:'Айбек Жаксыбеков',likes:44,replies:18,description:'Собрал список бесплатных ресурсов на казахском и русском. Поделитесь своими находками — YouTube каналы, сайты, книги. Буду обновлять этот список.',created_at:new Date().toISOString()},
+    ]
+  };
+  return s[sec]||[];
+}
+
+// ── CANVAS PARTICLES ──
+function initCanvas(){
+  const cv=document.getElementById('heroCanvas');
+  const ctx=cv.getContext('2d');
+  const hero=cv.parentElement;
+  function resize(){ cv.width=hero.offsetWidth; cv.height=hero.offsetHeight; }
+  resize(); window.addEventListener('resize',resize);
+  const pts=Array.from({length:55},()=>({
+    x:Math.random()*cv.width, y:Math.random()*cv.height,
+    dx:(Math.random()-.5)*.45, dy:(Math.random()-.5)*.45,
+    r:Math.random()*2.5+.8, a:Math.random()*.35+.08,
+    c:Math.random()>.5?'0,113,227':'0,175,202'
+  }));
+  function frame(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{
+      p.x+=p.dx; p.y+=p.dy;
+      if(p.x<0||p.x>cv.width)p.dx*=-1;
+      if(p.y<0||p.y>cv.height)p.dy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.c},${p.a})`; ctx.fill();
+    });
+    pts.forEach((p,i)=>pts.slice(i+1).forEach(q=>{
+      const d=Math.hypot(p.x-q.x,p.y-q.y);
+      if(d<90){ ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+        ctx.strokeStyle=`rgba(0,113,227,${(1-d/90)*.06})`; ctx.stroke(); }
+    }));
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ── COUNTER ANIM ──
+function animNums(){
+  document.querySelectorAll('[data-n]').forEach(el=>{
+    const target=+el.dataset.n; let cur=0;
+    const step=Math.ceil(target/55);
+    const t=setInterval(()=>{
+      cur=Math.min(cur+step,target);
+      el.textContent=cur.toLocaleString()+(target===98?'%':'+');
+      if(cur>=target)clearInterval(t);
+    },28);
+  });
+}
+
+// ── FAVORITES ──
+let FAV_CAT = 'all';
+
+window.pickFavCat = function(el){
+  document.querySelectorAll('.chip[data-sec="favorites"]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  FAV_CAT = el.dataset.cat;
+  renderFavorites();
+};
+
+async function loadFavorites(){
+  const g = document.getElementById('g-favorites');
+  if(!USER){ 
+    g.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ic">🔒</div><h3>Войдите в аккаунт</h3><p>Чтобы видеть избранные объявления</p></div>'; 
+    return; 
+  }
+  g.innerHTML='<div class="loading" style="grid-column:1/-1"><div class="spin"></div>Загрузка...</div>';
+
+  // Reload likes from DB fresh
+  const {data:likesData} = await SB.from('likes').select('post_id').eq('user_id', USER.id);
+  
+  if(!likesData || !likesData.length){
+    g.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ic">❤️</div><h3>Нет избранных</h3><p>Лайкайте объявления — они появятся здесь</p></div>';
+    return;
+  }
+
+  // Refresh likesSet
+  likesSet.clear();
+  const ids = likesData.map(r=>r.post_id);
+  ids.forEach(id => likesSet.add(id));
+
+  // Load matching posts from all sections
+  const secs = ['tutors','freelance','volunteer','forum'];
+  let all = [];
+  for(const s of secs){
+    // Try DB first
+    const {data} = await SB.from(s+'_posts').select('*').in('id', ids);
+    if(data && data.length) all = [...all, ...data.map(p=>({...p, _sec:s}))];
+    
+    // Also check sample data (they have string IDs like t1, f1 etc)
+    const samples = getSamples(s).filter(p => ids.includes(p.id));
+    all = [...all, ...samples.map(p=>({...p, _sec:s}))];
+  }
+
+  // Deduplicate by id
+  const seen = new Set();
+  all = all.filter(p => { if(seen.has(p.id)) return false; seen.add(p.id); return true; });
+
+  if(!all.length){
+    g.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ic">❤️</div><h3>Нет избранных</h3><p>Лайкайте объявления — они появятся здесь</p></div>';
+    return;
+  }
+
+  window._favAll = all;
+  renderFavorites();
+}
+
+function renderFavorites(){
+  const g = document.getElementById('g-favorites');
+  const list = (window._favAll||[]).filter(p => FAV_CAT==='all' || p._sec===FAV_CAT);
+  if(!list.length){
+    g.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ic">📭</div><h3>Ничего не найдено</h3><p>Попробуйте другой фильтр</p></div>';
+    return;
+  }
+  g.innerHTML='';
+  list.forEach((p,i)=>{
+    const el = document.createElement('div');
+    el.className='card';
+    el.style.animationDelay=(i*0.04)+'s';
+    el.onclick=()=>openDetail(p, p._sec);
+    const secLabel = {tutors:'🎓 Репетитор',freelance:'💼 Фриланс',volunteer:'🤝 Волонтёрство',forum:'🗣️ Форум'}[p._sec]||p._sec;
+    const tagCls = p._sec==='tutors'?'tag-blue':p._sec==='freelance'?'tag-teal':p._sec==='volunteer'?'tag-green':'tag-orange';
+    el.innerHTML=`
+      <div class="card-top">
+        <span class="tag ${tagCls}">${secLabel}</span>
+        ${p.price?`<span class="price">${Number(p.price).toLocaleString()}₸</span>`:''}
+      </div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.description||''}</div>
+      <div class="card-foot">
+        <div class="author"><div class="ava">${(p.author_name||'АН').slice(0,2).toUpperCase()}</div>${p.author_name||'Аноним'} · ${p.city||'КЗ'}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${p.rating?`<span class="stars">⭐${p.rating}</span>`:''}
+          <button class="lbtn liked" onclick="event.stopPropagation();doLike(this,'${p.id}')">❤️ ${p.likes||0}</button>
+        </div>
+      </div>`;
+    g.appendChild(el);
+  });
+}
+
+// ── RATINGS ──
+let RAT_CAT = 'all';
+
+window.pickRatCat = function(el){
+  document.querySelectorAll('.chip[data-rcat]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  RAT_CAT = el.dataset.rcat;
+  renderRatings();
+};
+
+async function loadRatings(){
+  const g = document.getElementById('g-ratings');
+  g.innerHTML='<div class="loading" style="grid-column:1/-1"><div class="spin"></div>Загрузка...</div>';
+
+  const secs = ['tutors','freelance','volunteer'];
+  let all = [];
+  for(const s of secs){
+    const {data} = await SB.from(s+'_posts').select('*').order('likes',{ascending:false}).limit(20);
+    const samples = getSamples(s);
+    const dbData = data || [];
+    // Merge: DB first, then samples not already in DB
+    const dbIds = new Set(dbData.map(p=>p.id));
+    const merged = [...dbData, ...samples.filter(p=>!dbIds.has(p.id))];
+    all = [...all, ...merged.map(p=>({...p, _sec:s}))];
+  }
+
+  // Sort by likes desc
+  all.sort((a,b)=>(b.likes||0)-(a.likes||0));
+  window._ratAll = all;
+  renderRatings();
+}
+
+function renderRatings(){
+  const g = document.getElementById('g-ratings');
+  const list = (window._ratAll||[]).filter(p => RAT_CAT==='all' || p._sec===RAT_CAT);
+  if(!list.length){
+    g.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ic">📭</div><h3>Нет данных</h3><p>Пока нет объявлений с лайками</p></div>';
+    return;
+  }
+  g.innerHTML='';
+  list.forEach((p,i)=>{
+    const el = document.createElement('div');
+    el.className='card';
+    el.style.animationDelay=(i*0.04)+'s';
+    el.onclick=()=>openDetail(p, p._sec);
+    const secLabel = {tutors:'🎓 Репетитор',freelance:'💼 Фриланс',volunteer:'🤝 Волонтёрство'}[p._sec]||p._sec;
+    const tagCls = p._sec==='tutors'?'tag-blue':p._sec==='freelance'?'tag-teal':'tag-green';
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    const liked = likesSet.has(p.id);
+    el.innerHTML=`
+      <div class="card-top">
+        <span class="tag ${tagCls}">${secLabel}</span>
+        <span style="font-size:1.1rem">${medal}</span>
+      </div>
+      ${i<3?`<div style="font-size:.72rem;font-weight:800;color:var(--text2);margin-bottom:6px">МЕСТО #${i+1}</div>`:''}
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.description||''}</div>
+      <div class="card-foot">
+        <div class="author"><div class="ava">${(p.author_name||'АН').slice(0,2).toUpperCase()}</div>${p.author_name||'Аноним'} · ${p.city||'КЗ'}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${p.rating?`<span class="stars">⭐${p.rating}</span>`:''}
+          <button class="lbtn ${liked?'liked':''}" onclick="event.stopPropagation();doLike(this,'${p.id}')">❤️ ${p.likes||0}</button>
+        </div>
+      </div>`;
+    g.appendChild(el);
+  });
+}
+
+// ══════════════════════════════════════════
+// 🌙 DARK MODE
+// ══════════════════════════════════════════
+window.toggleDark = function(){
+  document.body.classList.toggle('dark');
+  localStorage.setItem('dark', document.body.classList.contains('dark') ? '1' : '0');
+};
+if(localStorage.getItem('dark')==='1') document.body.classList.add('dark');
+
+// ══════════════════════════════════════════
+// 🔔 NOTIFICATIONS
+// ══════════════════════════════════════════
+let NOTIFS = [];
+
+window.toggleNotif = function(){
+  document.getElementById('notifDropdown').classList.toggle('open');
+};
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#notifBtn') && !e.target.closest('#notifDropdown'))
+    document.getElementById('notifDropdown')?.classList.remove('open');
+  if(!e.target.closest('#gsearchWrap'))
+    document.getElementById('gsearchResults')?.classList.remove('open');
+});
+
+function pushNotif(icon, text){
+  NOTIFS.unshift({icon, text, read:false, time:new Date()});
+  renderNotifs();
+}
+
+function renderNotifs(){
+  const unread = NOTIFS.filter(n=>!n.read).length;
+  const badge = document.getElementById('notifBadge');
+  badge.style.display = unread ? 'flex' : 'none';
+  badge.textContent = unread;
+  const list = document.getElementById('notifList');
+  if(!NOTIFS.length){ list.innerHTML='<div style="padding:20px;text-align:center;color:var(--text2);font-size:.84rem">Нет уведомлений</div>'; return; }
+  list.innerHTML = NOTIFS.slice(0,10).map((n,i)=>`
+    <div class="notif-item ${n.read?'':'unread'}" onclick="readNotif(${i})">
+      ${!n.read?'<div class="notif-dot"></div>':'<div style="width:8px"></div>'}
+      <div><div style="font-weight:600">${n.icon} ${n.text}</div><div style="font-size:.72rem;color:var(--text2);margin-top:2px">${fmtDate(n.time)}</div></div>
+    </div>`).join('');
+}
+
+window.readNotif = function(i){ NOTIFS[i].read=true; renderNotifs(); };
+window.markAllRead = function(){ NOTIFS.forEach(n=>n.read=true); renderNotifs(); };
+
+// ══════════════════════════════════════════
+// 🔍 GLOBAL SEARCH
+// ══════════════════════════════════════════
+let gSearchTimer;
+window.doGlobalSearch = function(q){
+  clearTimeout(gSearchTimer);
+  const res = document.getElementById('gsearchResults');
+  if(!q.trim()){ res.classList.remove('open'); return; }
+  gSearchTimer = setTimeout(()=>{
+    const ql = q.toLowerCase();
+    let results = [];
+    ['tutors','freelance','volunteer','forum'].forEach(sec=>{
+      const secLabel={tutors:'🎓',freelance:'💼',volunteer:'🤝',forum:'🗣️'}[sec];
+      DATA[sec].filter(p=>
+        (p.title||'').toLowerCase().includes(ql)||
+        (p.description||'').toLowerCase().includes(ql)||
+        (p.author_name||'').toLowerCase().includes(ql)
+      ).slice(0,3).forEach(p=> results.push({...p,_sec:sec,_label:secLabel}));
+    });
+    if(!results.length){
+      res.innerHTML='<div class="gsearch-empty">Ничего не найдено по «'+q+'»</div>';
+    } else {
+      res.innerHTML = results.map(p=>`
+        <div class="gsearch-item" onclick="gsearchOpen('${p.id}','${p._sec}')">
+          <div class="gsearch-item-title">${p._label} ${p.title}</div>
+          <div class="gsearch-item-meta">${p.author_name||'Аноним'} · ${p.city||'КЗ'}</div>
+        </div>`).join('');
+    }
+    res.classList.add('open');
+  }, 250);
+};
+window.showGSearch = function(){
+  if(document.getElementById('gsearchInput').value.trim())
+    document.getElementById('gsearchResults').classList.add('open');
+};
+window.gsearchOpen = function(id, sec){
+  document.getElementById('gsearchResults').classList.remove('open');
+  document.getElementById('gsearchInput').value='';
+  if(!DATA[sec].length){ loadPosts(sec).then(()=>{ const p=DATA[sec].find(x=>x.id===id); if(p) openDetail(p,sec); }); return; }
+  const p = DATA[sec].find(x=>x.id===id);
+  if(p) openDetail(p,sec);
+};
+
+// ══════════════════════════════════════════
+// 📤 SHARE
+// ══════════════════════════════════════════
+window.sharePost = function(id, title){
+  const url = location.href.split('?')[0] + '?post=' + id;
+  if(navigator.share){ navigator.share({title, url}); }
+  else { navigator.clipboard.writeText(url).then(()=>toast('🔗 Ссылка скопирована!','s')); }
+};
+
+// ══════════════════════════════════════════
+// 💬 COMMENTS
+// ══════════════════════════════════════════
+async function loadComments(postId){
+  const el = document.getElementById('commentsList');
+  if(!el) return;
+  const {data} = await SB.from('comments').select('*').eq('post_id', postId).order('created_at',{ascending:true});
+  if(!data || !data.length){
+    el.innerHTML='<div style="color:var(--text2);font-size:.84rem;padding:8px 0">Комментариев пока нет — будьте первым!</div>';
+    return;
+  }
+  el.innerHTML = data.map(c=>`
+    <div class="comment">
+      <div class="comment-head">
+        <div class="ava" style="width:28px;height:28px;font-size:.7rem">${(c.author_name||'АН').slice(0,2).toUpperCase()}</div>
+        <span class="comment-name">${c.author_name||'Аноним'}</span>
+        <span class="comment-date">${fmtDate(c.created_at)}</span>
+      </div>
+      <div class="comment-body">${c.body||''}</div>
+    </div>`).join('');
+}
+
+window.sendComment = async function(postId, sec){
+  if(!USER){ openM('auth'); return; }
+  const inp = document.getElementById('commentInput');
+  const body = inp?.value?.trim();
+  if(!body) return;
+  inp.value='';
+  const {error} = await SB.from('comments').insert([{
+    post_id: postId, body,
+    author_id: USER.id,
+    author_name: USER.user_metadata?.full_name || USER.email.split('@')[0],
+    created_at: new Date().toISOString()
+  }]);
+  if(error){ toast('Создайте таблицу comments в Supabase','e'); return; }
+  toast('Комментарий добавлен ✅','s');
+  loadComments(postId);
+  // notify post author
+  pushNotif('💬', `Новый комментарий к вашему объявлению`);
+};
+
+// ══════════════════════════════════════════
+// ✉️ MESSAGES
+// ══════════════════════════════════════════
+let CONVS = {}; // {recipientId: {name, messages:[]}}
+let ACTIVE_CONV = null;
+
+window.openMsgTo = function(name, postId, postTitle){
+  if(!USER){ openM('auth'); return; }
+  closeM('detail');
+  const convId = 'conv_'+postId;
+  if(!CONVS[convId]) CONVS[convId] = {name, postTitle, messages:[]};
+  go('messages');
+  setTimeout(()=>openConv(convId), 100);
+};
+
+function openConv(convId){
+  ACTIVE_CONV = convId;
+  const conv = CONVS[convId];
+  document.querySelectorAll('.msg-conv').forEach(c=>c.classList.remove('active'));
+  document.getElementById('conv_'+convId)?.classList.add('active');
+  const main = document.getElementById('msgMain');
+  main.innerHTML=`
+    <div class="msg-header">
+      <div class="ava" style="width:32px;height:32px">${(conv.name||'АН').slice(0,2).toUpperCase()}</div>
+      <div><div>${conv.name}</div><div style="font-size:.72rem;color:var(--text2)">${conv.postTitle||''}</div></div>
+    </div>
+    <div class="msg-body" id="msgBody">
+      ${conv.messages.length ? conv.messages.map(m=>`
+        <div>
+          <div class="msg-bubble ${m.me?'me':'them'}">${m.text}</div>
+          <div class="msg-bubble-time" style="text-align:${m.me?'right':'left'}">${m.time}</div>
+        </div>`).join('') : '<div style="color:var(--text2);font-size:.84rem;text-align:center;margin-top:40px">Начните диалог 👋</div>'}
+    </div>
+    <div class="msg-input-row">
+      <input class="msg-input" id="msgInp" placeholder="Написать сообщение..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="btn btn-primary btn-sm" onclick="sendMsg()">➤</button>
+    </div>`;
+  setTimeout(()=>{ const b=document.getElementById('msgBody'); if(b) b.scrollTop=b.scrollHeight; },50);
+}
+
+window.sendMsg = function(){
+  if(!ACTIVE_CONV) return;
+  const inp = document.getElementById('msgInp');
+  const text = inp?.value?.trim();
+  if(!text) return;
+  inp.value='';
+  const now = new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'});
+  CONVS[ACTIVE_CONV].messages.push({text, me:true, time:now});
+  openConv(ACTIVE_CONV);
+  renderConvList();
+  // Simulate reply after 1.5s
+  setTimeout(()=>{
+    CONVS[ACTIVE_CONV].messages.push({text:'Спасибо за сообщение! Скоро отвечу 👍', me:false, time:new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})});
+    if(ACTIVE_CONV) openConv(ACTIVE_CONV);
+    pushNotif('✉️', 'Новое сообщение от '+CONVS[ACTIVE_CONV]?.name);
+    renderConvList();
+  }, 1500);
+};
+
+function renderConvList(){
+  const el = document.getElementById('convList');
+  const keys = Object.keys(CONVS);
+  if(!keys.length){ el.innerHTML='<div style="padding:20px;color:var(--text2);font-size:.84rem;text-align:center">Начните разговор из карточки объявления</div>'; return; }
+  el.innerHTML = keys.map(k=>{
+    const c=CONVS[k];
+    const last=c.messages[c.messages.length-1];
+    return `<div class="msg-conv ${ACTIVE_CONV===k?'active':''}" id="conv_${k}" onclick="openConv('${k}')">
+      <div class="ava" style="width:36px;height:36px;flex-shrink:0">${c.name.slice(0,2).toUpperCase()}</div>
+      <div style="min-width:0">
+        <div class="msg-conv-name">${c.name}</div>
+        <div class="msg-conv-preview">${last?last.text:'Нет сообщений'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// 🗺️ MAP — Google Maps
+// ══════════════════════════════════════════
+const CITY_COORDS = {
+  'Алматы':{lat:43.238,lng:76.945},'Астана':{lat:51.180,lng:71.446},
+  'Шымкент':{lat:42.317,lng:69.596},'Карагандa':{lat:49.807,lng:73.088},
+  'Актобе':{lat:50.279,lng:57.207},'Онлайн':{lat:48.0,lng:68.0},
+  'Тараз':{lat:42.900,lng:71.364},'Павлодар':{lat:52.287,lng:76.966}
+};
+let MAP_SEC = 'all';
+let googleMap = null;
+let mapMarkers = [];
+
+window.pickMapSec = function(el){
+  document.querySelectorAll('.chip[data-msec]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  MAP_SEC = el.dataset.msec;
+  renderMap();
+};
+
+async function loadMap(){
+  const secs = ['tutors','freelance','volunteer'];
+  for(const s of secs){
+    if(!DATA[s].length) await loadPosts(s);
+  }
+  initGoogleMap();
+}
+
+function initGoogleMap(){
+  // Hide loading overlay once map renders
+  const loadingEl = document.getElementById('gmapLoading');
+  
+  // Use iframe embed with Kazakhstan centered — works without API key
+  const mapEl = document.getElementById('gmap');
+  mapEl.innerHTML = `<iframe
+    src="https://maps.google.com/maps?q=Kazakhstan&z=5&output=embed&hl=ru"
+    width="100%" height="100%" style="border:0;display:block" allowfullscreen loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade" id="gmapFrame"
+    onload="document.getElementById('gmapLoading').style.display='none'"></iframe>`;
+  
+  // Fallback: hide loader after 3s
+  setTimeout(()=>{ if(loadingEl) loadingEl.style.display='none'; }, 3000);
+  renderMap();
+}
+
+function renderMap(){
+  const gridEl = document.getElementById('g-map');
+  let all = [];
+  ['tutors','freelance','volunteer'].forEach(s=>{
+    if(MAP_SEC==='all'||MAP_SEC===s) all=[...all,...DATA[s].map(p=>({...p,_sec:s}))];
+  });
+
+  // Store refs
+  window.DATA_MAP = {};
+  all.forEach(p=>window.DATA_MAP[p.id]=p);
+
+  // Card grid below map
+  if(!all.length){ gridEl.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-ic">📭</div><h3>Нет объявлений</h3></div>'; return; }
+  gridEl.innerHTML='';
+  all.slice(0,12).forEach((p,i)=>{
+    const el=document.createElement('div');
+    el.className='card'; el.style.animationDelay=(i*0.04)+'s';
+    el.onclick=()=>openDetail(p,p._sec);
+    const tagCls=p._sec==='tutors'?'tag-blue':p._sec==='freelance'?'tag-teal':'tag-green';
+    el.innerHTML=`
+      <div class="card-top"><span class="tag ${tagCls}">${p.category||'Общее'}</span>${p.price?`<span class="price">${Number(p.price).toLocaleString()}₸</span>`:''}</div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.description||''}</div>
+      <div class="card-foot"><div class="author"><div class="ava">${(p.author_name||'АН').slice(0,2).toUpperCase()}</div>${p.author_name||'Аноним'} · 📍${p.city||'КЗ'}</div></div>`;
+    gridEl.appendChild(el);
+  });
+}
+
+// ══════════════════════════════════════════
+// 📊 STATS CHART + 🏆 BADGES
+// ══════════════════════════════════════════
+function renderActivityChart(posts){
+  const el = document.getElementById('actChart');
+  if(!el) return;
+  const days = [];
+  for(let i=6;i>=0;i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const label = d.toLocaleDateString('ru',{weekday:'short'});
+    const count = posts.filter(p=>{
+      const pd = new Date(p.created_at);
+      return pd.toDateString()===d.toDateString();
+    }).length;
+    days.push({label, count});
+  }
+  const max = Math.max(...days.map(d=>d.count), 1);
+  el.innerHTML = days.map(d=>`
+    <div class="bar-col">
+      <div class="bar-val">${d.count||''}</div>
+      <div class="bar" style="height:${Math.max(4,(d.count/max)*100)}px"></div>
+      <div class="bar-label">${d.label}</div>
+    </div>`).join('');
+}
+
+function renderBadges(posts, totalLikes){
+  const el = document.getElementById('badgeGrid');
+  if(!el) return;
+  const badges = [];
+  if(posts.length>=1) badges.push({cls:'badge-blue', icon:'📝', label:'Первое объявление'});
+  if(posts.length>=5) badges.push({cls:'badge-blue', icon:'🚀', label:'Активный участник'});
+  if(posts.length>=10) badges.push({cls:'badge-gold', icon:'⭐', label:'Эксперт платформы'});
+  if(totalLikes>=10) badges.push({cls:'badge-green', icon:'❤️', label:'Популярный автор'});
+  if(totalLikes>=50) badges.push({cls:'badge-gold', icon:'🏆', label:'Топ-автор'});
+  const hasTutor = posts.some(p=>p._sec==='tutors');
+  const hasVol = posts.some(p=>p._sec==='volunteer');
+  const hasFreel = posts.some(p=>p._sec==='freelance');
+  if(hasTutor) badges.push({cls:'badge-blue',icon:'🎓',label:'Репетитор'});
+  if(hasVol) badges.push({cls:'badge-green',icon:'🤝',label:'Волонтёр'});
+  if(hasFreel) badges.push({cls:'badge-blue',icon:'💼',label:'Фрилансер'});
+  if(!badges.length){ el.innerHTML='<div class="badge badge-gray">🔒 Размещайте объявления чтобы получить бейджи</div>'; return; }
+  el.innerHTML = badges.map(b=>`<div class="badge ${b.cls}">${b.icon} ${b.label}</div>`).join('');
+}
+
+init();
+</script>
+</body>
+</html>

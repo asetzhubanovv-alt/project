@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QazLife API Test</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { text-align: center; color: #1a1a2e; margin-bottom: 30px; }
+    .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h2 { color: #16213e; margin-bottom: 15px; font-size: 1.2rem; border-bottom: 2px solid #e94560; padding-bottom: 8px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; }
+    input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+    input:focus, textarea:focus { border-color: #e94560; outline: none; }
+    button { background: #e94560; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: background 0.3s; }
+    button:hover { background: #c73e54; }
+    button.secondary { background: #16213e; }
+    button.secondary:hover { background: #0f0f1a; }
+    .result { margin-top: 15px; padding: 10px; border-radius: 6px; background: #f8f9fa; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; }
+    .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+    .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+    .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+    .token-display { word-break: break-all; font-size: 11px; }
+    .post-item { padding: 10px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; background: #f9f9f9; }
+    .post-title { font-weight: bold; color: #16213e; }
+    .post-meta { font-size: 12px; color: #666; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 QazLife API Test</h1>
+    
+    <!-- Auth Status -->
+    <div class="card">
+      <h2>🔐 Статус авторизации</h2>
+      <div id="auth-status" class="result info">Не авторизован</div>
+      <div style="margin-top: 10px;">
+        <button onclick="checkAuth()">Проверить авторизацию</button>
+        <button class="secondary" onclick="logout()">Выйти</button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Register -->
+      <div class="card">
+        <h2>📝 Регистрация</h2>
+        <form id="register-form">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="reg-username" placeholder="min 3 символа" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="reg-email" placeholder="email@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="reg-password" placeholder="мин. 8 символов + A-Z + a-z + 0-9" required>
+          </div>
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+        <div id="register-result" class="result" style="display:none;"></div>
+      </div>
+
+      <!-- Login -->
+      <div class="card">
+        <h2>🔑 Вход</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label>Email или Username</label>
+            <input type="text" id="login-login" placeholder="admin@qazlife.kz" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="login-password" placeholder="Admin1234!" required>
+          </div>
+          <button type="submit">Войти</button>
+        </form>
+        <div id="login-result" class="result" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- Create Post -->
+    <div class="card">
+      <h2>✏️ Создать пост</h2>
+      <form id="post-form">
+        <div class="form-group">
+          <label>Заголовок</label>
+          <input type="text" id="post-title" placeholder="Название поста (мин. 3 символа)" required>
+        </div>
+        <div class="form-group">
+          <label>Описание</label>
+          <textarea id="post-description" rows="3" placeholder="Описание (мин. 10 символов)" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Статус</label>
+          <select id="post-status">
+            <option value="draft">Черновик</option>
+            <option value="published">Опубликован</option>
+            <option value="archived">В архиве</option>
+          </select>
+        </div>
+        <button type="submit">Создать пост</button>
+      </form>
+      <div id="post-result" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- Posts List -->
+    <div class="card">
+      <h2>📋 Список постов</h2>
+      <div style="margin-bottom: 15px;">
+        <button onclick="loadPosts()">Загрузить все</button>
+        <button class="secondary" onclick="loadPosts('published')">Опубликованные</button>
+        <button class="secondary" onclick="loadMyPosts()">Мои посты</button>
+      </div>
+      <div class="form-group">
+        <input type="text" id="search-input" placeholder="🔍 Поиск по заголовку..." onkeyup="if(event.key==='Enter') searchPosts()">
+      </div>
+      <div id="posts-list" class="result">Нажмите "Загрузить все" чтобы увидеть посты</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="card">
+      <h2>📊 Статистика</h2>
+      <button onclick="loadStats()">Загрузить статистику</button>
+      <div id="stats-result" class="result" style="display:none; margin-top: 10px;"></div>
+    </div>
+
+    <!-- Logs -->
+    <div class="card">
+      <h2>📜 Логи активности</h2>
+      <button onclick="loadLogs()">Загрузить логи</button>
+      <div id="logs-result" class="result" style="display:none; margin-top: 10px;"></div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    // Update auth status on load
+    updateAuthStatus();
+
+    function updateAuthStatus() {
+      const status = document.getElementById('auth-status');
+      const token = localStorage.getItem('token');
+      if (token) {
+        status.textContent = '✅ Авторизован (токен в localStorage)';
+        status.className = 'result success';
+      } else {
+        status.textContent = '❌ Не авторизован';
+        status.className = 'result info';
+      }
+    }
+
+    function showResult(elementId, data, isError = false) {
+      const el = document.getElementById(elementId);
+      el.style.display = 'block';
+      el.className = 'result ' + (isError ? 'error' : 'success');
+      el.textContent = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+    }
+
+    // Register form
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const result = await registerUser(
+          document.getElementById('reg-username').value,
+          document.getElementById('reg-email').value,
+          document.getElementById('reg-password').value
+        );
+        showResult('register-result', result);
+        updateAuthStatus();
+      } catch (err) {
+        showResult('register-result', err.message, true);
+      }
+    });
+
+    // Login form
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const result = await loginUser(
+          document.getElementById('login-login').value,
+          document.getElementById('login-password').value
+        );
+        showResult('login-result', result);
+        updateAuthStatus();
+      } catch (err) {
+        showResult('login-result', err.message, true);
+      }
+    });
+
+    // Post form
+    document.getElementById('post-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const result = await createPost({
+          title: document.getElementById('post-title').value,
+          description: document.getElementById('post-description').value,
+          status: document.getElementById('post-status').value
+        });
+        showResult('post-result', result);
+        loadPosts();
+      } catch (err) {
+        showResult('post-result', err.message, true);
+      }
+    });
+
+    // Load posts
+    async function loadPosts(status = null) {
+      try {
+        const filters = status ? { status } : {};
+        const result = await getPosts(filters);
+        const list = document.getElementById('posts-list');
+        if (result.posts && result.posts.length) {
+          list.innerHTML = result.posts.map(p => `
+            <div class="post-item">
+              <div class="post-title">${p.title}</div>
+              <div class="post-meta">ID: ${p.id} | Статус: ${p.status} | Автор: ${p.author_username || 'N/A'}</div>
+              <div style="margin-top:8px;font-size:12px;">${p.description.substring(0, 100)}...</div>
+              <button onclick="deletePostById(${p.id})" style="margin-top:8px;font-size:12px;padding:4px 8px;background:#dc3545;">Удалить</button>
+            </div>
+          `).join('');
+        } else {
+          list.textContent = 'Нет постов';
+        }
+      } catch (err) {
+        document.getElementById('posts-list').textContent = 'Ошибка: ' + err.message;
+      }
+    }
+
+    // Search posts
+    async function searchPosts() {
+      const query = document.getElementById('search-input').value;
+      if (!query) return;
+      try {
+        const result = await getPosts({ search: query });
+        const list = document.getElementById('posts-list');
+        if (result.posts && result.posts.length) {
+          list.innerHTML = `<div style="margin-bottom:10px;">Найдено: ${result.pagination.total}</div>` + 
+            result.posts.map(p => `
+            <div class="post-item">
+              <div class="post-title">${p.title}</div>
+              <div class="post-meta">ID: ${p.id} | Статус: ${p.status}</div>
+            </div>
+          `).join('');
+        } else {
+          list.textContent = 'Ничего не найдено';
+        }
+      } catch (err) {
+        document.getElementById('posts-list').textContent = 'Ошибка: ' + err.message;
+      }
+    }
+
+    // Load my posts
+    async function loadMyPosts() {
+      try {
+        const result = await getMyPosts();
+        const list = document.getElementById('posts-list');
+        if (result.posts && result.posts.length) {
+          list.innerHTML = '<div style="margin-bottom:10px;"><strong>Мои посты:</strong></div>' + 
+            result.posts.map(p => `
+            <div class="post-item">
+              <div class="post-title">${p.title}</div>
+              <div class="post-meta">ID: ${p.id} | Статус: ${p.status}</div>
+            </div>
+          `).join('');
+        } else {
+          list.textContent = 'У вас нет постов';
+        }
+      } catch (err) {
+        document.getElementById('posts-list').textContent = 'Ошибка: ' + err.message;
+      }
+    }
+
+    // Delete post
+    async function deletePostById(id) {
+      if (!confirm('Удалить пост?')) return;
+      try {
+        await deletePost(id);
+        loadPosts();
+      } catch (err) {
+        alert('Ошибка: ' + err.message);
+      }
+    }
+
+    // Load stats
+    async function loadStats() {
+      try {
+        const result = await getStats();
+        showResult('stats-result', result);
+      } catch (err) {
+        showResult('stats-result', err.message, true);
+      }
+    }
+
+    // Load logs
+    async function loadLogs() {
+      try {
+        const result = await getLogs();
+        showResult('logs-result', result);
+      } catch (err) {
+        showResult('logs-result', err.message, true);
+      }
+    }
+
+    // Check auth
+    async function checkAuth() {
+      try {
+        const result = await getCurrentUser();
+        alert('Авторизован как: ' + result.user.username);
+      } catch (err) {
+        alert('Не авторизован: ' + err.message);
+      }
+    }
+
+    // Logout
+    function logout() {
+      logoutUser();
+      updateAuthStatus();
+      alert('Вы вышли из системы');
+    }
+  </script>
+</body>
+</html>

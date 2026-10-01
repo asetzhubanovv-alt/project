@@ -349,14 +349,15 @@ h2 {
 
 .color-palette {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .palette-swatch {
   border: 2px solid transparent;
-  border-radius: 12px;
-  height: 42px;
+  border-radius: 10px;
+  height: 38px;
+  min-width: 0;
   cursor: pointer;
   transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }

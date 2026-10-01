@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Команда резюме</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <span class="brand-mark">CV</span>
+          <div>
+            <p class="eyebrow">Команда</p>
+            <h1>Резюме участников</h1>
+          </div>
+        </div>
+      </header>
+
+      <main class="resume-app">
+        <nav class="main-tabs" aria-label="Основные вкладки">
+          <button class="main-tab active" type="button" data-main="participants">Участники</button>
+          <button class="main-tab" type="button" data-main="task3">3-тапсырма</button>
+          <button class="main-tab" type="button" data-main="task4">4-тапсырма</button>
+        </nav>
+
+        <section class="main-panel active" id="participants" aria-label="Резюме участников">
+          <nav class="tabs" aria-label="Резюме участников">
+            <button class="tab active" type="button" data-tab="zakariya">Закария</button>
+            <button class="tab" type="button" data-tab="arsen">Арсен</button>
+            <button class="tab" type="button" data-tab="danial">Даниал</button>
+            <button class="tab" type="button" data-tab="aset">Асет</button>
+          </nav>
+
+          <section class="tab-panel active" id="zakariya" aria-label="Резюме Закарии">
+            <div class="profile-header">
+              <div class="avatar avatar-pink">З</div>
+              <div>
+                <p class="role">Frontend Developer</p>
+                <h2>Закария Акылбек</h2>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <article class="card">
+                <h3>О себе</h3>
+                <p>Активно развиваюсь в веб-разработке, люблю создавать удобные интерфейсы и работать над современными решениями для пользователей.</p>
+              </article>
+              <article class="card">
+                <h3>Опыт</h3>
+                <p>Работаю с HTML, CSS, JavaScript, изучаю современные инструменты разработки и практикую создание адаптивных интерфейсов.</p>
+              </article>
+            </div>
+
+            <div class="details-grid">
+              <article class="card">
+                <h3>Навыки</h3>
+                <ul>
+                  <li>HTML / CSS / JavaScript</li>
+                  <li>Адаптивный дизайн</li>
+                  <li>Работа с Git</li>
+                  <li>Основы UI/UX</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>Контакты</h3>
+                <ul>
+                  <li>Email: zakariya@email.com</li>
+                  <li>Telegram: @zakariya_dev</li>
+                  <li>GitHub: github.com/zakariya</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="tab-panel" id="arsen" aria-label="Резюме Арсена">
+            <div class="profile-header">
+              <div class="avatar avatar-blue">А</div>
+              <div>
+                <p class="role">Mobile Developer</p>
+                <h2>Джумагельдин Арсен</h2>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <article class="card">
+                <h3>О себе</h3>
+                <p>Занимаюсь разработкой мобильных приложений и интерфейсов, заинтересован в понятной логике работы продукта и качественном пользовательском опыте.</p>
+              </article>
+              <article class="card">
+                <h3>Опыт</h3>
+                <p>Постоянно совершенствую навыки в программировании, работаю над проектами, где важно сочетание эффективности, стабильности и удобства.</p>
+              </article>
+            </div>
+
+            <div class="details-grid">
+              <article class="card">
+                <h3>Навыки</h3>
+                <ul>
+                  <li>JavaScript / TypeScript</li>
+                  <li>React / Native</li>
+                  <li>UI-компоненты</li>
+                  <li>Работа над API</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>Контакты</h3>
+                <ul>
+                  <li>Email: arsen@email.com</li>
+                  <li>Telegram: @arsen_dev</li>
+                  <li>GitHub: github.com/arsen</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="tab-panel" id="danial" aria-label="Резюме Даниала">
+            <div class="profile-header">
+              <div class="avatar avatar-orange">Д</div>
+              <div>
+                <p class="role">QA Engineer</p>
+                <h2>Даниал</h2>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <article class="card">
+                <h3>О себе</h3>
+                <p>Специализируюсь на проверке качества цифровых продуктов и обеспечении стабильной работы интерфейсов и функциональности.</p>
+              </article>
+              <article class="card">
+                <h3>Опыт</h3>
+                <p>Работаю с тестированием сценариев, анализом ошибок и поиском причин несоответствий до релиза продукта.</p>
+              </article>
+            </div>
+
+            <div class="details-grid">
+              <article class="card">
+                <h3>Навыки</h3>
+                <ul>
+                  <li>Тест-кейсы</li>
+                  <li>Bug tracking</li>
+                  <li>Проверка UX</li>
+                  <li>QA процессов</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>Контакты</h3>
+                <ul>
+                  <li>Email: danial@email.com</li>
+                  <li>Telegram: @danial_qa</li>
+                  <li>GitHub: github.com/danial</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="tab-panel" id="aset" aria-label="Резюме Асета">
+            <div class="profile-header">
+              <div class="avatar avatar-purple">Ж</div>
+              <div>
+                <p class="role">Designer</p>
+                <h2>Жубанов Асет</h2>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <article class="card">
+                <h3>О себе</h3>
+                <p>Создаю визуально привлекательные и функциональные интерфейсы, уделяя внимание удобству и сильному визуальному стилю продукта.</p>
+              </article>
+              <article class="card">
+                <h3>Опыт</h3>
+                <p>Понимаю ценность эстетики и практичности в дизайне, работаю над проектами, где важно соединить бизнес-цели и пользовательский комфорт.</p>
+              </article>
+            </div>
+
+            <div class="details-grid">
+              <article class="card">
+                <h3>Навыки</h3>
+                <ul>
+                  <li>Figma</li>
+                  <li>UI/UX Design</li>
+                  <li>Branding</li>
+                  <li>Wireframing</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>Контакты</h3>
+                <ul>
+                  <li>Email: aset@email.com</li>
+                  <li>Telegram: @aset_design</li>
+                  <li>Behance: behance.net/aset</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <section class="main-panel" id="task3" aria-label="3-тапсырма">
+          <div class="task-header">
+            <h2>3-тапсырма</h2>
+            <p>Кестені пайдаланушы енгізетін жолдар мен бағандар бойынша құрыңыз, ұяшықтарға түс беріп, бір түсті ұяшықтар санын есептеңіз.</p>
+          </div>
+
+          <div class="task-controls">
+            <label>
+              Жолдар
+              <input id="rowsInput" type="number" min="1" max="12" value="4" />
+            </label>
+            <label>
+              Бағандар
+              <input id="colsInput" type="number" min="1" max="12" value="5" />
+            </label>
+            <label>
+              Түс
+              <select id="colorSelect">
+                <option value="red">Қызыл</option>
+                <option value="yellow">Сары</option>
+                <option value="green">Жасыл</option>
+                <option value="blue" selected>Көк</option>
+              </select>
+            </label>
+            <button id="buildTableBtn" type="button">Кестені құру</button>
+          </div>
+
+          <div class="task3-wrapper">
+            <div id="tableWrapper" class="table-wrapper"></div>
+            <div class="count-box">
+              <span>Таңдалған түстегі ұяшықтар саны:</span>
+              <strong id="countOutput">0</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="main-panel" id="task4" aria-label="4-тапсырма">
+          <div class="task-header">
+            <h2>4-тапсырма</h2>
+            <p>Қараңғы және ашық тақырып арасында ауысуға арналған қосқыш.</p>
+          </div>
+
+          <div class="theme-row">
+            <span>Dark theme</span>
+            <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">
+              <span class="toggle-thumb"></span>
+            </button>
+          </div>
+
+          <div class="theme-demo">
+            <div class="demo-card">
+              <h3>Панель</h3>
+              <p>Бұл блок қараңғы тақырыпта өзгереді. Түс режимін ауыстырып қосқыштың көмегімен өзгерте аласыз.</p>
+            </div>
+            <div class="demo-card">
+              <h3>Ақпарат</h3>
+              <p>Түстер, фоны, мәтін түсі және карточкалар автоматты түрде жаңартылады.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

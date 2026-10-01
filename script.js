@@ -43,18 +43,26 @@ const colorPalette = document.getElementById('colorPalette');
 const colorUsageList = document.getElementById('colorUsageList');
 
 const paletteColors = [
-  { name: 'Красный', value: 'red', hex: '#f87171' },
+  { name: 'Красный', value: 'red', hex: '#ef4444' },
   { name: 'Жёлтый', value: 'yellow', hex: '#facc15' },
-  { name: 'Зелёный', value: 'green', hex: '#4ade80' },
-  { name: 'Синий', value: 'blue', hex: '#60a5fa' },
+  { name: 'Зелёный', value: 'green', hex: '#22c55e' },
+  { name: 'Синий', value: 'blue', hex: '#3b82f6' },
   { name: 'Фиолетовый', value: 'purple', hex: '#a78bfa' },
-  { name: 'Оранжевый', value: 'orange', hex: '#fb923c' },
-  { name: 'Розовый', value: 'pink', hex: '#f472b6' },
-  { name: 'Бирюзовый', value: 'teal', hex: '#2dd4bf' },
+  { name: 'Оранжевый', value: 'orange', hex: '#f97316' },
+  { name: 'Розовый', value: 'pink', hex: '#ec4899' },
+  { name: 'Бирюзовый', value: 'teal', hex: '#14b8a6' },
   { name: 'Чёрный', value: 'black', hex: '#111827' },
   { name: 'Белый', value: 'white', hex: '#ffffff' },
   { name: 'Серый', value: 'gray', hex: '#94a3b8' },
-  { name: 'Голубой', value: 'cyan', hex: '#22d3ee' },
+  { name: 'Голубой', value: 'cyan', hex: '#06b6d4' },
+  { name: 'Индиго', value: 'indigo', hex: '#6366f1' },
+  { name: 'Лайм', value: 'lime', hex: '#84cc16' },
+  { name: 'Янтарный', value: 'amber', hex: '#f59e0b' },
+  { name: 'Фуксия', value: 'fuchsia', hex: '#d946ef' },
+  { name: 'Небесный', value: 'sky', hex: '#38bdf8' },
+  { name: 'Розово-красный', value: 'rose', hex: '#fb7185' },
+  { name: 'Лаванда', value: 'lavender', hex: '#c4b5fd' },
+  { name: 'Мятный', value: 'mint', hex: '#34d399' },
 ];
 
 let selectedColor = 'blue';
@@ -132,6 +140,8 @@ function updateUsageList() {
 
 function updateCount() {
   countOutput.textContent = countCellsByColor(selectedColor);
+  const selectedLabel = getColorLabel(selectedColor);
+  document.title = `${selectedLabel}: ${countCellsByColor(selectedColor)}`;
   updateUsageList();
 }
 

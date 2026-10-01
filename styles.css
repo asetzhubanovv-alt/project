@@ -349,7 +349,7 @@ h2 {
 
 .color-palette {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -358,7 +358,7 @@ h2 {
   border-radius: 12px;
   height: 42px;
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .palette-swatch:hover {
@@ -367,7 +367,7 @@ h2 {
 
 .palette-swatch.active {
   border-color: #111827;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 0 0 5px rgba(99, 102, 241, 0.3);
 }
 
 .task3-wrapper {
@@ -405,7 +405,7 @@ h2 {
 }
 
 .table-cell[data-color="red"] {
-  background: #f87171;
+  background: #ef4444;
 }
 
 .table-cell[data-color="yellow"] {
@@ -413,15 +413,75 @@ h2 {
 }
 
 .table-cell[data-color="green"] {
-  background: #4ade80;
+  background: #22c55e;
 }
 
 .table-cell[data-color="blue"] {
-  background: #60a5fa;
+  background: #3b82f6;
+}
+
+.table-cell[data-color="purple"] {
+  background: #a78bfa;
+}
+
+.table-cell[data-color="orange"] {
+  background: #f97316;
+}
+
+.table-cell[data-color="pink"] {
+  background: #ec4899;
+}
+
+.table-cell[data-color="teal"] {
+  background: #14b8a6;
+}
+
+.table-cell[data-color="black"] {
+  background: #111827;
 }
 
 .table-cell[data-color="white"] {
   background: #ffffff;
+}
+
+.table-cell[data-color="gray"] {
+  background: #94a3b8;
+}
+
+.table-cell[data-color="cyan"] {
+  background: #06b6d4;
+}
+
+.table-cell[data-color="indigo"] {
+  background: #6366f1;
+}
+
+.table-cell[data-color="lime"] {
+  background: #84cc16;
+}
+
+.table-cell[data-color="amber"] {
+  background: #f59e0b;
+}
+
+.table-cell[data-color="fuchsia"] {
+  background: #d946ef;
+}
+
+.table-cell[data-color="sky"] {
+  background: #38bdf8;
+}
+
+.table-cell[data-color="rose"] {
+  background: #fb7185;
+}
+
+.table-cell[data-color="lavender"] {
+  background: #c4b5fd;
+}
+
+.table-cell[data-color="mint"] {
+  background: #34d399;
 }
 
 .count-box {

@@ -216,16 +216,12 @@
               Бағандар
               <input id="colsInput" type="number" min="1" max="12" value="5" />
             </label>
-            <label>
-              Түс
-              <select id="colorSelect">
-                <option value="red">Қызыл</option>
-                <option value="yellow">Сары</option>
-                <option value="green">Жасыл</option>
-                <option value="blue" selected>Көк</option>
-              </select>
-            </label>
             <button id="buildTableBtn" type="button">Кестені құру</button>
+          </div>
+
+          <div class="palette-panel">
+            <h3>Палитра</h3>
+            <div id="colorPalette" class="color-palette" aria-label="Палитра цветов"></div>
           </div>
 
           <div class="task3-wrapper">
@@ -233,6 +229,10 @@
             <div class="count-box">
               <span>Таңдалған түстегі ұяшықтар саны:</span>
               <strong id="countOutput">0</strong>
+              <div class="usage-list-wrap">
+                <h4>Использованные цвета</h4>
+                <ul id="colorUsageList" class="color-usage-list"></ul>
+              </div>
             </div>
           </div>
         </section>

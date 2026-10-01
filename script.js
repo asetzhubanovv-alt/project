@@ -36,18 +36,63 @@ resumeTabs.forEach((tab) => {
 
 const rowsInput = document.getElementById('rowsInput');
 const colsInput = document.getElementById('colsInput');
-const colorSelect = document.getElementById('colorSelect');
 const tableWrapper = document.getElementById('tableWrapper');
 const countOutput = document.getElementById('countOutput');
 const buildTableBtn = document.getElementById('buildTableBtn');
+const colorPalette = document.getElementById('colorPalette');
+const colorUsageList = document.getElementById('colorUsageList');
+
+const paletteColors = [
+  { name: 'Красный', value: 'red', hex: '#f87171' },
+  { name: 'Жёлтый', value: 'yellow', hex: '#facc15' },
+  { name: 'Зелёный', value: 'green', hex: '#4ade80' },
+  { name: 'Синий', value: 'blue', hex: '#60a5fa' },
+  { name: 'Фиолетовый', value: 'purple', hex: '#a78bfa' },
+  { name: 'Оранжевый', value: 'orange', hex: '#fb923c' },
+  { name: 'Розовый', value: 'pink', hex: '#f472b6' },
+  { name: 'Бирюзовый', value: 'teal', hex: '#2dd4bf' },
+  { name: 'Чёрный', value: 'black', hex: '#111827' },
+  { name: 'Белый', value: 'white', hex: '#ffffff' },
+  { name: 'Серый', value: 'gray', hex: '#94a3b8' },
+  { name: 'Голубой', value: 'cyan', hex: '#22d3ee' },
+];
+
+let selectedColor = 'blue';
 
 function getColorNameByValue(value) {
-  return {
-    red: 'red',
-    yellow: 'yellow',
-    green: 'green',
-    blue: 'blue',
-  }[value] || 'white';
+  const found = paletteColors.find((color) => color.value === value);
+  return found ? found.value : 'white';
+}
+
+function getColorLabel(value) {
+  const found = paletteColors.find((color) => color.value === value);
+  return found ? found.name : 'Белый';
+}
+
+function renderPalette() {
+  colorPalette.innerHTML = '';
+
+  paletteColors.forEach((color) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'palette-swatch';
+    button.dataset.color = color.value;
+    button.title = color.name;
+    button.style.background = color.hex;
+    button.setAttribute('aria-label', color.name);
+
+    if (selectedColor === color.value) {
+      button.classList.add('active');
+    }
+
+    button.addEventListener('click', () => {
+      selectedColor = color.value;
+      renderPalette();
+      updateCount();
+    });
+
+    colorPalette.appendChild(button);
+  });
 }
 
 function countCellsByColor(color) {
@@ -56,9 +101,38 @@ function countCellsByColor(color) {
   ).length;
 }
 
+function updateUsageList() {
+  const usageEntries = paletteColors.map((color) => ({
+    ...color,
+    count: countCellsByColor(color.value),
+  }));
+
+  const usedColors = usageEntries.filter((item) => item.count > 0);
+
+  colorUsageList.innerHTML = '';
+
+  if (usedColors.length === 0) {
+    const item = document.createElement('li');
+    item.textContent = 'Цвета ещё не использованы';
+    colorUsageList.appendChild(item);
+    return;
+  }
+
+  usedColors.forEach((item) => {
+    const li = document.createElement('li');
+    li.className = 'usage-item';
+    li.innerHTML = `
+      <span class="usage-swatch" style="background:${item.hex}"></span>
+      <span>${item.name}</span>
+      <strong>${item.count}</strong>
+    `;
+    colorUsageList.appendChild(li);
+  });
+}
+
 function updateCount() {
-  const selectedColor = getColorNameByValue(colorSelect.value);
   countOutput.textContent = countCellsByColor(selectedColor);
+  updateUsageList();
 }
 
 function buildTable() {
@@ -79,7 +153,6 @@ function buildTable() {
       cell.dataset.color = 'white';
       cell.title = `Ряд ${rowIndex + 1}, Баған ${colIndex + 1}`;
       cell.addEventListener('click', () => {
-        const selectedColor = getColorNameByValue(colorSelect.value);
         cell.dataset.color = selectedColor;
         updateCount();
       });
@@ -94,8 +167,8 @@ function buildTable() {
 }
 
 buildTableBtn.addEventListener('click', buildTable);
-colorSelect.addEventListener('change', updateCount);
 
+renderPalette();
 buildTable();
 
 const themeToggle = document.getElementById('themeToggle');

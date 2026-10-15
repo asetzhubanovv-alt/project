@@ -5,7 +5,8 @@ async function sendRequest(url, options = {}) {
     const result = await response.json();
 
     if (!response.ok) {
-        throw new Error(result.message || 'Не удалось выполнить запрос.');
+        const message = typeof result?.message === 'string' ? result.message : '';
+        throw new Error(message || response.statusText || `HTTP ${response.status}`);
     }
 
     return result;

@@ -6,7 +6,9 @@ const todoTitleInput = document.querySelector('#todoTitle');
 const userIdInput = document.querySelector('#userId');
 const completedInput = document.querySelector('#todoCompleted');
 const createDialog = document.querySelector('#createDialog');
+const createDialogTitle = document.querySelector('#createDialogTitle');
 const openCreateDialog = document.querySelector('#openCreateDialog');
+const todoSubmitButton = todoForm.querySelector('button[type="submit"]');
 const userPickerToggle = document.querySelector('#userPickerToggle');
 const userPickerValue = document.querySelector('#userPickerValue');
 const userPickerOptions = document.querySelector('#userPickerOptions');
@@ -123,55 +125,26 @@ function createButton(label, className, onClick) {
     return button;
 }
 
-function createInlineEdit(todo) {
-    const form = document.createElement('form');
-    form.className = 'inline-edit';
-    form.noValidate = true;
+function openTodoDialog(todo = null) {
+    editingTodoId = todo?.id ?? null;
+    formError.hidden = true;
+    todoForm.reset();
 
-    const titleLabel = document.createElement('label');
-    titleLabel.className = 'field';
-    titleLabel.textContent = 'Название';
-    const titleInput = document.createElement('input');
-    titleInput.name = 'title';
-    titleInput.type = 'text';
-    titleInput.maxLength = 160;
-    titleInput.value = todo.todo;
-    titleInput.required = true;
-    titleLabel.append(titleInput);
-
-    const userLabel = document.createElement('label');
-    userLabel.className = 'field';
-    userLabel.textContent = 'Исполнитель';
-    const userInput = document.createElement('select');
-    userInput.name = 'userId';
-    userInput.required = true;
-    for (const user of users) {
-        const option = document.createElement('option');
-        option.value = String(user.id);
-        option.textContent = `@${user.username}`;
-        userInput.append(option);
+    if (todo) {
+        todoTitleInput.value = todo.todo;
+        userIdInput.value = String(todo.userId);
+        completedInput.value = String(todo.completed);
+        createDialogTitle.textContent = 'Изменить задачу';
+    } else {
+        if (activeProfileUser) userIdInput.value = String(activeProfileUser.id);
+        createDialogTitle.textContent = 'Добавить задачу';
     }
-    userInput.value = String(todo.userId);
-    userLabel.append(userInput);
 
-    const saveButton = document.createElement('button');
-    saveButton.className = 'button button-primary';
-    saveButton.type = 'submit';
-    saveButton.textContent = 'Сохранить';
-
-    const cancelButton = document.createElement('button');
-    cancelButton.className = 'button button-secondary';
-    cancelButton.type = 'button';
-    cancelButton.textContent = 'Отмена';
-    cancelButton.addEventListener('click', () => {
-        editingTodoId = null;
-        renderTodos();
-        if (profileDialog.open) renderProfile();
-    });
-
-    form.append(titleLabel, userLabel, saveButton, cancelButton);
-    form.addEventListener('submit', (event) => saveEdit(event, todo, titleInput, userInput));
-    return form;
+    userPickerOptions.hidden = true;
+    userPickerToggle.setAttribute('aria-expanded', 'false');
+    updateSelectedUser();
+    createDialog.showModal();
+    todoTitleInput.focus();
 }
 
 function createTodoCard(todo) {
@@ -210,21 +183,12 @@ function createTodoCard(todo) {
     const actions = document.createElement('div');
     actions.className = 'todo-actions';
     actions.append(
-        createButton('Изменить', 'text-button', () => {
-            editingTodoId = todo.id;
-            renderTodos();
-            if (profileDialog.open) renderProfile();
-            todoList.querySelector('.inline-edit input[name="title"]')?.focus();
-        }),
+        createButton('Изменить', 'text-button', () => openTodoDialog(todo)),
         createButton('Удалить', 'text-button text-button-danger', () => removeTodo(todo)),
     );
 
     main.append(checkbox, content, actions);
     item.append(main);
-
-    if (editingTodoId === todo.id) {
-        item.append(createInlineEdit(todo));
-    }
 
     return item;
 }
@@ -355,52 +319,55 @@ async function createTodo(event) {
         return;
     }
 
-    const submitButton = todoForm.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-
-    try {
-        await addTodo({ todo: values.title, completed: values.completed, userId: values.userId });
-        // Negative IDs stay separate from IDs returned by the API.
-        while (todos.some((todo) => todo.id === nextLocalId)) {
-            nextLocalId -= 1;
-        }
-        todos.unshift({ id: nextLocalId, todo: values.title, completed: values.completed, userId: values.userId });
-        nextLocalId -= 1;
-        todoForm.reset();
-        updateSelectedUser();
-        createDialog.close();
-        currentFilter = 'all';
-        searchInput.value = '';
-        searchText = '';
-        updateFilterButtons();
-        renderTodos();
-        if (profileDialog.open) renderProfile();
-    } catch (error) {
-        showFormError(`Не удалось добавить задачу: ${error.message}`);
-    } finally {
-        submitButton.disabled = false;
-    }
-}
-
-async function saveEdit(event, todo, titleInput, userInput) {
-    event.preventDefault();
-    const values = getValidFormValues(titleInput, userInput);
-
-    if (values.error) {
-        showActionError(values.error);
+    const todoBeingEdited = editingTodoId === null
+        ? null
+        : todos.find((todo) => todo.id === editingTodoId);
+    if (editingTodoId !== null && !todoBeingEdited) {
+        showFormError('Эта задача больше недоступна.');
         return;
     }
 
+    todoSubmitButton.disabled = true;
+
     try {
-        if (todo.id > 0) {
-            await updateTodo(todo.id, { todo: values.title, userId: values.userId });
+        if (todoBeingEdited) {
+            if (todoBeingEdited.id > 0) {
+                await updateTodo(todoBeingEdited.id, {
+                    todo: values.title,
+                    completed: values.completed,
+                    userId: values.userId,
+                });
+            }
+            Object.assign(todoBeingEdited, {
+                todo: values.title,
+                completed: values.completed,
+                userId: values.userId,
+            });
+            editingTodoId = null;
+        } else {
+            await addTodo({ todo: values.title, completed: values.completed, userId: values.userId });
+            // Negative IDs stay separate from IDs returned by the API.
+            while (todos.some((todo) => todo.id === nextLocalId)) {
+                nextLocalId -= 1;
+            }
+            todos.unshift({ id: nextLocalId, todo: values.title, completed: values.completed, userId: values.userId });
+            nextLocalId -= 1;
         }
-        Object.assign(todo, { todo: values.title, userId: values.userId });
-        editingTodoId = null;
+        todoForm.reset();
+        updateSelectedUser();
+        createDialog.close();
+        if (!todoBeingEdited) {
+            currentFilter = 'all';
+            searchInput.value = '';
+            searchText = '';
+            updateFilterButtons();
+        }
         renderTodos();
         if (profileDialog.open) renderProfile();
     } catch (error) {
-        showActionError(`Не удалось сохранить задачу: ${error.message}`);
+        showFormError(`Не удалось ${todoBeingEdited ? 'сохранить задачу' : 'добавить задачу'}: ${error.message}`);
+    } finally {
+        todoSubmitButton.disabled = false;
     }
 }
 
@@ -572,14 +539,14 @@ function updateFilterButtons() {
 
 todoForm.addEventListener('submit', createTodo);
 openCreateDialog.addEventListener('click', () => {
+    openTodoDialog();
+});
+
+createDialog.addEventListener('close', () => {
+    editingTodoId = null;
+    createDialogTitle.textContent = 'Добавить задачу';
+    todoSubmitButton.textContent = 'Сохранить';
     formError.hidden = true;
-    todoForm.reset();
-    if (activeProfileUser) userIdInput.value = String(activeProfileUser.id);
-    userPickerOptions.hidden = true;
-    userPickerToggle.setAttribute('aria-expanded', 'false');
-    updateSelectedUser();
-    createDialog.showModal();
-    todoTitleInput.focus();
 });
 
 for (const button of document.querySelectorAll('[data-close-dialog]')) {

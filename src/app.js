@@ -1,25 +1,41 @@
 import { addTodo, deleteTodo, getTodos, updateTodo } from './todosApi.js';
+import { getUser, getUsers } from './usersApi.js';
 
 const todoForm = document.querySelector('#todoForm');
 const todoTitleInput = document.querySelector('#todoTitle');
 const userIdInput = document.querySelector('#userId');
+const completedInput = document.querySelector('#todoCompleted');
+const createDialog = document.querySelector('#createDialog');
+const openCreateDialog = document.querySelector('#openCreateDialog');
+const userPickerToggle = document.querySelector('#userPickerToggle');
+const userPickerValue = document.querySelector('#userPickerValue');
+const userPickerOptions = document.querySelector('#userPickerOptions');
 const formError = document.querySelector('#formError');
 const totalCount = document.querySelector('#totalCount');
 const completedCount = document.querySelector('#completedCount');
 const searchInput = document.querySelector('#searchInput');
+const sortSelect = document.querySelector('#sortSelect');
 const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
 const visibleCount = document.querySelector('#visibleCount');
 const listState = document.querySelector('#listState');
 const actionError = document.querySelector('#actionError');
 const todoList = document.querySelector('#todoList');
+const profileDialog = document.querySelector('#profileDialog');
+const profileContent = document.querySelector('#profileContent');
 
 let todos = [];
+let users = [];
+const userCache = new Map();
 let currentFilter = 'all';
 let searchText = '';
+let sortOrder = 'asc';
 let editingTodoId = null;
 let nextLocalId = -1;
+let searchTimer = null;
+let activeProfileUser = null;
+let profileRequestId = 0;
 
-function getValidFormValues(titleInput, userInput) {
+function getValidFormValues(titleInput, userInput, completedValue = 'false') {
     const title = titleInput.value.trim();
     const userId = Number(userInput.value);
 
@@ -27,11 +43,42 @@ function getValidFormValues(titleInput, userInput) {
         return { error: 'Введите название задачи.' };
     }
 
-    if (!Number.isInteger(userId) || userId <= 0) {
-        return { error: 'ID пользователя должен быть положительным целым числом.' };
+    if (!Number.isInteger(userId) || !users.some((user) => user.id === userId)) {
+        return { error: 'Выберите исполнителя из списка.' };
     }
 
-    return { title, userId };
+    return { title, userId, completed: completedValue === 'true' };
+}
+
+function getUserById(userId) {
+    return users.find((user) => user.id === userId) || userCache.get(userId);
+}
+
+function makeAvatar(user, className = 'user-avatar') {
+    const wrapper = document.createElement('span');
+    wrapper.className = `avatar-shell ${className}`;
+    const image = document.createElement('img');
+    image.src = user.image;
+    image.alt = '';
+    image.loading = 'lazy';
+    const fallback = document.createElement('span');
+    fallback.className = 'avatar-fallback';
+    fallback.textContent = `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`;
+    image.addEventListener('error', () => wrapper.classList.add('is-fallback'), { once: true });
+    wrapper.append(image, fallback);
+    return wrapper;
+}
+
+function makeUserLink(user) {
+    const button = document.createElement('button');
+    button.className = 'todo-user';
+    button.type = 'button';
+    button.append(makeAvatar(user, 'todo-user-avatar'));
+    const username = document.createElement('span');
+    username.textContent = `@${user.username}`;
+    button.append(username);
+    button.addEventListener('click', () => openUserProfile(user.id));
+    return button;
 }
 
 function updateSummary() {
@@ -67,12 +114,6 @@ function showState(title, message, actionLabel, action) {
     }
 }
 
-function makeMetaItem(label, value) {
-    const item = document.createElement('span');
-    item.textContent = `${label}: ${value}`;
-    return item;
-}
-
 function createButton(label, className, onClick) {
     const button = document.createElement('button');
     button.className = className;
@@ -100,14 +141,17 @@ function createInlineEdit(todo) {
 
     const userLabel = document.createElement('label');
     userLabel.className = 'field';
-    userLabel.textContent = 'ID пользователя';
-    const userInput = document.createElement('input');
+    userLabel.textContent = 'Исполнитель';
+    const userInput = document.createElement('select');
     userInput.name = 'userId';
-    userInput.type = 'number';
-    userInput.min = '1';
-    userInput.step = '1';
-    userInput.value = String(todo.userId);
     userInput.required = true;
+    for (const user of users) {
+        const option = document.createElement('option');
+        option.value = String(user.id);
+        option.textContent = `@${user.username}`;
+        userInput.append(option);
+    }
+    userInput.value = String(todo.userId);
     userLabel.append(userInput);
 
     const saveButton = document.createElement('button');
@@ -122,6 +166,7 @@ function createInlineEdit(todo) {
     cancelButton.addEventListener('click', () => {
         editingTodoId = null;
         renderTodos();
+        if (profileDialog.open) renderProfile();
     });
 
     form.append(titleLabel, userLabel, saveButton, cancelButton);
@@ -149,13 +194,18 @@ function createTodoCard(todo) {
     title.className = 'todo-title';
     title.textContent = todo.todo;
 
+    const user = getUserById(todo.userId);
+    const userRow = document.createElement('div');
+    userRow.className = 'todo-user-row';
+    if (user) userRow.append(makeUserLink(user));
+
     const meta = document.createElement('div');
     meta.className = 'todo-meta';
     const status = document.createElement('span');
     status.className = 'todo-status';
     status.textContent = todo.completed ? 'Выполнена' : 'В работе';
-    meta.append(status, makeMetaItem('ID пользователя', todo.userId));
-    content.append(title, meta);
+    meta.append(status);
+    content.append(title, userRow, meta);
 
     const actions = document.createElement('div');
     actions.className = 'todo-actions';
@@ -163,6 +213,7 @@ function createTodoCard(todo) {
         createButton('Изменить', 'text-button', () => {
             editingTodoId = todo.id;
             renderTodos();
+            if (profileDialog.open) renderProfile();
             todoList.querySelector('.inline-edit input[name="title"]')?.focus();
         }),
         createButton('Удалить', 'text-button text-button-danger', () => removeTodo(todo)),
@@ -181,12 +232,20 @@ function createTodoCard(todo) {
 function getVisibleTodos() {
     const normalizedSearch = searchText.trim().toLocaleLowerCase('ru');
 
-    return todos.filter((todo) => {
+    const filteredTodos = todos.filter((todo) => {
         const matchesSearch = todo.todo.toLocaleLowerCase('ru').includes(normalizedSearch);
         const matchesFilter = currentFilter === 'all'
             || (currentFilter === 'active' && !todo.completed)
             || (currentFilter === 'completed' && todo.completed);
         return matchesSearch && matchesFilter;
+    });
+    return sortTodosByTitle(filteredTodos);
+}
+
+function sortTodosByTitle(todoItems) {
+    return [...todoItems].sort((first, second) => {
+        const comparison = first.todo.localeCompare(second.todo, 'ru', { sensitivity: 'base' });
+        return sortOrder === 'asc' ? comparison : -comparison;
     });
 }
 
@@ -199,7 +258,7 @@ function renderTodos() {
 
     if (visibleTodos.length === 0) {
         if (todos.length === 0) {
-            showState('Список пока пуст', 'Добавьте первую задачу в форму выше.');
+            showState('Список пока пуст', 'Добавьте первую задачу кнопкой выше.');
         } else if (searchText.trim()) {
             showState('Ничего не найдено', 'Попробуйте изменить поисковый запрос или фильтр.');
         } else {
@@ -224,17 +283,65 @@ function showActionError(message) {
 }
 
 async function loadTodos() {
-    showState('', 'Загружаем задачи…');
+    showState('', 'Загружаем задачи и пользователей…');
     const spinner = document.createElement('span');
     spinner.className = 'loading-spinner';
     spinner.setAttribute('aria-hidden', 'true');
     listState.prepend(spinner);
 
     try {
-        todos = await getTodos();
+        const [loadedTodos, loadedUsers] = await Promise.all([getTodos(), getUsers()]);
+        todos = loadedTodos;
+        users = loadedUsers;
+        if (users.length === 0) throw new Error('Список пользователей пуст.');
+        userIdInput.replaceChildren(new Option('Выберите исполнителя', ''));
+        userPickerOptions.replaceChildren();
+        for (const user of users) {
+            userCache.set(user.id, user);
+            const option = new Option(`@${user.username}`, String(user.id));
+            userIdInput.append(option);
+            const userOption = document.createElement('button');
+            userOption.className = 'user-picker-option';
+            userOption.type = 'button';
+            userOption.role = 'option';
+            userOption.dataset.userId = String(user.id);
+            userOption.setAttribute('aria-selected', 'false');
+            userOption.append(makeAvatar(user, 'picker-avatar'));
+            const username = document.createElement('span');
+            username.textContent = `@${user.username}`;
+            userOption.append(username);
+            userOption.addEventListener('click', () => {
+                userIdInput.value = String(user.id);
+                updateSelectedUser();
+                userPickerOptions.hidden = true;
+                userPickerToggle.setAttribute('aria-expanded', 'false');
+            });
+            userPickerOptions.append(userOption);
+        }
+        userIdInput.disabled = false;
+        userPickerToggle.disabled = false;
+        updateSelectedUser();
         renderTodos();
     } catch (error) {
-        showState('Не удалось загрузить задачи', error.message, 'Попробовать снова', loadTodos);
+        userIdInput.disabled = true;
+        userPickerToggle.disabled = true;
+        showState('Не удалось загрузить данные', error.message, 'Попробовать снова', loadTodos);
+    }
+}
+
+function updateSelectedUser() {
+    const user = getUserById(Number(userIdInput.value));
+    userPickerValue.replaceChildren();
+    if (!user) {
+        userPickerValue.textContent = 'Выберите исполнителя';
+    } else {
+        userPickerValue.append(makeAvatar(user, 'picker-avatar'));
+        const name = document.createElement('span');
+        name.textContent = `@${user.username}`;
+        userPickerValue.append(name);
+    }
+    for (const option of userPickerOptions.children) {
+        option.setAttribute('aria-selected', String(Number(option.dataset.userId) === user?.id));
     }
 }
 
@@ -242,7 +349,7 @@ async function createTodo(event) {
     event.preventDefault();
     formError.hidden = true;
 
-    const values = getValidFormValues(todoTitleInput, userIdInput);
+    const values = getValidFormValues(todoTitleInput, userIdInput, completedInput.value);
     if (values.error) {
         showFormError(values.error);
         return;
@@ -252,21 +359,22 @@ async function createTodo(event) {
     submitButton.disabled = true;
 
     try {
-        await addTodo({ todo: values.title, completed: false, userId: values.userId });
+        await addTodo({ todo: values.title, completed: values.completed, userId: values.userId });
         // Negative IDs stay separate from IDs returned by the API.
         while (todos.some((todo) => todo.id === nextLocalId)) {
             nextLocalId -= 1;
         }
-        todos.unshift({ id: nextLocalId, todo: values.title, completed: false, userId: values.userId });
+        todos.unshift({ id: nextLocalId, todo: values.title, completed: values.completed, userId: values.userId });
         nextLocalId -= 1;
         todoForm.reset();
-        userIdInput.value = '1';
+        updateSelectedUser();
+        createDialog.close();
         currentFilter = 'all';
         searchInput.value = '';
         searchText = '';
         updateFilterButtons();
         renderTodos();
-        todoTitleInput.focus();
+        if (profileDialog.open) renderProfile();
     } catch (error) {
         showFormError(`Не удалось добавить задачу: ${error.message}`);
     } finally {
@@ -290,6 +398,7 @@ async function saveEdit(event, todo, titleInput, userInput) {
         Object.assign(todo, { todo: values.title, userId: values.userId });
         editingTodoId = null;
         renderTodos();
+        if (profileDialog.open) renderProfile();
     } catch (error) {
         showActionError(`Не удалось сохранить задачу: ${error.message}`);
     }
@@ -303,6 +412,7 @@ async function toggleCompleted(todo) {
         }
         todo.completed = completed;
         renderTodos();
+        if (profileDialog.open) renderProfile();
     } catch (error) {
         renderTodos();
         showActionError(`Не удалось изменить статус: ${error.message}`);
@@ -319,8 +429,136 @@ async function removeTodo(todo) {
         todos = todos.filter((item) => item.id !== todo.id);
         if (editingTodoId === todo.id) editingTodoId = null;
         renderTodos();
+        if (profileDialog.open) renderProfile();
     } catch (error) {
         showActionError(`Не удалось удалить задачу: ${error.message}`);
+    }
+}
+
+function appendProfileDetail(container, label, value) {
+    if (!value) return;
+    const detail = document.createElement('div');
+    detail.className = 'profile-detail';
+    const term = document.createElement('span');
+    term.textContent = label;
+    const description = document.createElement('strong');
+    description.textContent = String(value);
+    detail.append(term, description);
+    container.append(detail);
+}
+
+function appendProfileTaskList(container, title, profileTodos) {
+    const section = document.createElement('section');
+    section.className = 'profile-task-section';
+    const heading = document.createElement('h3');
+    heading.textContent = `${title} (${profileTodos.length})`;
+    section.append(heading);
+    if (profileTodos.length) {
+        const list = document.createElement('ul');
+        list.className = 'todo-list profile-todo-list';
+        list.append(...profileTodos.map(createTodoCard));
+        section.append(list);
+    } else {
+        const empty = document.createElement('p');
+        empty.className = 'profile-empty';
+        empty.textContent = 'Нет задач';
+        section.append(empty);
+    }
+    container.append(section);
+}
+
+function renderProfile() {
+    if (!activeProfileUser) return;
+    const user = activeProfileUser;
+    profileContent.replaceChildren();
+
+    const heading = document.createElement('div');
+    heading.className = 'profile-heading';
+    const avatar = makeAvatar(user, 'profile-avatar');
+    const identity = document.createElement('div');
+    const name = document.createElement('h2');
+    name.id = 'profileName';
+    name.textContent = `${user.firstName} ${user.lastName}`;
+    const username = document.createElement('p');
+    username.className = 'profile-username';
+    username.textContent = `@${user.username}`;
+    identity.append(name, username);
+    const closeButton = document.createElement('button');
+    closeButton.className = 'dialog-close';
+    closeButton.type = 'button';
+    closeButton.textContent = '×';
+    closeButton.setAttribute('aria-label', 'Закрыть');
+    closeButton.addEventListener('click', () => profileDialog.close());
+    heading.append(avatar, identity, closeButton);
+
+    const details = document.createElement('div');
+    details.className = 'profile-details';
+    appendProfileDetail(details, 'Email', user.email);
+    appendProfileDetail(details, 'Телефон', user.phone);
+    appendProfileDetail(details, 'Город', user.address?.city);
+    appendProfileDetail(details, 'Возраст', user.age);
+    appendProfileDetail(details, 'Пол', user.gender);
+    appendProfileDetail(details, 'Университет', user.university);
+    appendProfileDetail(details, 'Компания', user.company?.name);
+    appendProfileDetail(details, 'Должность', user.company?.title);
+
+    const taskGroups = document.createElement('div');
+    taskGroups.className = 'profile-task-groups';
+    const userTodos = todos.filter((todo) => todo.userId === user.id);
+    appendProfileTaskList(taskGroups, 'Выполненные', sortTodosByTitle(userTodos.filter((todo) => todo.completed)));
+    appendProfileTaskList(taskGroups, 'Невыполненные', sortTodosByTitle(userTodos.filter((todo) => !todo.completed)));
+
+    const taskToolbar = document.createElement('div');
+    taskToolbar.className = 'profile-task-toolbar';
+    const taskHeading = document.createElement('h3');
+    taskHeading.textContent = 'Задачи пользователя';
+    const taskControls = document.createElement('div');
+    taskControls.className = 'profile-task-controls';
+    const sortLabel = document.createElement('label');
+    sortLabel.className = 'profile-sort-control';
+    sortLabel.textContent = 'Сортировка';
+    const profileSort = document.createElement('select');
+    profileSort.setAttribute('aria-label', 'Сортировка задач пользователя');
+    profileSort.append(new Option('А-Я', 'asc'), new Option('Я-А', 'desc'));
+    profileSort.value = sortOrder;
+    profileSort.addEventListener('change', () => {
+        sortOrder = profileSort.value;
+        sortSelect.value = sortOrder;
+        renderTodos();
+        renderProfile();
+    });
+    sortLabel.append(profileSort);
+    const addButton = createButton('Добавить задачу', 'button button-primary profile-add-button', () => openCreateDialog.click());
+    taskControls.append(sortLabel, addButton);
+    taskToolbar.append(taskHeading, taskControls);
+    profileContent.append(heading, details, taskToolbar, taskGroups);
+}
+
+async function openUserProfile(userId) {
+    const requestId = ++profileRequestId;
+    activeProfileUser = null;
+    profileContent.replaceChildren();
+    const loading = document.createElement('div');
+    loading.className = 'profile-loading';
+    loading.append(Object.assign(document.createElement('span'), { className: 'loading-spinner' }));
+    loading.append(document.createTextNode('Загружаем профиль…'));
+    profileContent.append(loading);
+    profileDialog.showModal();
+
+    try {
+        const user = await getUser(userId);
+        if (requestId !== profileRequestId) return;
+        activeProfileUser = user;
+        userCache.set(user.id, user);
+        renderProfile();
+    } catch (error) {
+        if (requestId !== profileRequestId) return;
+        const message = document.createElement('p');
+        message.className = 'profile-error';
+        message.textContent = `Не удалось загрузить профиль: ${error.message}`;
+        const retry = createButton('Попробовать снова', 'button button-secondary', () => openUserProfile(userId));
+        const close = createButton('Закрыть', 'button button-secondary', () => profileDialog.close());
+        profileContent.replaceChildren(message, retry, close);
     }
 }
 
@@ -333,9 +571,65 @@ function updateFilterButtons() {
 }
 
 todoForm.addEventListener('submit', createTodo);
+openCreateDialog.addEventListener('click', () => {
+    formError.hidden = true;
+    todoForm.reset();
+    if (activeProfileUser) userIdInput.value = String(activeProfileUser.id);
+    userPickerOptions.hidden = true;
+    userPickerToggle.setAttribute('aria-expanded', 'false');
+    updateSelectedUser();
+    createDialog.showModal();
+    todoTitleInput.focus();
+});
+
+for (const button of document.querySelectorAll('[data-close-dialog]')) {
+    button.addEventListener('click', () => createDialog.close());
+}
+
+createDialog.addEventListener('click', (event) => {
+    if (event.target === createDialog) createDialog.close();
+});
+
+profileDialog.addEventListener('click', (event) => {
+    if (event.target === profileDialog) profileDialog.close();
+});
+
+profileDialog.addEventListener('close', () => {
+    profileRequestId += 1;
+    activeProfileUser = null;
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (createDialog.open) createDialog.close();
+    else if (profileDialog.open) profileDialog.close();
+});
+
+userIdInput.addEventListener('change', updateSelectedUser);
+userPickerToggle.addEventListener('click', () => {
+    userPickerOptions.hidden = !userPickerOptions.hidden;
+    userPickerToggle.setAttribute('aria-expanded', String(!userPickerOptions.hidden));
+});
+
+document.addEventListener('click', (event) => {
+    if (!event.target.closest('.user-picker')) {
+        userPickerOptions.hidden = true;
+        userPickerToggle.setAttribute('aria-expanded', 'false');
+    }
+});
+
 searchInput.addEventListener('input', () => {
-    searchText = searchInput.value;
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(() => {
+        searchText = searchInput.value;
+        renderTodos();
+    }, 250);
+});
+
+sortSelect.addEventListener('change', () => {
+    sortOrder = sortSelect.value;
     renderTodos();
+    if (profileDialog.open) renderProfile();
 });
 
 for (const button of filterButtons) {

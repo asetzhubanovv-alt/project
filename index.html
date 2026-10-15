@@ -46,23 +46,10 @@
             <div class="section-heading">
                 <div>
                     <h2 id="create-title">Новая задача</h2>
-                    <p>Добавьте дело в список</p>
+                    <p>Добавьте дело и назначьте исполнителя</p>
                 </div>
+                <button class="button button-primary" id="openCreateDialog" type="button">Добавить задачу</button>
             </div>
-            <form id="todoForm" class="create-form" novalidate>
-                <label class="field title-field" for="todoTitle">
-                    <span>Название задачи</span>
-                    <input id="todoTitle" name="title" type="text" maxlength="160" placeholder="Например, подготовить отчёт" autocomplete="off" required>
-                </label>
-                <label class="field user-field" for="userId">
-                    <span>ID пользователя</span>
-                    <input id="userId" name="userId" type="number" min="1" step="1" value="1" inputmode="numeric" required>
-                </label>
-                <button class="button button-primary create-button" type="submit">
-                    <span aria-hidden="true">+</span> Добавить
-                </button>
-                <p class="form-error" id="formError" role="alert" hidden></p>
-            </form>
             <p class="persistence-note"><span aria-hidden="true">i</span> Изменения хранятся только в этой вкладке и сбросятся после перезагрузки страницы.</p>
         </section>
 
@@ -84,6 +71,13 @@
                     <button class="filter-button" type="button" data-filter="active" aria-pressed="false">Активные</button>
                     <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">Выполненные</button>
                 </div>
+                <label class="sort-control" for="sortSelect">
+                    <span>Сортировка</span>
+                    <select id="sortSelect">
+                        <option value="asc">Название: А-Я</option>
+                        <option value="desc">Название: Я-А</option>
+                    </select>
+                </label>
             </div>
 
             <div id="listState" class="state-panel" role="status" aria-live="polite">
@@ -94,7 +88,49 @@
             <ul id="todoList" class="todo-list" aria-label="Список задач" hidden></ul>
         </section>
 
-        <footer class="page-footer">Задачи загружаются из DummyJSON Todos API.</footer>
+        <footer class="page-footer">Задачи и пользователи загружаются из DummyJSON.</footer>
     </main>
+
+    <dialog class="app-dialog" id="createDialog" aria-labelledby="createDialogTitle">
+        <form id="todoForm" class="dialog-content" novalidate>
+            <div class="dialog-heading">
+                <h2 id="createDialogTitle">Добавить задачу</h2>
+                <button class="dialog-close" type="button" data-close-dialog aria-label="Закрыть">×</button>
+            </div>
+            <label class="field" for="todoTitle">
+                <span>Название задачи</span>
+                <input id="todoTitle" name="title" type="text" maxlength="160" placeholder="Например, подготовить отчёт" autocomplete="off" required>
+            </label>
+            <label class="field" for="todoCompleted">
+                <span>Статус</span>
+                <select id="todoCompleted" name="completed">
+                    <option value="false">Не выполнена</option>
+                    <option value="true">Выполнена</option>
+                </select>
+            </label>
+            <div class="field">
+                <span>Исполнитель</span>
+                <div class="user-picker">
+                    <button class="user-picker-trigger" id="userPickerToggle" type="button" aria-haspopup="listbox" aria-expanded="false" disabled>
+                        <span id="userPickerValue">Загружаем пользователей…</span>
+                        <span class="picker-chevron" aria-hidden="true"></span>
+                    </button>
+                    <div class="user-picker-options" id="userPickerOptions" role="listbox" aria-label="Исполнитель" hidden></div>
+                </div>
+                <select id="userId" name="userId" required hidden disabled>
+                    <option value="">Выберите исполнителя</option>
+                </select>
+            </div>
+            <p class="form-error" id="formError" role="alert" hidden></p>
+            <div class="dialog-actions">
+                <button class="button button-secondary" type="button" data-close-dialog>Отмена</button>
+                <button class="button button-primary" type="submit">Сохранить</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="app-dialog profile-dialog" id="profileDialog" aria-label="Профиль исполнителя">
+        <div class="dialog-content" id="profileContent"></div>
+    </dialog>
 </body>
 </html>

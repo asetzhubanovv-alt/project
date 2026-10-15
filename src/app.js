@@ -35,6 +35,7 @@ let editingTodoId = null;
 let nextLocalId = -1;
 let searchTimer = null;
 let activeProfileUser = null;
+let profileFilter = 'all';
 let profileRequestId = 0;
 
 function getValidFormValues(titleInput, userInput, completedValue = 'false') {
@@ -414,11 +415,11 @@ function appendProfileDetail(container, label, value) {
     container.append(detail);
 }
 
-function appendProfileTaskList(container, title, profileTodos) {
+function appendProfileTaskList(container, profileTodos, totalCount) {
     const section = document.createElement('section');
     section.className = 'profile-task-section';
     const heading = document.createElement('h3');
-    heading.textContent = `${title} (${profileTodos.length})`;
+    heading.textContent = `Задачи (${profileTodos.length} из ${totalCount})`;
     section.append(heading);
     if (profileTodos.length) {
         const list = document.createElement('ul');
@@ -469,11 +470,15 @@ function renderProfile() {
     appendProfileDetail(details, 'Компания', user.company?.name);
     appendProfileDetail(details, 'Должность', user.company?.title);
 
-    const taskGroups = document.createElement('div');
-    taskGroups.className = 'profile-task-groups';
     const userTodos = todos.filter((todo) => todo.userId === user.id);
-    appendProfileTaskList(taskGroups, 'Выполненные', sortTodosByTitle(userTodos.filter((todo) => todo.completed)));
-    appendProfileTaskList(taskGroups, 'Невыполненные', sortTodosByTitle(userTodos.filter((todo) => !todo.completed)));
+    const visibleProfileTodos = userTodos.filter((todo) => (
+        profileFilter === 'all'
+        || (profileFilter === 'active' && !todo.completed)
+        || (profileFilter === 'completed' && todo.completed)
+    ));
+    const taskList = document.createElement('div');
+    taskList.className = 'profile-task-list';
+    appendProfileTaskList(taskList, sortTodosByTitle(visibleProfileTodos), userTodos.length);
 
     const taskToolbar = document.createElement('div');
     taskToolbar.className = 'profile-task-toolbar';
@@ -481,6 +486,20 @@ function renderProfile() {
     taskHeading.textContent = 'Задачи пользователя';
     const taskControls = document.createElement('div');
     taskControls.className = 'profile-task-controls';
+    const profileFilters = document.createElement('div');
+    profileFilters.className = 'filters profile-filters';
+    profileFilters.setAttribute('role', 'group');
+    profileFilters.setAttribute('aria-label', 'Фильтр задач пользователя');
+    for (const [filter, label] of [['all', 'Все'], ['active', 'Активные'], ['completed', 'Выполненные']]) {
+        const button = createButton(label, 'filter-button', () => {
+            profileFilter = filter;
+            renderProfile();
+        });
+        const isSelected = profileFilter === filter;
+        button.classList.toggle('is-selected', isSelected);
+        button.setAttribute('aria-pressed', String(isSelected));
+        profileFilters.append(button);
+    }
     const sortLabel = document.createElement('label');
     sortLabel.className = 'profile-sort-control';
     sortLabel.textContent = 'Сортировка';
@@ -496,14 +515,15 @@ function renderProfile() {
     });
     sortLabel.append(profileSort);
     const addButton = createButton('Добавить задачу', 'button button-primary profile-add-button', () => openCreateDialog.click());
-    taskControls.append(sortLabel, addButton);
+    taskControls.append(profileFilters, sortLabel, addButton);
     taskToolbar.append(taskHeading, taskControls);
-    profileContent.append(heading, details, taskToolbar, taskGroups);
+    profileContent.append(heading, details, taskToolbar, taskList);
 }
 
 async function openUserProfile(userId) {
     const requestId = ++profileRequestId;
     activeProfileUser = null;
+    profileFilter = 'all';
     profileContent.replaceChildren();
     const loading = document.createElement('div');
     loading.className = 'profile-loading';
@@ -547,6 +567,10 @@ createDialog.addEventListener('close', () => {
     createDialogTitle.textContent = 'Добавить задачу';
     todoSubmitButton.textContent = 'Сохранить';
     formError.hidden = true;
+    todoForm.reset();
+    userPickerOptions.hidden = true;
+    userPickerToggle.setAttribute('aria-expanded', 'false');
+    updateSelectedUser();
 });
 
 for (const button of document.querySelectorAll('[data-close-dialog]')) {

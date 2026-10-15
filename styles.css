@@ -79,7 +79,7 @@ h1 { margin-bottom: 6px; font-size: 1.9rem; font-weight: 680; line-height: 1.2; 
 .section-heading p, .visible-count { margin-bottom: 0; color: var(--muted); font-size: .78rem; }
 .create-form { display: grid; grid-template-columns: minmax(220px, 1fr) 152px auto; align-items: end; gap: 12px; margin-top: 19px; }
 .field { display: grid; gap: 7px; color: #53635a; font-size: .76rem; font-weight: 620; }
-.field input, .field select, .search-field input, .inline-edit input, .inline-edit select, .sort-control select {
+.field input, .field select, .search-field input, .sort-control select {
     width: 100%;
     min-height: 42px;
     padding: 9px 11px;
@@ -91,8 +91,8 @@ h1 { margin-bottom: 6px; font-size: 1.9rem; font-weight: 680; line-height: 1.2; 
     font-size: .86rem;
     transition: border-color .15s ease, box-shadow .15s ease;
 }
-.field input::placeholder, .search-field input::placeholder, .inline-edit input::placeholder { color: #9aa49e; }
-.field input:focus, .field select:focus, .search-field input:focus, .inline-edit input:focus, .inline-edit select:focus, .sort-control select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgb(37 132 91 / 12%); }
+.field input::placeholder, .search-field input::placeholder { color: #9aa49e; }
+.field input:focus, .field select:focus, .search-field input:focus, .sort-control select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgb(37 132 91 / 12%); }
 .button { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; gap: 7px; padding: 0 14px; border: 1px solid transparent; border-radius: 6px; cursor: pointer; font-size: .81rem; font-weight: 640; transition: background .15s ease, border-color .15s ease, color .15s ease; }
 .button:disabled { cursor: wait; opacity: .65; }
 .button-primary { color: #fff; background: var(--green); }
@@ -144,10 +144,6 @@ h1 { margin-bottom: 6px; font-size: 1.9rem; font-weight: 680; line-height: 1.2; 
 .text-button:hover { background: #f1f4f2; }
 .text-button-danger { color: var(--danger); }
 .text-button-danger:hover { background: var(--danger-soft); }
-.inline-edit { display: grid; grid-template-columns: minmax(150px, 1fr) 110px auto auto; align-items: end; gap: 8px; margin: 12px 0 0 32px; padding-top: 12px; border-top: 1px solid #edf0ee; }
-.inline-edit .field { font-size: .69rem; }
-.inline-edit input { min-height: 36px; padding: 7px 9px; font-size: .79rem; }
-.inline-edit .button { min-height: 35px; padding: 0 10px; font-size: .74rem; }
 .button-secondary { border-color: var(--line); color: #56645b; background: var(--surface); }
 .button-secondary:hover { border-color: #bdc9c1; background: #f7f9f7; }
 .app-dialog { width: min(460px, calc(100% - 32px)); max-height: min(94vh, 820px); overflow: auto; padding: 0; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--surface); box-shadow: 0 22px 70px rgb(22 39 29 / 22%); }
@@ -184,11 +180,12 @@ h1 { margin-bottom: 6px; font-size: 1.9rem; font-weight: 680; line-height: 1.2; 
 .profile-detail strong { overflow-wrap: anywhere; font-size: .8rem; font-weight: 580; }
 .profile-task-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .profile-task-toolbar h3 { margin: 0; font-size: .9rem; }
-.profile-task-controls { display: flex; align-items: center; gap: 8px; }
+.profile-task-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
 .profile-sort-control { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: .73rem; }
 .profile-sort-control select { min-height: 34px; padding: 5px 24px 5px 8px; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); background: var(--surface); font-size: .76rem; }
 .profile-add-button { min-height: 34px; padding: 0 10px; font-size: .74rem; white-space: nowrap; }
-.profile-task-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.profile-filters { flex: 0 1 auto; }
+.profile-task-list { min-width: 0; }
 .profile-task-section { min-width: 0; }
 .profile-task-section h3 { margin: 0; font-size: .87rem; }
 .profile-todo-list { max-height: 300px; overflow: auto; }
@@ -197,8 +194,6 @@ h1 { margin-bottom: 6px; font-size: 1.9rem; font-weight: 680; line-height: 1.2; 
 .profile-error { margin: 0; color: var(--danger); font-size: .86rem; }
 .profile-dialog .todo-main { grid-template-columns: 18px minmax(0, 1fr); }
 .profile-dialog .todo-actions { grid-column: 2; justify-content: flex-start; }
-.profile-dialog .inline-edit { grid-template-columns: minmax(0, 1fr) auto auto; margin-left: 28px; }
-.profile-dialog .inline-edit .field:first-child { grid-column: 1 / -1; }
 .state-panel { display: flex; min-height: 150px; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; padding: 24px; border: 1px dashed #d6dfd9; border-radius: 7px; color: var(--muted); text-align: center; font-size: .84rem; }
 .state-panel p { max-width: 360px; margin: 0; line-height: 1.55; }
 .state-panel .button { margin-top: 3px; }
@@ -225,16 +220,12 @@ h1 { margin-bottom: 6px; font-size: 1.9rem; font-weight: 680; line-height: 1.2; 
     .todo-card { padding: 12px; }
     .todo-main { grid-template-columns: 18px minmax(0, 1fr); gap: 10px; }
     .todo-actions { grid-column: 2; justify-content: flex-start; margin-top: 2px; }
-    .inline-edit { grid-template-columns: minmax(0, 1fr) 94px; margin-left: 28px; }
-    .inline-edit .field:first-child { grid-column: 1 / -1; }
-    .inline-edit .button { min-height: 38px; }
-    .profile-details, .profile-task-groups { grid-template-columns: minmax(0, 1fr); }
+    .profile-details { grid-template-columns: minmax(0, 1fr); }
     .profile-avatar { width: 72px; height: 72px; flex-basis: 72px; }
     .profile-dialog .dialog-content { padding: 18px; }
     .profile-task-toolbar { align-items: flex-start; flex-direction: column; }
-    .profile-task-controls { width: 100%; justify-content: space-between; }
-    .profile-dialog .inline-edit { grid-template-columns: minmax(0, 1fr) auto; }
-    .profile-dialog .inline-edit .field:first-child { grid-column: 1 / -1; }
+    .profile-task-controls { width: 100%; justify-content: flex-start; }
+    .profile-filters { flex: 1 1 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
